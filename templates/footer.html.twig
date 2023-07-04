@@ -1,0 +1,15 @@
+<Footer class="w-100 bg-primary text-light position-relative top-100">
+    <div class="p-5 d-flex flex-column align-items-center">
+        <h4 class="text-light">Horaires d'ouverture</h4>
+        <ul class="list-unstyled">
+            {% for horaire in  horaires %}
+                <li class="grid">
+                    <span class="d-inline-block">{{ horaire.day }} : </span>
+                    <span class="d-inline-block">{{ horaire.openMorningTime }}</span>
+                    <span class="d-inline-block">{{ horaire.openAfternoonTime }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <div>© 2023 - Garage V.Parrot</div>
+    </div>
+</Footer>

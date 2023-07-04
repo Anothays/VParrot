@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Garage Vincent Parrot</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.pathInfo == path('app_home_index') %} active {% endif %}" href={{ path('app_home_index') }}>Accueil
+                        <span class="visually-hidden">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.pathInfo == path('app_services') %} active {% endif %}" href={{ path('app_services') }}>Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.pathInfo starts with '/cars' %} active {% endif %}" href={{ path('app_cars_index') }}>Vente</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if app.request.pathInfo == path('app_vente') %} active {% endif %}" href={{ path('app_home_index') }}>À propos</a>
+                </li>
+                <li class="nav-item dropdown">
+                    {% if app.user %}
+                        <a class="nav-link dropdown-toggle {% if app.request.pathInfo == path('app_login') %} active {% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Compte - {{ app.user.email() }}</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href={{ path('admin') }}>Dashboard</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href={{ path("app_logout") }}>Déconnexion</a>
+                        </div>
+                    {% else %}
+                        <a class="nav-link" href={{ path("app_login") }}>Connexion</a>
+                    {% endif %}
+                </li>
+            </ul>
+{#            <form class="d-flex">#}
+{#                <input class="form-control me-sm-2" type="search" placeholder="Search">#}
+{#                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>#}
+{#            </form>#}
+        </div>
+    </div>
+</nav>

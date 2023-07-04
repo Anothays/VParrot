@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+    <div>
+        {{ form_row(form.model) }}
+    </div>
+    <div>
+        {{ form_row(form.brand) }}
+    </div>
+    <div>
+        {{ form_row(form.price) }}
+    </div>
+    <div>
+        {{ form_row(form.registrationYear) }}
+    </div>
+    <div>
+        {{ form_row(form.mileage) }}
+    </div>
+    <div>
+        {{ form_row(form.imageFile) }}
+    </div>
+    <button class="btn btn-dark w-100 mt-3">{{ button_label|default('Sauver') }}</button>
+{{ form_end(form) }}

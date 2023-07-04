@@ -1,5 +1,7 @@
 {# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
-{% extends ea.templatePath('layout') %}
+{#{% extends ea.templatePath('layout') %}#}
+{% extends 'dashBoard/layout.html.twig' %}
+
 {% trans_default_domain ea.i18n.translationDomain %}
 
 {% block body_class 'page-content' %}

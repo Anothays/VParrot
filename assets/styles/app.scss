@@ -1,0 +1,12 @@
+@import "~bootswatch/dist/lux/variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootswatch/dist/lux/bootswatch";
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("../images/garage1.png"), linear-gradient(rgba(0, 0, 0, 1), rgba(255, 255, 255, 1)) ;
+  background-repeat: no-repeat;
+  //opacity: 0.95;
+  background-size: cover;
+}
