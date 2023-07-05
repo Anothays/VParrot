@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Cars;
 use App\Form\CarsType;
 use App\Repository\CarsRepository;
-use App\Repository\ScheduleRepository;
+use App\Repository\DetailsRepository;
 use App\Service\ImageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CarsController extends AbstractController
 {
     #[Route('/', name: 'app_cars_index', methods: ['GET'])]
-    public function index(CarsRepository $carsRepository, ScheduleRepository $scheduleRepository): Response
+    public function index(CarsRepository $carsRepository, DetailsRepository $scheduleRepository): Response
     {
         return $this->render('cars/index.html.twig', [
             'cars' => $carsRepository->findAll(),
@@ -24,7 +24,7 @@ class CarsController extends AbstractController
     }
 
     #[Route('/new', name: 'app_cars_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CarsRepository $carsRepository, ScheduleRepository $scheduleRepository, ImageService $imageService): Response
+    public function new(Request $request, CarsRepository $carsRepository, DetailsRepository $scheduleRepository, ImageService $imageService): Response
     {
         $car = new Cars();
         $form = $this->createForm(CarsType::class, $car);
@@ -47,7 +47,7 @@ class CarsController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_cars_show', methods: ['GET'])]
-    public function show(Cars $car, ScheduleRepository $scheduleRepository): Response
+    public function show(Cars $car, DetailsRepository $scheduleRepository): Response
     {
         return $this->render('cars/show.html.twig', [
             'car' => $car,
@@ -55,7 +55,7 @@ class CarsController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_cars_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Cars $car, CarsRepository $carsRepository, ScheduleRepository $scheduleRepository, ImageService $imageService): Response
+    public function edit(Request $request, Cars $car, CarsRepository $carsRepository, DetailsRepository $scheduleRepository, ImageService $imageService): Response
     {
         $form = $this->createForm(CarsType::class, $car);
         $form->handleRequest($request);

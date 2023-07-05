@@ -5,10 +5,13 @@ namespace App\Controller\Admin;
 use App\Entity\Details;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class ScheduleCrudController extends AbstractCrudController
+class DetailsCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
@@ -18,10 +21,10 @@ class ScheduleCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Horaire')
-            ->setEntityLabelInPlural('Horaires')
-            ->setPageTitle('index', 'Dashboard des horaires')
-            ->setPaginatorPageSize(10)
+            ->setEntityLabelInSingular('Information')
+            ->setEntityLabelInPlural('Informations')
+            ->setPageTitle('index', 'Informations de l\'entreprise')
+
             ;
     }
 
@@ -29,9 +32,13 @@ class ScheduleCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm()->hideOnIndex()->hideOnDetail(),
-            TextField::new('day'),
-            TextField::new('openMorningTime'),
-            TextField::new('openAfternoonTime'),
+            TelephoneField::new('telephone')->setLabel('Numéro de téléphone'),
+            EmailField::new('Email')->setLabel('Adresse e-mail'),
+            TextField::new('address')->setLabel('Adresse postale'),
+            ArrayField::new('openedDays')
+                ->setLabel('Horaires d\'ouverture')
+                ->onlyOnForms()
+            ,
         ];
     }
 

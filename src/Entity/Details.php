@@ -2,67 +2,82 @@
 
 namespace App\Entity;
 
-use App\Repository\ScheduleRepository;
+use App\Repository\DetailsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ScheduleRepository::class)]
-class Schedule
+#[ORM\Entity(repositoryClass: DetailsRepository::class)]
+class Details
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private array $openedDays = [];
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $telephone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Day = null;
+    private ?string $address = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $openMorningTime = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $openAfternoonTime = null;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $email = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-
-    public function getDay(): ?string
+    public function getOpenedDays(): array
     {
-        return $this->Day;
+        return $this->openedDays;
     }
 
-    public function setDay(?string $Day): self
+    public function setOpenedDays(?array $openedDays): self
     {
-        $this->Day = $Day;
+        $this->openedDays = $openedDays;
 
         return $this;
     }
 
-    public function getOpenMorningTime(): ?string
+    public function getTelephone(): ?string
     {
-        return $this->openMorningTime;
+        return $this->telephone;
     }
 
-    public function setOpenMorningTime(?string $openMorningTime): self
+    public function setTelephone(?string $telephone): self
     {
-        $this->openMorningTime = $openMorningTime;
+        $this->telephone = $telephone;
 
         return $this;
     }
 
-    public function getOpenAfternoonTime(): ?string
+    public function getAddress(): ?string
     {
-        return $this->openAfternoonTime;
+        return $this->address;
     }
 
-    public function setOpenAfternoonTime(?string $openAfternoonTime): self
+    public function setAddress(?string $address): self
     {
-        $this->openAfternoonTime = $openAfternoonTime;
+        $this->address = $address;
 
         return $this;
     }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+
 }

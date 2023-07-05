@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Cars;
-use App\Entity\Schedule;
+use App\Entity\Details;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -58,6 +58,11 @@ class DashboardController extends AbstractDashboardController
         if (in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
             yield MenuItem::linkToCrud('Employees', 'fa-solid fa-users', User::class);
         }
-        yield MenuItem::linkToCrud('Horaires', 'fa-solid fa-clock', Schedule::class);
+        yield MenuItem::linkToCrud('Informations', 'fa-solid fa-circle-info', Details::class)
+            ->setAction('edit')
+            ->setEntityId(1)
+        ;
+
+
     }
 }

@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Cars;
-use App\Entity\Schedule;
+use App\Entity\Details;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -102,7 +102,7 @@ class AppFixtures extends Fixture
          * Création des horaires
          */
         for ($i = 0; $i < 7; $i++) {
-            $horaires = new Schedule();
+            $horaires = new Details();
             $horaires
                 ->setDay($days[$i])
                 ->setOpenMorningTime('8h00-12h00')

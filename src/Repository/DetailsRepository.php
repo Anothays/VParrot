@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Schedule;
+use App\Entity\Details;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Schedule>
+ * @extends ServiceEntityRepository<Details>
  *
- * @method Schedule|null find($id, $lockMode = null, $lockVersion = null)
- * @method Schedule|null findOneBy(array $criteria, array $orderBy = null)
- * @method Schedule[]    findAll()
- * @method Schedule[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Details|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Details|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Details[]    findAll()
+ * @method Details[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ScheduleRepository extends ServiceEntityRepository
+class DetailsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Schedule::class);
+        parent::__construct($registry, Details::class);
     }
 
-    public function save(Schedule $entity, bool $flush = false): void
+    public function save(Details $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class ScheduleRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Schedule $entity, bool $flush = false): void
+    public function remove(Details $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class ScheduleRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Schedule[] Returns an array of Schedule objects
+//     * @return Details[] Returns an array of Details objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class ScheduleRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Schedule
+//    public function findOneBySomeField($value): ?Details
 //    {
 //        return $this->createQueryBuilder('s')
 //            ->andWhere('s.exampleField = :val')

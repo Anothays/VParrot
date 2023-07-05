@@ -1,15 +1,20 @@
-<Footer class="w-100 bg-primary text-light position-static top-100">
-    <div class="p-5 d-flex flex-column align-items-center">
-        <h4 class="text-light">Horaires d'ouverture</h4>
-        <ul class="list-unstyled">
-            {% for horaire in  horaires %}
+<Footer class="w-100 bg-primary text-light top-100">
+    <div class="p-5 m-5 d-flex justify-content-center text-center">
+        <div class="">
+            <p>Horaires d'ouverture</p>
+            <ul class="list-unstyled">
+                {% for day in details.openedDays%}
                 <li class="grid">
-                    <span class="d-inline-block">{{ horaire.day }} : </span>
-                    <span class="d-inline-block">{{ horaire.openMorningTime }}</span>
-                    <span class="d-inline-block">{{ horaire.openAfternoonTime }}</span>
+                    {{ day }}
                 </li>
-            {% endfor %}
-        </ul>
-        <div>© 2023 - Garage V.Parrot</div>
+                {% endfor %}
+            </ul>
+            <strong>Contactez-nous</strong>
+            <p>Par téléphone : {{ details.telephone }} </p>
+            <p>Par email : <a href="#" class="text-light">{{ details.email }}</a> </p>
+        </div>
+    </div>
+    <div class="text-center">
+        <p>© {{ "now"|date("Y") }} - Garage V.Parrot</p>
     </div>
 </Footer>
