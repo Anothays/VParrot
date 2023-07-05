@@ -16,9 +16,13 @@
 
 <body>
 {{ include('nav.html.twig') }}
-{% block body %}
-{#    <img alt="garage" src="{{ asset('build/images/garage1.jpg') }}" >#}
-{% endblock %}
-{{ include('footer.html.twig') }}
+<main class="h-100">
+    {% block body %}
+        {#    <img alt="garage" src="{{ asset('build/images/garage1.jpg') }}" >#}
+    {% endblock %}
+</main>
+{{ render(controller(
+    'App\\Controller\\FooterController::index'
+)) }}
 </body>
 </html>

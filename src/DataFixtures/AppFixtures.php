@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Cars;
+use App\Entity\Schedule;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -37,7 +38,6 @@ class AppFixtures extends Fixture
             "Dacia" => ["Sandero", "Duster", "Logan"],
             "Volkswagen" => ["Golf", "Polo", "Passat"]
         ];
-
         $imagePaths = [
             'car10.jpg',
             'car9.jpg',
@@ -51,7 +51,24 @@ class AppFixtures extends Fixture
             'car1.jpg',
             'car0.jpg',
         ];
+        $days = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 
+        /**
+         * Création de l'admin
+         */
+        $admin = new User();
+        $admin
+            ->setEmail("vincentParrot@VP.com")
+            ->setRoles(["ROLE_ADMIN"])
+            ->setPassword("$2y$13$9Jn3SGtXrdc/OzdMPVg8MeY/tg3QDaCYevSJuhDp.d/G5x8WQhm22")
+            ->setName('Vincent')
+            ->setLastName('Parrot')
+        ;
+        $manager->persist($admin);
+
+        /**
+         * Création des voitures
+         */
         for ($i=1; $i <= 10; $i++) {
             $randBrand = array_rand($brand);
             $randCarKey = array_rand($brand[$randBrand]);
@@ -67,6 +84,9 @@ class AppFixtures extends Fixture
             ;
             $manager->persist($cars);
 
+            /**
+             * Création des employés
+             */
             $user = new User();
             $user
                 ->setPassword("$2y$13$9Jn3SGtXrdc/OzdMPVg8MeY/tg3QDaCYevSJuhDp.d/G5x8WQhm22")
@@ -77,15 +97,21 @@ class AppFixtures extends Fixture
             ;
             $manager->persist($user);
         }
-        $admin = new User();
-        $admin
-            ->setEmail("jeremy@spp.tv")
-            ->setRoles(["ROLE_ADMIN"])
-            ->setPassword("$2y$13$9Jn3SGtXrdc/OzdMPVg8MeY/tg3QDaCYevSJuhDp.d/G5x8WQhm22")
-            ->setName('Jérémy')
-            ->setLastName('Sananikone')
-        ;
-        $manager->persist($admin);
+
+        /**
+         * Création des horaires
+         */
+        for ($i = 0; $i < 7; $i++) {
+            $horaires = new Schedule();
+            $horaires
+                ->setDay($days[$i])
+                ->setOpenMorningTime('8h00-12h00')
+                ->setOpenAfternoonTime('14h00-17h00');
+            $manager->persist($horaires);
+        }
+
+
+
         $manager->flush();
     }
 }

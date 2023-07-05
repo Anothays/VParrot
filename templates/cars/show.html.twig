@@ -5,30 +5,53 @@
 {% block body %}
 {#    <h1>Cars</h1>#}
 
-    <table class="table">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide w-25 position-relative mx-auto">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+                <img src="{{ asset('build/images/upload/300x300/' ~ car.imageName) }}" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+                <img src="{{ asset('build/images/upload/300x300/car5.jpg') }}" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ asset('build/images/upload/300x300/car1.jpg') }}" class="d-block w-100" alt="...">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <table class="table table-bordered">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ car.id }}</td>
-            </tr>
-            <tr>
-                <th>Model</th>
+                <td>Modèle</td>
                 <td>{{ car.model }}</td>
             </tr>
             <tr>
-                <th>Brand</th>
+                <td>Marque</td>
                 <td>{{ car.brand }}</td>
             </tr>
             <tr>
-                <th>Price</th>
+                <td>Prix</td>
                 <td>{{ car.price }}</td>
             </tr>
             <tr>
-                <th>RegistrationYear</th>
+                <td>Année de mise en circulation</td>
                 <td>{{ car.registrationYear }}</td>
             </tr>
             <tr>
-                <th>Mileage</th>
+                <td>Kilométrage</td>
                 <td>{{ car.mileage }}</td>
             </tr>
         </tbody>

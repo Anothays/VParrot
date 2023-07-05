@@ -18,7 +18,6 @@ class VenteController extends AbstractController
         return $this->render('vente/index.html.twig', [
             'controller_name' => 'VenteController',
             'cars' => $carsRepository->findAll(),
-            'horaires' => $scheduleRepository->findAll()
         ]);
     }
 }

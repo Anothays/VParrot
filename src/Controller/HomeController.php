@@ -12,8 +12,6 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home_index')]
     public function index(ScheduleRepository $scheduleRepository): Response
     {
-        return $this->render('home/index.html.twig', [
-            "horaires" => $scheduleRepository->findAll()
-        ]);
+        return $this->render('home/index.html.twig', []);
     }
 }

@@ -11,8 +11,6 @@ class RootController extends AbstractController
     #[Route('/root', name: 'app_root')]
     public function index(): Response
     {
-        return $this->render('root/index.html.twig', [
-            'controller_name' => 'RootController',
-        ]);
+        return $this->render('root/index.html.twig', []);
     }
 }
