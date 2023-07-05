@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Schedule;
+use App\Entity\Details;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -12,7 +12,7 @@ class ScheduleCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Schedule::class;
+        return Details::class;
     }
 
     public function configureCrud(Crud $crud): Crud
