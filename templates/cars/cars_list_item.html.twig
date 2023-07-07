@@ -1,0 +1,19 @@
+<ul class="text-center overflow-y-auto" >
+    {% for car in cars %}
+        <li class="card rounded-3 col-xxl-2 col-xl-3 col-sm-5 d-inline-block m-1">
+            <article>
+                {% if car.imageName is not null %}
+                    <img src="{{ asset('build/images/upload/300x300/' ~ car.imageName) }}" class="rounded-top-3 card-img-top object-fit-cover" style="height: 300px">
+                {% endif %}
+                <div class="card-body bg-dark-subtle ">
+                    <h2 class="card-title">{{ car.brand }}</h2>
+                    <h2 class="card-title">{{ car.model }}</h2>
+                    <p>Prix : {{ car.price }} €</p>
+                    <p>Kilométrage : {{ car.mileage }} km</p>
+                    <p>Année : {{ car.registrationYear }}</p>
+                    <a href="{{ path('app_cars_show', {id: car.id}) }}" class="btn btn-dark  rounded-5">Details</a>
+                </div>
+            </article>
+        </li>
+    {% endfor %}
+</ul>

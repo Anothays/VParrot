@@ -2,64 +2,62 @@
 
 {% block title %}Cars index{% endblock %}
 
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('carsList') }}
+{% endblock %}
+
 {% block body %}
-{#    <h1>Cars index</h1>#}
-{#    <table class="table">#}
-{#        <thead>#}
-{#            <tr>#}
-{#                <th>Id</th>#}
-{#                <th>Model</th>#}
-{#                <th>Brand</th>#}
-{#                <th>Price</th>#}
-{#                <th>RegistrationYear</th>#}
-{#                <th>Mileage</th>#}
-{#                <th>actions</th>#}
-{#            </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#        {% for car in cars %}#}
-{#            <tr>#}
-{#                <td>{{ car.id }}</td>#}
-{#                <td>{{ car.model }}</td>#}
-{#                <td>{{ car.brand }}</td>#}
-{#                <td>{{ car.price }}</td>#}
-{#                <td>{{ car.registrationYear }}</td>#}
-{#                <td>{{ car.mileage }}</td>#}
-{#                <td>#}
-{#                    <a href="{{ path('app_cars_show', {'id': car.id}) }}">show</a>#}
-{#                    <a href="{{ path('app_cars_edit', {'id': car.id}) }}">edit</a>#}
-{#                </td>#}
-{#            </tr>#}
-{#        {% else %}#}
-{#            <tr>#}
-{#                <td colspan="7">no records found</td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
+<main>
     <h1 class="text-bg-primary">Liste des véhicules à vendre</h1>
     {% if app.user is not null and app.user.roles|filter(role => role in ['ROLE_ADMIN', 'ROLE_USER'])|length > 0 %}
         <a class="btn btn-dark m-3" href="{{ path('app_cars_new') }}">Ajouter un véhicule</a>
     {% endif %}
-    <ul class="container-fluid h-100 w-100 overflow-y-auto text-center">
-        {% for car in cars %}
-            <li class="card rounded-3 col-xxl-2 col-xl-3 col-sm-5 d-inline-block m-1">
-{#                {% set imagePath = asset('build/images/car0.jpg') %} #}{# Chemin vers l'image d'origine #}
-{#                {% set resizedImage = imagine_filter(imagePath, 'thumbnail') %} #}{# Redimensionnement de l'image #}
-{#                <img src="{{ asset(car.imagesPaths) }}" class="rounded-top-3 card-img-top object-fit-cover" >#}
+    <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Filtrer</button>
 
-                {% if car.imageName is not null %}
-                        <img src="{{ asset('build/images/upload/300x300/' ~ car.imageName) }}" class="rounded-top-3 card-img-top object-fit-cover" style="height: 300px">
-                {% endif %}
-                <div class="card-body bg-dark-subtle ">
-                    <h2 class="card-title">{{ car.brand }}</h2>
-                    <h2 class="card-title">{{ car.model }}</h2>
-                    <p>Prix : {{ car.price }} €</p>
-                    <p>Kilométrage : {{ car.mileage }} km</p>
-                    <p>Année : {{ car.registrationYear }}</p>
-                    <a href="{{ path('app_cars_show', {id: car.id}) }}" class="btn btn-dark  rounded-5">Details</a>
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Critères de sélection</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body form-group">
+            <form id="filters-form">
+                <div class="mileage">
+                    <div class="mileage-label">
+                        <label class="form-label">Kilométrage</label>
+                    </div>
+                    <div class="input-group">
+                        <input name="mileage-min" class="form-control" id="mileage-min" type="number" step="500" value="{{ MinMaxValues['minMileage'] }}" min="{{ MinMaxValues['minMileage'] }}">
+                        <input name="mileage-max" class="form-control" id="mileage-max" type="number" step="500" value="{{ MinMaxValues['maxMileage'] }}" max="{{ MinMaxValues['maxMileage'] }}">
+                    </div>
                 </div>
-            </li>
-        {% endfor %}
-    </ul>
+                <div class="price">
+                    <div class="price-label">
+                        <label class="form-label">Echelle de prix</label>
+                    </div>
+                    <div class="input-group">
+                        <input name="price-min" class="form-control" id="price-min" type="number" step="500" value="{{ MinMaxValues['minPrice'] }}" min="{{ MinMaxValues['minPrice'] }}">
+                        <input name="price-max" class="form-control" id="price-max" type="number" step="500" value="{{ MinMaxValues['maxPrice'] }}" max="{{ MinMaxValues['maxPrice'] }}">
+                    </div>
+                </div>
+                <div class="year">
+                    <div class="year-label">
+                        <label class="form-label">Année</label>
+                    </div>
+                    <div class="input-group">
+                        <input name="year-min" class="form-control" id="year-min" type="number" value="{{ MinMaxValues['minYear'] }}" min="{{ MinMaxValues['minYear'] }}">
+                        <input name="year-max" class="form-control" id="year-max" type="number" value="{{ MinMaxValues['maxYear'] }}" max="{{ MinMaxValues['maxYear'] }}">
+                    </div>
+                </div>
+{#                <div>#}
+{#                    <button id="filters-btn-reset" class="btn btn-dark">Réinitialiser</button>#}
+{#                </div>#}
+            </form>
+        </div>
+    </div>
+
+    <div id="cars-list-content" class="h-100">
+        {% include 'cars/cars_list_item.html.twig' %}
+    </div>
+</main>
 {% endblock %}

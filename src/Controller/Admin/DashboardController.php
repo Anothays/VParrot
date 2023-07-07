@@ -36,9 +36,8 @@ class DashboardController extends AbstractDashboardController
         // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
-        if (!in_array(['ROLE_ADMIN', 'ROLE_USER'], $this->getUser()->getRoles())) {
-            return $this->render('dashBoard/dashBoard.html.twig');
-        }
+        return $this->render('dashBoard/dashBoard.html.twig');
+
     }
 
     public function configureDashboard(): Dashboard
@@ -55,13 +54,14 @@ class DashboardController extends AbstractDashboardController
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
         yield MenuItem::linkToRoute('Back to the website', 'fa-solid fa-house', 'app_home_index');
         yield MenuItem::linkToCrud('Cars', 'fa-solid fa-car', Cars::class);
-        if (in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
             yield MenuItem::linkToCrud('Employees', 'fa-solid fa-users', User::class);
         }
         yield MenuItem::linkToCrud('Informations', 'fa-solid fa-circle-info', Details::class)
             ->setAction('edit')
             ->setEntityId(1)
         ;
+//        yield MenuItem::linkToCrud
 
 
     }

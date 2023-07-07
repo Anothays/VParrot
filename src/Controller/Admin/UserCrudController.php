@@ -21,7 +21,9 @@ class UserCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-                ->setEntityPermission('ROLE_ADMIN');
+                ->setEntityPermission('ROLE_SUPER_ADMIN')
+                ->setPageTitle('index','Liste des employés')
+            ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -31,7 +33,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('name'),
             TextField::new('lastName'),
             EmailField::new('email')->setFormTypeOption("disabled", "disabled"),
-            ArrayField::new('roles'),
+            ArrayField::new('roles')->setPermission('ROLE_SUPER_ADMIN'),
         ];
     }
 

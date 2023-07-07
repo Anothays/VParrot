@@ -35,7 +35,7 @@ class CarsCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Véhicule')
             ->setEntityLabelInPlural('Véhicules')
-            ->setPageTitle('index', 'Dashboard des véhicules')
+            ->setPageTitle('index', 'Liste des véhicules')
             ->setPaginatorPageSize(10)
 
             ;
