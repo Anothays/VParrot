@@ -37,7 +37,7 @@ class CarsCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Véhicules')
             ->setPageTitle('index', 'Liste des véhicules')
             ->setPaginatorPageSize(10)
-
+            ->showEntityActionsInlined()
             ;
     }
 
