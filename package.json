@@ -8,6 +8,7 @@
         "bs-custom-file-input": "^1.3.4",
         "core-js": "^3.23.0",
         "file-loader": "^6.2.0",
+        "jquery": "^3.7.0",
         "node-sass": "^9.0.0",
         "regenerator-runtime": "^0.13.9",
         "sass": "^1.62.1",

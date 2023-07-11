@@ -15,11 +15,17 @@
 </head>
 
 <body>
-{{ include('nav.html.twig') }}
-{% block body %}
-{% endblock %}
-{{ render(controller(
-    'App\\Controller\\FooterController::index'
-)) }}
+    <header>
+        {{ include('nav.html.twig') }}
+    </header>
+
+    <main>
+        {% block body %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        {{ render(controller('App\\Controller\\FooterController::index')) }}
+    </footer>
 </body>
 </html>

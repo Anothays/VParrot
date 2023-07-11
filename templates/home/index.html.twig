@@ -1,1 +1,12 @@
 {% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Accueil</h1>
+
+    {% for message in app.flashes('notice') %}
+        <div class="flash-notice bg-success">
+            <p class="text-center">{{ message }}</p>
+        </div>
+    {% endfor %}
+
+{% endblock %}

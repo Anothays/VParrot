@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Cars;
+use App\Entity\Contact;
 use App\Form\CarsType;
+use App\Form\ContactType;
 use App\Repository\CarsRepository;
+use App\Repository\ContactRepository;
 use App\Repository\DetailsRepository;
 use App\Service\ImageService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/cars')]
 class CarsController extends AbstractController
 {
-    #[Route('/', name: 'app_cars_index', methods: ['GET'])]
-    public function index(CarsRepository $carsRepository, Request $request): Response
+    #[Route('/', name: 'app_cars_index', methods: ['GET', 'POST'])]
+    public function index(CarsRepository $carsRepository, Request $request, ContactRepository $contactRepository): Response
     {
         $MinMaxValues = $carsRepository->createQueryBuilder('m')
             ->select('MAX(m.mileage) as maxMileage, Min(m.mileage) as minMileage, MAX(m.price) as maxPrice, Min(m.price) as minPrice, MAX(m.registrationYear) as maxYear, MIN(m.registrationYear) as minYear')
@@ -38,9 +40,23 @@ class CarsController extends AbstractController
                 'contentLength' => count($cars),
             ]);
         }
+
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash(
+                'notice',
+                'Nous avons bien reçus votre message, nous reviendrons vers vous aussi vite que possible'
+            );
+            $contactRepository->save($contact, true);
+            return $this->redirectToRoute('app_home_index', []);
+        }
+
         return $this->render('cars/index.html.twig', [
             'cars' => $carsRepository->findAll(),
-            'MinMaxValues' => $MinMaxValues[0]
+            'MinMaxValues' => $MinMaxValues[0],
+            'form' => $form
         ]);
     }
 
@@ -68,10 +84,23 @@ class CarsController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_cars_show', methods: ['GET'])]
-    public function show(Cars $car, DetailsRepository $scheduleRepository): Response
+    public function show(Cars $car, DetailsRepository $scheduleRepository, Request $request, ContactRepository $contactRepository): Response
     {
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash(
+                'notice',
+                'Nous avons bien reçus votre message, nous reviendrons vers vous aussi vite que possible'
+            );
+            $contactRepository->save($contact, true);
+            return $this->redirectToRoute('app_home_index', []);
+        }
         return $this->render('cars/show.html.twig', [
+            'id' => $car->getId(),
             'car' => $car,
+            'form' => $form
         ]);
     }
 

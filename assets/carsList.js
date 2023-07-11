@@ -61,7 +61,7 @@ window.onload = () => {
                 })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     const carsListItems = document.getElementById('cars-list-content')
                     if (data.contentLength === 0) {
                         carsListItems.innerHTML = "<div class='alert alert-info'><p class='text-info text-xl-center'>Aucun véhicule ne correspond à vos critères de recherche !</p></div>"

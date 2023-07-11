@@ -1,0 +1,45 @@
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="staticBackdropLabel">Ref : XXXXXX</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form) }}
+                <div class="">
+                    {{ form_row(form.name) }}
+                </div>
+
+                <div class="">
+                    {{ form_row(form.lastName) }}
+                </div>
+
+                <div class="">
+                    {{ form_row(form.subject) }}
+                </div>
+
+                <div class="">
+                    {{ form_row(form.email) }}
+                </div>
+
+                <div class="">
+                    {{ form_row(form.phone) }}
+                </div>
+
+                <div class="">
+                    {{ form_row(form.message) }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+
+
+

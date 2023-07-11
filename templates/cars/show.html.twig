@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('formModal') }}
+{% endblock %}
+
 {% block title %}Cars{% endblock %}
 
 {% block body %}
-{#    <h1>Cars</h1>#}
-
     <div id="carouselExampleDark" class="carousel carousel-dark slide w-25 position-relative mx-auto">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -28,32 +31,42 @@
 
     <table class="table table-bordered">
         <tbody>
-            <tr>
-                <td>Modèle</td>
-                <td>{{ car.model }}</td>
-            </tr>
-            <tr>
-                <td>Marque</td>
-                <td>{{ car.brand }}</td>
-            </tr>
-            <tr>
-                <td>Prix</td>
-                <td>{{ car.price }}</td>
-            </tr>
-            <tr>
-                <td>Année de mise en circulation</td>
-                <td>{{ car.registrationYear }}</td>
-            </tr>
-            <tr>
-                <td>Kilométrage</td>
-                <td>{{ car.mileage }}</td>
-            </tr>
+        <tr>
+            <td>Modèle</td>
+            <td id="model-{{ id }}">{{ car.model }}</td>
+        </tr>
+        <tr>
+            <td>Marque</td>
+            <td id="brand-{{ id }}">{{ car.brand }}</td>
+        </tr>
+        <tr>
+            <td>Prix</td>
+            <td>{{ car.price }}</td>
+        </tr>
+        <tr>
+            <td>Année de mise en circulation</td>
+            <td>{{ car.registrationYear }}</td>
+        </tr>
+        <tr>
+            <td>Kilométrage</td>
+            <td>{{ car.mileage }}</td>
+        </tr>
+        <tr>
+            <td>Référence</td>
+            <td id="ref-{{ id }}">ref : 123456</td>
+        </tr>
         </tbody>
     </table>
 
-    <a class="btn btn-dark" href="{{ path('app_cars_index') }}">Retour</a>
-    {% if app.user is not null %}
-        <a class="btn btn-dark" href="{{ path('app_cars_edit', {'id': car.id}) }}">éditer</a>
-        {{ include('cars/_delete_form.html.twig') }}
-    {% endif %}
+    <div>
+        <a class="btn btn-dark" href="{{ path('app_cars_index') }}">Retour</a>
+        {% if app.user is not null %}
+            <a class="btn btn-dark" href="{{ path('app_cars_edit', {'id': car.id}) }}">éditer</a>
+            {{ include('cars/_delete_form.html.twig') }}
+        {% endif %}
+        <button id="car-{{ car.id }}" type="button" class="btn btn-dark trigerFormModal" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Acheter
+        </button>
+    </div>
+    {% include 'cars/form_modal.html.twig' %}
 {% endblock %}
