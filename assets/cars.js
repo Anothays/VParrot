@@ -1,21 +1,6 @@
-window.onload = () => {
-    // const mileageMinInitialValue = document.getElementById('mileage-min').value
-    // const mileageMaxInitialValue = document.getElementById('mileage-max').value
-    // const priceMinInitialValue = document.getElementById('price-min').value
-    // const priceMaxInitialValue = document.getElementById('price-max').value
-    // const yearMinInitialValue = document.getElementById('year-min').value
-    // const yearMaxInitialValue = document.getElementById('year-max').value
-    // const filtersResetButton =  document.getElementById('filters-btn-reset')
-    // filtersResetButton.addEventListener('click', (e) => {
-    //     e.preventDefault()
-    //     document.getElementById('mileage-min').value = mileageMinInitialValue
-    //     document.getElementById('mileage-max').value = mileageMaxInitialValue
-    //     document.getElementById('price-min').value = priceMinInitialValue
-    //     document.getElementById('price-max').value = priceMaxInitialValue
-    //     document.getElementById('year-min').value = yearMinInitialValue
-    //     document.getElementById('year-max').value = yearMaxInitialValue
-    // })
+import * as bootstrap from "bootstrap";
 
+window.onload = () => {
     const filtersInput = document.querySelectorAll("#filters-form input")
     filtersInput.forEach(input => {
         let initialValue = input.value
@@ -51,7 +36,7 @@ window.onload = () => {
                 const filtersForm = document.getElementById('filters-form')
                 const form = new FormData(filtersForm)
                 const params = new URLSearchParams()
-                params.append('ajax', '1')
+                params.append('ajax', 'filters')
                 const url = new URL(window.location.href)
                 form.forEach((val, key) => params.append(key,val))
                 fetch(`${url}?${params.toString()}`, {
@@ -74,6 +59,31 @@ window.onload = () => {
                 })
             }
         })
+    })
+
+    // Notification Toast
+    const toastLiveExample = document.getElementById('liveToast')
+    const modalForm = document.getElementById('staticBackdrop')
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+    const modalFormBootstrap = bootstrap.Modal.getOrCreateInstance(modalForm)
+    const modalFormSubmitButton = document.getElementById('modalFormSubmitButton')
+    modalFormSubmitButton.addEventListener('click', (e) => {
+        e.preventDefault()
+        toastBootstrap.show()
+        const url = new URL(window.location.href)
+        const params = new URLSearchParams()
+        const data = document.getElementById('contactForm')
+        const form = new FormData(data)
+        form.forEach((val, key) => params.append(key, val))
+        fetch(`${url}?${params.toString()}`, {
+            method: 'POST',
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                modalFormBootstrap.hide()
+            })
+            .catch(error => console.log(error))
     })
 }
 
