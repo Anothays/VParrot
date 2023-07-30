@@ -4,6 +4,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Cars;
 use App\Entity\Details;
+use App\Entity\Photos;
+use App\Entity\Services;
+use App\Entity\Testimonials;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -11,6 +14,8 @@ use Faker\Factory;
 use Faker\Generator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\File\File;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class AppFixtures extends Fixture
 {
@@ -18,7 +23,7 @@ class AppFixtures extends Fixture
      * @var Generator
      */
     private Generator $faker;
-    private ParameterBag $parameterBag;
+    private ParameterBagInterface $parameterBag;
 
     public function __construct(ParameterBagInterface $parameterBag)
     {
@@ -26,16 +31,51 @@ class AppFixtures extends Fixture
         $this->parameterBag = $parameterBag;
     }
 
+    public function rmdirRecursive($dossier): bool {
+        if (!is_dir($dossier)) {
+            return false;
+        }
+        $contenu = scandir($dossier);
+        foreach ($contenu as $fichier) {
+            if ($fichier != '.' && $fichier != '..') {
+                $chemin = $dossier . '/' . $fichier;
+                if (is_dir($chemin)) {
+                    $this->rmdirRecursive($chemin);
+                } else {
+                    unlink($chemin);
+                }
+            }
+        }
+        return rmdir($dossier);
+    }
+
     public function load(ObjectManager $manager): void
     {
-        $brand = [
-            "Toyota" => ["Corolla", "Camry", "Rav4"],
-            "Honda" => ["Civic", "Accord", "CR-V"],
-            "Ford" => ["Mustang", "F-150", "Focus"],
-            "Chevrolet" => ["Camaro", "Silverado", "Malibu"],
+        $this->rmdirRecursive($this->parameterBag->get("public_media_photos"));
+
+
+        /**
+         * Création de l'admin
+         */
+        $admin = new User();
+        $admin
+            ->setEmail("vincentParrot@VP.com")
+            ->setRoles(["ROLE_SUPER_ADMIN"])
+            ->setPassword("$2y$13\$vTUgEfGhWNnwfSbpGLks1u95lSRJR3SI9xLwP0sAbjVoKezcc7fUm") // %7913%!ZorroEstArrive
+            ->setName('Vincent')
+            ->setLastName('Parrot')
+        ;
+        $manager->persist($admin);
+
+        /**
+         * Création des voitures
+         */
+
+        $brands = [
+            "Citroën" => ["Picasso", "C3", "C4"],
             "Peugeot" => ["208", "308", "3008"],
             "Renault" => ["Clio", "Megane", "Captur"],
-            "Dacia" => ["Sandero", "Duster", "Logan"],
+            "Dacia" => ["Sandero Stepway", "Duster", "Logan"],
             "Volkswagen" => ["Golf", "Polo", "Passat"]
         ];
         $imagePaths = [
@@ -51,45 +91,93 @@ class AppFixtures extends Fixture
             'car1.jpg',
             'car0.jpg',
         ];
-        $days = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+
+        foreach ($brands as $brand => $carsModels) {
+            foreach ($carsModels as $carModel) {
+                $immatriculation = strtoupper($this->faker->randomLetter()).strtoupper($this->faker->randomLetter()).'-'.$this->faker->randomNumber(3,true).'-'.strtoupper($this->faker->randomLetter()).strtoupper($this->faker->randomLetter());
+                $cars = new Cars();
+                $cars
+                    ->setModel($carModel)
+                    ->setBrand($brand)
+                    ->setLicensePlate($immatriculation)
+                    ->setMileage(mt_rand(0, 200000))
+                    ->setPrice(mt_rand(8000, 50000))
+                    ->setRegistrationYear($this->faker->year())
+                    ->setEngine($this->faker->randomKey([
+                        'Essence' => 'Essence',
+                        'Diesel' => 'Diesel',
+                        'Électrique' => 'Électrique',
+                        'Hybrid' => 'Hybrid'
+                    ]))
+                ;
+
+                $photos = scandir($this->parameterBag->get('assets_images') . "/$brand/$carModel");
+                foreach ($photos as $photo) {
+                    if (!is_dir($photo)) {
+                        $image = new Photos();
+                        $image->setFilename($photo);
+                        $manager->persist($image);
+                        $cars->addPhoto($image);
+                        if (!is_dir($this->parameterBag->get("public_media_photos") . '/' . $cars->getLicensePlate())) {
+                            mkdir($this->parameterBag->get("public_media_photos") . '/' . $cars->getLicensePlate(), 0777,true);
+                        }
+                        copy(
+                            $this->parameterBag->get('assets_images') . "/". $brand . "/" . $carModel . "/" . $image->getFilename(),
+                            $this->parameterBag->get("public_media_photos") . '/' . $cars->getLicensePlate() . '/' . $image->getFilename()
+                        );
+                    }
+                }
+                $manager->persist($cars);
+            }
+        }
+//        for ($i=1; $i <= 20; $i++) {
+//            $randBrand = array_rand($brands);
+//            $randCarKey = array_rand($brands[$randBrand]);
+//            $randCarModel = $brands[$randBrand][$randCarKey];
+//
+//            $immatriculation = strtoupper($this->faker->randomLetter()).strtoupper($this->faker->randomLetter()).'-'.$this->faker->randomNumber(3,true).'-'.strtoupper($this->faker->randomLetter()).strtoupper($this->faker->randomLetter());
+//            $cars = new Cars();
+//            $cars
+//                ->setModel($randCarModel)
+//                ->setBrand($randBrand)
+//                ->setLicensePlate($immatriculation)
+//                ->setMileage(mt_rand(0, 200000))
+//                ->setPrice(mt_rand(8000, 50000))
+//                ->setRegistrationYear($this->faker->year())
+//                ->setEngine($this->faker->randomKey([
+//                    'Essence' => 'Essence',
+//                    'Diesel' => 'Diesel',
+//                    'Électrique' => 'Électrique',
+//                    'Hybrid' => 'Hybrid'
+//                ]))
+//            ;
+//
+//            $photos = scandir($this->parameterBag->get('assets_images') . "/$randBrand/$randCarModel");
+//            foreach ($photos as $photo) {
+//                if (!is_dir($photo)) {
+//                    $image = new Photos();
+//                    $image->setFilename($photo);
+//                    $manager->persist($image);
+//                    $cars->addPhoto($image);
+//                    if (!is_dir($this->parameterBag->get("public_media_photos") . '/' . $cars->getLicensePlate())) {
+//                        mkdir($this->parameterBag->get("public_media_photos") . '/' . $cars->getLicensePlate(), 0777,true);
+//                    }
+//                    copy(
+//                        $this->parameterBag->get('assets_images') . "/". $randBrand . "/" . $randCarModel . "/" . $image->getFilename(),
+//                        $this->parameterBag->get("public_media_photos") . '/' . $cars->getLicensePlate() . '/' . $image->getFilename()
+//                    );
+//                }
+//            }
+//            $manager->persist($cars);
+//        }
 
         /**
-         * Création de l'admin
+         * Création des employés
          */
-        $admin = new User();
-        $admin
-            ->setEmail("vincentParrot@VP.com")
-            ->setRoles(["ROLE_SUPER_ADMIN"])
-            ->setPassword("$2y$13$9Jn3SGtXrdc/OzdMPVg8MeY/tg3QDaCYevSJuhDp.d/G5x8WQhm22")
-            ->setName('Vincent')
-            ->setLastName('Parrot')
-        ;
-        $manager->persist($admin);
-
-        /**
-         * Création des voitures
-         */
-        for ($i=1; $i <= 10; $i++) {
-            $randBrand = array_rand($brand);
-            $randCarKey = array_rand($brand[$randBrand]);
-            $randCar = $brand[$randBrand][$randCarKey];
-            $cars = new Cars();
-            $cars
-                ->setModel($randCar)
-                ->setBrand($randBrand)
-                ->setMileage(mt_rand(0, 200000))
-                ->setPrice(mt_rand(8000, 50000))
-                ->setRegistrationYear($this->faker->year())
-                ->setImageName($imagePaths[array_rand($imagePaths)])
-            ;
-            $manager->persist($cars);
-
-            /**
-             * Création des employés
-             */
+        for ($i=1; $i < 5; $i++) {
             $user = new User();
             $user
-                ->setPassword("$2y$13$9Jn3SGtXrdc/OzdMPVg8MeY/tg3QDaCYevSJuhDp.d/G5x8WQhm22")
+                ->setPassword("$2y$13\$vTUgEfGhWNnwfSbpGLks1u95lSRJR3SI9xLwP0sAbjVoKezcc7fUm") // %7913%!ZorroEstArrive
                 ->setEmail($this->faker->email())
                 ->setRoles(["ROLE_USER"])
                 ->setName($this->faker->firstName())
@@ -99,18 +187,115 @@ class AppFixtures extends Fixture
         }
 
         /**
-         * Création des horaires
+         * Création des informations de l'entreprise
          */
-        for ($i = 0; $i < 7; $i++) {
-            $horaires = new Details();
-            $horaires
-                ->setDay($days[$i])
-                ->setOpenMorningTime('8h00-12h00')
-                ->setOpenAfternoonTime('14h00-17h00');
-            $manager->persist($horaires);
+        $description = "Fondé par Vincent Parrot, un expert en réparation automobile fort de 15 années d'expérience, 
+        notre garage est fier de vous accueillir à Toulouse depuis 2021. Passionné par les voitures et soucieux de leur performance 
+        et de votre sécurité, nous sommes déterminés à offrir des services de qualité supérieure à tous nos clients. 
+        Au fil des deux dernières années, nous avons établi une réputation solide en proposant une vaste gamme de services spécialisés. 
+        Qu'il s'agisse de la réparation minutieuse de la carrosserie ou de l'entretien méticuleux de la mécanique, 
+        notre équipe expérimentée est à l'écoute de vos besoins pour garantir le bon fonctionnement et la longévité de votre véhicule. Chez Garage V. Parrot, 
+        nous comprenons que la confiance est essentielle lorsque l'on confie son bien le plus précieux entre des mains expertes. 
+        C'est pourquoi nous nous engageons à instaurer une relation de confiance avec chacun de nos clients, 
+        en vous offrant un service personnalisé qui répond spécifiquement à vos exigences et vos attentes. ";
+
+        $servicesDescription = "Nous nous occupons de la réparation et l’entretien de votre voiture, peu importe la marque ou le modèle de celle-ci. 
+        Profitez d’une prestation de qualité effectuée par des véritables experts auto. Notre désir est de vous offrir une expérience complète 
+        en matière automobile, où qualité, transparence et satisfaction sont nos maîtres-mots. Chez Garage V. Parrot, 
+        nous croyons fermement en l'importance d'évoluer avec notre temps. Faites-nous confiance pour prendre soin de votre voiture comme si c'était la nôtre. 
+        N'hésitez pas à nous contacter pour toute question ou prise de rendez-vous. Merci de nous accorder votre confiance, 
+        nous avons hâte de vous accueillir dans notre garage. Vincent Parrot et toute l'équipe du Garage V. Parrot.";
+
+        $horaires = new Details();
+        $horaires->setId(1);
+        $horaires
+            ->setAddress('7 avenue du vase de Soissons, 31000 Toulouse')
+            ->setEmail('vincentParrot@VP.com')
+            ->setOpenedDays([
+                "1" => "Lun : 08h00 - 12h00, 13h00 - 17h00",
+                "2" => "Mar : 08h00 - 12h00, 13h00 - 17h00",
+                "3" => "Mer : 10h00 - 13h00, 14h00 - 18h00",
+                "4" => "Jeu : 08h00 - 12h00, 13h00 - 17h00",
+                "5" => "Ven : 08h00 - 12h00, 13h00 - 17h00",
+                "6" => "Sam : 10h00 - 12h00, 13h00 - 16h00",
+                "7" => "Dim : fermé"
+            ])
+            ->setTelephone('0000000000')
+            ->setDescription($description)
+            ->setServicesDescription($servicesDescription)
+        ;
+        $manager->persist($horaires);
+
+
+        /**
+         * Création des témoignages
+         */
+        for($i; $i < 30; $i++) {
+            $testimonial = new Testimonials();
+            $testimonial
+                ->setAuthor($this->faker->name())
+                ->setComment($this->faker->text(255))
+                ->setNote($this->faker->numberBetween(1,5))
+                ->setValidated(true);
+            $manager->persist($testimonial);
         }
 
+        /**
+         * Creation des services
+         */
+        $service1 = new Services();
+        $service1
+            ->setName('Entretien et vidange')
+            ->setDescription($this->faker->text(300))
+            ->setImageName('entretien et vidange.png')
+            ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage1.png'))
+        ;
 
+        $service2 = new Services();
+        $service2
+            ->setName('Révision')
+            ->setDescription($this->faker->text(300))
+            ->setImageName('Révision.png')
+            ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage2.jpg'))
+        ;
+
+        $service3 = new Services();
+        $service3
+            ->setName('Courroie de distribution')
+            ->setDescription($this->faker->text(300))
+            ->setImageName('Courroie de distribution.png')
+            ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage3.jpg'))
+        ;
+
+        $service4 = new Services();
+        $service4
+            ->setName('Pneumatiques')
+            ->setDescription($this->faker->text(300))
+            ->setImageName('Pneumatiques.png')
+            ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage4.jpg'))
+        ;
+
+        $service5 = new Services();
+        $service5
+            ->setName('Freinage - disque et/ou plaquettes')
+            ->setDescription($this->faker->text(300))
+            ->setImageName('freinage.png')
+            ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage5.jpg'))
+        ;
+
+        // Création d'un dossier de photos pour chaque voiture
+        mkdir($this->parameterBag->get("public_media_photos") . '/Services' , 0777,true);
+        copy($this->parameterBag->get("assets_images") . '/' . $service1->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Services/' . $service1->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/' . $service2->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Services/' . $service2->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/' . $service3->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Services/' . $service3->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/' . $service4->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Services/' . $service4->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/' . $service5->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Services/' . $service5->getImageName());
+
+        $manager->persist($service1);
+        $manager->persist($service2);
+        $manager->persist($service3);
+        $manager->persist($service4);
+        $manager->persist($service5);
 
         $manager->flush();
     }

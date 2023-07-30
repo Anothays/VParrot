@@ -9,10 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FooterController extends AbstractController
 {
-    #[Route('/footer', name: 'app_footer')]
+
     public function index(DetailsRepository $detailRepository): Response
     {
-//        dd($detailRepository->findAll());
         return $this->render('footer.html.twig', [
             'details' => $detailRepository->findAll()[0],
         ]);

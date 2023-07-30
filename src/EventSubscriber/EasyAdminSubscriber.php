@@ -3,11 +3,14 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Cars;
+use App\Entity\Photos;
 use App\Entity\User;
 use App\Service\ImageService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterCrudActionEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityDeletedEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityUpdatedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeCrudActionEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityDeletedEvent;
@@ -25,6 +28,8 @@ use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Vich\UploaderBundle\Event\Event;
+use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isInstanceOf;
 use function PHPUnit\Framework\isType;
 
@@ -43,12 +48,65 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            BeforeEntityPersistedEvent::class => ['cropImage'],
-            BeforeEntityUpdatedEvent::class => ['cropImage'],
-            BeforeEntityDeletedEvent::class => ['deleteImage'],
-//            BeforeCrudActionEvent::class => ['test'],
-//            AfterCrudActionEvent::class => ['test']
+//            AfterEntityPersistedEvent::class => ['createMediaFolder'],
+//            AfterEntityUpdatedEvent::class => ['updateMediaFolder'],
+            AfterEntityDeletedEvent::class => ['deleteMediaFolder'],
         ];
+    }
+
+    public function updateMediaFolder(AfterEntityUpdatedEvent $event)
+    {
+        $instance = $event->getEntityInstance();
+        if ($instance instanceof Cars) {
+            $photos = $instance->getPhotos();
+            $pathFolder = $this->parameterBag->get("public_media_photos") . '/ref_' . $instance->getReference();
+            if (!is_dir($pathFolder)) {
+                mkdir($pathFolder, 0777,true);
+            }
+            foreach ($photos as $photo) {
+                /**
+                 * @var File $file
+                 */
+                $file = $photo->getFile();
+                $file->move($pathFolder);
+//                $file->setPathname('lol');
+//                dd($file);
+            }
+        }
+    }
+
+
+    public function createMediaFolder(AfterEntityPersistedEvent $event)
+    {
+
+        $instance = $event->getEntityInstance();
+
+        if ($instance instanceof Cars) {
+            $photos = $instance->getPhotos();
+            if (!isEmpty($photos)) {
+                $pathFolder = $this->parameterBag->get("public_media_photos") . '/ref_' . $instance->getReference();
+                if (!is_dir($pathFolder)) {
+                    mkdir($pathFolder, 0777,true);
+                }
+                foreach ($photos as $photo) {
+                    /**
+                     * @var File $file
+                     */
+                    $file = $photo->getFile();
+                    $file->move($pathFolder);
+                    dd($file);
+                }
+            }
+        }
+    }
+
+    public function deleteMediaFolder(AfterEntityDeletedEvent $event) {
+        $instance = $event->getEntityInstance();
+        if ($instance instanceof Cars) {
+            $mediaFolder = $this->parameterBag->get('public_media_photos');
+            $carPhotoFolder = $instance->getLicensePlate();
+            rmdir($mediaFolder.'/'.$carPhotoFolder);
+        }
     }
 
     public function cropImage(BeforeEntityPersistedEvent | BeforeEntityUpdatedEvent $event)
@@ -77,14 +135,6 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function test(BeforeCrudActionEvent | AfterCrudActionEvent $event)
-    {
-//        dd($event->getAdminContext()->getEntity()->getInstance());
 
-//        if($event->getAdminContext()->getEntity()->getInstance()) {
-////            $event->getAdminContext()->getEntity()->getInstance()->setImageName('garage 2.jpg');
-//        }
-
-    }
 
 }

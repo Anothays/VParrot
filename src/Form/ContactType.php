@@ -47,10 +47,10 @@ class ContactType extends AbstractType
                 ]
             ])
             ->add('email', EmailType::class, [
-                'label' => 'adresse email',
+                'label' => 'e-mail',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'votre email'
+                    'placeholder' => 'votre e-mail'
                 ],
                 'label_attr' => [
                     'class' => 'form-label  mt-4'
@@ -61,7 +61,9 @@ class ContactType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'téléphone'
+                    'placeholder' => 'téléphone',
+                    'pattern' => "^[0-9]{10}$",
+                    'title' => 'xxxxxxxxxx'
                 ],
                 'label_attr' => [
                     'class' => 'form-label mt-4'

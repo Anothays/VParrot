@@ -12,24 +12,40 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'app_contact')]
+    #[Route('/contact', name: 'app_contact', methods: ['GET','POST'])]
     public function index(Request $request, ContactRepository $contactRepository): Response
     {
         $contact = new Contact();
-
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash(
-                'notice',
-                'Nous avons bien reçus votre message, nous reviendrons vers vous aussi vite que possible'
-            );
+//            $formService->handleForm($form);
             $contactRepository->save($contact, true);
-            return $this->redirectToRoute('app_home_index', []);
+            return $this->json([
+                'message' => 'Nous avons bien reçus votre message, nous reviendrons vers vous aussi vite que possible'
+            ]);
         }
 
+        // Gestion en AJAX de la soumission du formulaire
+//        $contact = new Contact();
+//        $data = $request->get('contact');
+//        $contact
+//            ->setName($data['name'])
+//            ->setEmail($data['email'])
+//            ->setMessage($data['message'])
+//            ->setLastName($data['lastName'])
+//            ->setPhone($data['phone'])
+//            ->setSubject($data['subject']);
+
         return $this->render('contact/index.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    public function form() {
+        $form = $this->createForm(ContactType::class);
+        return $this->render('contact/form.html.twig', [
             'form' => $form->createView()
         ]);
     }

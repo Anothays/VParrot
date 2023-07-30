@@ -2,35 +2,35 @@
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
-    {{ encore_entry_script_tags('formModal') }}
+    {{ encore_entry_script_tags('carsShow') }}
 {% endblock %}
 
 {% block title %}Cars{% endblock %}
 
-{% block body %}
-    <div id="carouselExampleDark" class="carousel carousel-dark slide w-25 position-relative mx-auto">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
+{% block main %}
+    <div id="carousel" class="carousel mx-auto carousel-dark slide w-25 position-relative" data-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="10000">
-                <img src="{{ asset('build/images/upload/300x300/' ~ car.imageName) }}" class="d-block w-100" alt="...">
-            </div>
+            {% for photo in car.getPhotos() %}
+                <div class="carousel-item {{ loop.first ? 'active' : ''}}" >
+                    <img src="{{ vich_uploader_asset(photo, 'file') }}" class="d-block w-100" alt="Photo véhicule {{ loop.index }}" style="max-width: 1000px; height: 400px;">
+                </div>
+            {% endfor %}
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <a class="carousel-control-prev" href="#carousel" role="button" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        </a>
+        <a class="carousel-control-next" href="#carousel" role="button" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
-        </button>
+        </a>
     </div>
-
-    <table class="table table-bordered">
+    <table class="table table-bordered table-sm">
         <tbody>
+{#        <tr>#}
+{#            <td>Référence annonce</td>#}
+{#            <td id="ref-{{ id }}">ref : {{ car.reference }}</td>#}
+{#        </tr>#}
         <tr>
             <td>Modèle</td>
             <td id="model-{{ id }}">{{ car.model }}</td>
@@ -40,8 +40,12 @@
             <td id="brand-{{ id }}">{{ car.brand }}</td>
         </tr>
         <tr>
-            <td>Prix</td>
-            <td>{{ car.price }}</td>
+            <td>Immatriculation</td>
+            <td id="licensePlate-{{ id }}">{{ car.licensePlate }}</td>
+        </tr>
+        <tr>
+            <td>Moteur</td>
+            <td>{{ car.engine }}</td>
         </tr>
         <tr>
             <td>Année de mise en circulation</td>
@@ -49,24 +53,27 @@
         </tr>
         <tr>
             <td>Kilométrage</td>
-            <td>{{ car.mileage }}</td>
+            <td>{{ car.mileage }} km</td>
         </tr>
         <tr>
-            <td>Référence</td>
-            <td id="ref-{{ id }}">ref : 123456</td>
+            <td>Prix</td>
+            <td>{{ car.price }} €</td>
         </tr>
         </tbody>
     </table>
+    <a class="btn btn-dark m-3" href="{{ path('app_cars_index') }}">Retour</a>
+{#        {% if app.user is not null %}#}
+{#            <a class="btn btn-dark" href="{{ path('app_cars_edit', {'id': car.id}) }}">éditer</a>#}
+{#            {{ include('cars/_delete_form.html.twig') }}#}
+{#        {% endif %}#}
+    <button id="car-{{ car.id }}" type="button" class="btn btn-dark trigerFormModal m-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Acheter
+    </button>
 
-    <div>
-        <a class="btn btn-dark" href="{{ path('app_cars_index') }}">Retour</a>
-        {% if app.user is not null %}
-            <a class="btn btn-dark" href="{{ path('app_cars_edit', {'id': car.id}) }}">éditer</a>
-            {{ include('cars/_delete_form.html.twig') }}
-        {% endif %}
-        <button id="car-{{ car.id }}" type="button" class="btn btn-dark trigerFormModal" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Acheter
-        </button>
-    </div>
+    {# Modale contenant le formulaire #}
     {% include 'cars/form_modal.html.twig' %}
+
+    {# Notification #}
+    {% include 'notifications/toast.html.twig' %}
+
 {% endblock %}

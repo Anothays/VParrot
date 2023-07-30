@@ -1,0 +1,43 @@
+<nav id="pagination">
+    <ol id="pagination-list" class="pagination pagination-sm justify-content-center">
+        {% if testimonials is not empty and testimonials.count > 0  %}
+            {% set currentPage = app.request.query.get('page') ?? "1" %}
+            {% set nextPage = currentPage + 1 <= cars.pages ? currentPage + 1 : currentPage %}
+            {% set prevPage = currentPage - 1 >= 1 ? currentPage - 1 : currentPage %}
+            <li class="page-item">
+                <a
+                        class="page-link {{ currentPage == 1 ? 'disabled' : '' }} "
+                        href="{{ url(app.request.attributes.get('_route'), app.request.query.all|merge({'page': prevPage})) }}"
+                        aria-label="Previous"
+                >
+                    &laquo;
+                </a>
+            </li>
+            {% for i in range(1,cars.pages) %}
+                {# Gestion de la pagination avec twig #}
+                <li class="page-item">
+                    <a
+                            href="{{ url(app.request.attributes.get('_route'), app.request.query.all|merge({'page': i, 'ajax': '1', 'ajaxAction' : 'pageChanged'})) }}"
+                            class="page-link  {{ currentPage == i ? 'active disabled' : '' }}"
+                    >
+                        {{ i }}
+                    </a>
+                </li>
+                {# Gestion de la pagination en JS avec ajax #}
+                {#        <a href="#">{{ i }}</a>#}
+            {% endfor %}
+            <li class="page-item">
+                <a
+                        class="page-link {{ currentPage == cars.pages ? 'disabled' : '' }}"
+                        href="{{ url(app.request.attributes.get('_route'), app.request.query.all|merge({'page': nextPage})) }}"
+                        aria-label="Next"
+                >
+                    &raquo;
+                </a>
+            </li>
+        {% endif %}
+
+    </ol>
+
+</nav>
+

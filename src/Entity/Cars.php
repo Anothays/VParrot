@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\CarsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: CarsRepository::class)]
 class Cars
@@ -14,6 +14,9 @@ class Cars
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(length: 9)]
+    private ?string $licensePlate = null;
 
     #[ORM\Column(length: 255)]
     private ?string $model = null;
@@ -30,19 +33,23 @@ class Cars
     #[ORM\Column]
     private ?int $mileage = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?string $imageName = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: "datetime", columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
     private ?\DateTime $modifiedAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'car', targetEntity: Photos::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $photos;
+
+    #[ORM\Column(type: 'string')]
+    private ?string $engine = null;
+
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
-        $this->modifiedAt = new \DateTime();
+        $this->createdAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
+        $this->modifiedAt = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+        $this->photos = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -75,7 +82,6 @@ class Cars
     public function setBrand(string $brand): self
     {
         $this->brand = $brand;
-
         return $this;
     }
 
@@ -87,7 +93,6 @@ class Cars
     public function setPrice(float $price): self
     {
         $this->price = $price;
-
         return $this;
     }
 
@@ -99,7 +104,6 @@ class Cars
     public function setRegistrationYear(int $registrationYear): self
     {
         $this->registrationYear = $registrationYear;
-
         return $this;
     }
 
@@ -111,20 +115,8 @@ class Cars
     public function setMileage(int $mileage): self
     {
         $this->mileage = $mileage;
-
         return $this;
     }
-
-    public function setImageName(?string $imageName): void
-    {
-        $this->imageName = $imageName;
-    }
-
-    public function getImageName(): ?string
-    {
-        return $this->imageName;
-    }
-
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -134,7 +126,6 @@ class Cars
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -147,7 +138,61 @@ class Cars
     public function setModifiedAt(\DateTime $modifiedAt): self
     {
         $this->modifiedAt = $modifiedAt;
-
         return $this;
     }
+
+
+    /**
+     * @return Collection<int, photos>
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photos $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos->add($photo);
+            $photo->setCar($this);
+        }
+        return $this;
+    }
+
+    public function removePhoto(Photos $photo): self
+    {
+        if ($this->photos->removeElement($photo)) {
+            // set the owning side to null (unless already changed)
+            if ($photo->getCar() === $this) {
+//                $photo->setCar(null);
+            }
+        }
+        return $this;
+    }
+
+    public function getLicensePlate(): ?string
+    {
+        return $this->licensePlate;
+    }
+
+    public function setLicensePlate(?string $licensePlate): Cars
+    {
+        $this->licensePlate = $licensePlate;
+        return $this;
+    }
+
+
+    public function getEngine(): ?string
+    {
+        return $this->engine;
+    }
+
+
+    public function setEngine(?string $engine): self
+    {
+        $this->engine = $engine;
+        return $this;
+    }
+
+
 }

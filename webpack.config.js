@@ -21,8 +21,10 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    .addEntry('carsList', './assets/carsList.js')
-    .addEntry('formModal', './assets/formModal.js')
+    .addEntry('cars', './assets/carsPage.js')
+    .addEntry('carsShow', './assets/carsShow.js')
+    .addEntry('contact', './assets/contactPage.js')
+    .addEntry('home', './assets/homePage.js')
     // .enableStimulusBridge('./assets/controllers.json')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

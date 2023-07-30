@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Cars;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CarsRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, public EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Cars::class);
     }
@@ -39,12 +41,42 @@ class CarsRepository extends ServiceEntityRepository
         }
     }
 
+    public function findCarsPaginated(int $page, int $limit = 5): array
+    {
+        $result = [];
+        $query = $this->entityManager->createQueryBuilder()
+            ->select('c')
+            ->from('App:Cars', 'c')
+            ->setMaxResults($limit)
+            ->setFirstResult(($page * $limit) - $limit)
+        ;
+
+        $paginator = new Paginator($query);
+        $data = $paginator->getQuery()->getResult();
+
+        if (empty($data)) {
+           return $result;
+        }
+
+        // calcul du nombre de pages
+        $pages = ceil($paginator->count() / $limit);
+
+        // On remplit le tableau
+        $result['data'] = $data;
+        $result['pages'] = $pages;
+        $result['page'] = $page;
+        $result['limit'] = $limit;
+        $result['count'] = $paginator->count();
+        return $result;
+    }
+
     /**
     //     * @return Cars[] Returns an array of Cars objects
     //     */
-    public function findByFilters($value)
+    public function findByFilters($value, int $page, int $limit = 5): array
     {
-        return $this->createQueryBuilder('c')
+        $result = [];
+        $query = $this->createQueryBuilder('c')
             ->andWhere('c.mileage >= :mileageMin')
             ->andWhere('c.mileage <= :mileageMax')
             ->andWhere('c.price >= :priceMin')
@@ -58,27 +90,39 @@ class CarsRepository extends ServiceEntityRepository
             ->setParameter('yearMin' ,$value["yearMin"])
             ->setParameter('yearMax' ,$value["yearMax"])
             ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+            ->setMaxResults($limit)
+            ->setFirstResult(($page * $limit) - $limit)
         ;
+
+        $paginator = new Paginator($query);
+        $data = $paginator->getQuery()->getResult();
+
+        // calcul du nombre de pages
+        $pages = ceil($paginator->count() / $limit);
+
+        $result['data'] = $data;
+        $result['pages'] = $pages;
+        $result['page'] = $page;
+        $result['limit'] = $limit;
+        $result['count'] = $paginator->count();
+        return $result;
     }
 
 
-    /**
-     * @return Cars[] Returns an array of Cars objects
-     */
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.price = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
+//    /**
+//     * @return Cars[] Returns an array of Cars objects
+//     */
+//    public function findByExampleField($value)
+//    {
+//        return $this->createQueryBuilder('c')
+//            ->andWhere('c.price = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('c.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
 
 //    public function findOneBySomeField($value): ?Cars
 //    {

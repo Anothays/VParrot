@@ -25,6 +25,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\Regex(
+        pattern: "/^[0-9]{10}$/",
+        message: 'Le mot de passe doit contenir au moins 12 caractères avec des minuscules et majuscule et un caractère spécial'
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]

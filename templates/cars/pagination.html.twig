@@ -1,0 +1,13 @@
+<div id="pagination-container" class="text-center">
+    {% if cars.count  %}
+        <h2 id="pagination-title" >{{ cars.count }} annonce{{ cars.count > 1 ? 's' : '' }} auto</h2>
+    {% endif %}
+    <nav id="pagination" class="d-flex justify-content-center align-items-center mb-5">
+        {% include 'cars/pagination_list.html.twig' %}
+        <select id="pagination-select" class="form-select w-auto py-1">
+            <option value="5">5 annonces</option>
+            <option value="10">10 annonces</option>
+            <option value="15">15 annonces</option>
+        </select>
+    </nav>
+</div>

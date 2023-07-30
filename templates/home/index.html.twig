@@ -1,12 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Accueil</h1>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('home') }}
+{% endblock %}
 
-    {% for message in app.flashes('notice') %}
-        <div class="flash-notice bg-success">
-            <p class="text-center">{{ message }}</p>
-        </div>
-    {% endfor %}
+{% block main %}
+<section class="w-100 text-center">
+    <h1 class="p-5">Votre confiance, notre engagement !</h1>
+    <p class="p-5">
+        {{ details.description }}
+    </p>
+</section>
+
+<section class="w-100 text-center bg-primary-subtle">
+    <h2 class="text-center pt-5">Nos prestations</h2>
+    <p class="p-5"> {{ details.servicesDescription }}</p>
+    {% include 'home/services-list.html.twig' %}
+</section>
+
+
+<section id="testimonials" class=" pb-5 px-5 text-center">
+    <h2 class="text-center p-5">Nos clients nous recommandent (ou pas...)</h2>
+    <button id="toggleTestimonials" type="button" class="btn btn-outline-dark rounded-5 mb-5" data-bs-toggle="modal" data-bs-target="#testimonialsModal">Voir tous les avis</button>
+    {% include 'home/testimonials-list.html.twig' %}
+    <button class="btn btn-outline-success rounded-5 mt-3" type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" >Ajouter un avis</button>
+</section>
+
+{# Modale contenant le formulaire #}
+{% include 'home/home_form_modal.html.twig' %}
+
+{# Modale contenant le formulaire #}
+{% include 'home/home_testimonials_modal.html.twig' %}
+
+{# Notification #}
+{% include 'notifications/toast.html.twig' %}
+
 
 {% endblock %}

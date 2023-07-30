@@ -10,9 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Details
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id = 1;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private array $openedDays = [];
@@ -25,6 +24,12 @@ class Details
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $email = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $servicesDescription = null;
 
     public function getId(): ?int
     {
@@ -76,6 +81,36 @@ class Details
     {
         $this->email = $email;
 
+        return $this;
+    }
+
+
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getServicesDescription(): ?string
+    {
+        return $this->servicesDescription;
+    }
+
+    public function setServicesDescription(?string $servicesDescription): self
+    {
+        $this->servicesDescription = $servicesDescription;
         return $this;
     }
 

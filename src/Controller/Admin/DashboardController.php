@@ -3,9 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Cars;
+use App\Entity\Contact;
 use App\Entity\Details;
+use App\Entity\Services;
+use App\Entity\Testimonials;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -37,14 +41,15 @@ class DashboardController extends AbstractDashboardController
         // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
-        return $this->render('dashBoard/dashBoard.html.twig');
+//        return $this->render('dashBoard/dashBoard.html.twig');
+        return $this->render('@EasyAdmin/page/content.html.twig');
 
     }
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Garage V Parrot')
+            ->setTitle('Garage V.Parrot')
             ->renderContentMaximized()
             ;
     }
@@ -53,15 +58,14 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToRoute('Retour vers le site', 'fa-solid fa-house', 'app_home_index');
         yield MenuItem::linkToCrud('Véhicules', 'fa-solid fa-car', Cars::class);
-        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
-            yield MenuItem::linkToCrud('Employés', 'fa-solid fa-users', User::class)
-
-            ;
+        yield MenuItem::linkToCrud('Témoignages', 'fa-regular fa-comment-dots', Testimonials::class);
+        if ($this->isGranted('ROLE_ADMIN')) {
+            yield MenuItem::linkToCrud('Employés', 'fa-solid fa-users', User::class);
+            yield MenuItem::linkToCrud('Services', 'fa-solid fa-wrench', Services::class);
+            yield MenuItem::linkToCrud('Informations', 'fa-solid fa-circle-info', Details::class)
+                ->setAction(Crud::PAGE_EDIT)
+                ->setEntityId(1);
         }
-        yield MenuItem::linkToCrud('Informations', 'fa-solid fa-circle-info', Details::class)
-            ->setAction('edit')
-            ->setEntityId(1)
-        ;
     }
 
     public function configureActions(): Actions

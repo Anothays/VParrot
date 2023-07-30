@@ -11,22 +11,19 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use phpDocumentor\Reflection\Types\String_;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -82,10 +79,21 @@ class UserCrudController extends AbstractCrudController
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmez le mot de passe'],
+                'constraints' => [
+//                    new NotBlank(['message' => 'Le mot de passe ne peut pas être vide.']),
+//                    new Length([
+//                        'min' => 8,
+//                        'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
+//                    ]),
+                    new Regex(
+                        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/",
+                        'Le mot de passe doit contenir au minimum 12 caractères dont une minuscule, une majuscule, un chiffre, un caractère spéciale'
+                    )
+                ]
             ])
         ;
         if (strval($this->getUser()->getId()) !== $this->request->query->get("entityId")) {
-            $password->hideOnForm();
+            $password->hideWhenUpdating();
         }
         $fields[] = $password;
         $roleField = ChoiceField::new('roles', 'Rôle')
@@ -96,11 +104,10 @@ class UserCrudController extends AbstractCrudController
                 'Utilisateur' => 'ROLE_USER'
             ])
         ;
-//        dd($this->request->query->get("entityId"), strval($this->getUser()->getId()));
+
         if (strval($this->getUser()->getId()) === $this->request->query->get("entityId")) {
             $roleField->hideOnForm();
         }
-
 
         $fields[] = $roleField;
         return $fields;

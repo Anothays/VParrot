@@ -7,6 +7,8 @@ parameters:
     images_directory: '%kernel.project_dir%/public/build/images/'
     resized_images_directory: '%kernel.project_dir%/public/build/images/upload/300x300'
     public_images_upload: '/public/build/images/upload/300x300'
+    public_media_photos: '%kernel.project_dir%/public/media/photos'
+    assets_images: '%kernel.project_dir%/assets/images'
 
 services:
     # home configuration for services in *this* file

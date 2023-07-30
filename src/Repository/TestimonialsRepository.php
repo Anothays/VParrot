@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Testimonials;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,20 +40,40 @@ class TestimonialsRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Testimonials[] Returns an array of Testimonials objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Testimonials[] Returns an array of Testimonials objects
+     */
+    public function findTestimonialsPaginated(int $page, int $limit = 10): array
+    {
+        $result = [];
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('t')
+            ->from('App:Testimonials', 't')
+            ->where('t.validated = 1')
+            ->setMaxResults($limit)
+            ->orderBy('t.createdAt', 'DESC')
+            ->setFirstResult(($page * $limit) - $limit)
+        ;
+
+        $paginator = new Paginator($query);
+        $data = $paginator->getQuery()->getResult();
+
+        if (empty($data)) {
+            return $result;
+        }
+
+        // calcul du nombre de pages
+        $pages = ceil($paginator->count() / $limit);
+
+        // On remplit le tableau
+        $result['data'] = $data;
+        $result['pages'] = $pages;
+        $result['page'] = $page;
+        $result['limit'] = $limit;
+        $result['count'] = $paginator->count();
+        return $result;
+
+    }
 
 //    public function findOneBySomeField($value): ?Testimonials
 //    {

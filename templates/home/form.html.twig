@@ -1,0 +1,12 @@
+{{ form_start(form, {'attr': {'id': 'testimonialForm'}}) }}
+    {{ form_row(form.author) }}
+    {{ form_row(form.note) }}
+    {{ form_row(form.comment) }}
+{#    {{ form_row(form.validated, {'attr': {'value': '0'}}) }}#}
+<div class="modal-footer">
+    {% if app.request.pathInfo == '/home' %}
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+    {% endif %}
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+</div>
+{{ form_end(form) }}

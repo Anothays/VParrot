@@ -21,7 +21,7 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-          return $this->render('security/login.html.twig', [
+          return $this->render('@EasyAdmin/page/login.html.twig', [
               // parameters usually defined in Symfony login forms
               'error' => $error,
               'last_username' => $lastUsername,
@@ -62,7 +62,7 @@ class SecurityController extends AbstractController
               'sign_in_label' => 'Se connecter',
 
               // the label displayed for the Sign Up form button (the |trans filter is applied to it)
-              'sign_up_label' => 'S\'inscrire',
+//              'sign_up_label' => 'S\'inscrire',
 
               // the 'name' HTML attribute of the <input> used for the username field (home: '_username')
               'username_parameter' => 'email',
@@ -71,7 +71,7 @@ class SecurityController extends AbstractController
               'password_parameter' => 'password',
 
               // whether to enable or not the "forgot password?" link (home: false)
-              'forgot_password_enabled' => true,
+              'forgot_password_enabled' => false,
 
               // the path (i.e. a relative or absolute URL) to visit when clicking the "forgot password?" link (home: '#')
 //              'forgot_password_path' => $this->generateUrl('...', []),
@@ -80,7 +80,7 @@ class SecurityController extends AbstractController
               'forgot_password_label' => 'Forgot your password?',
 
               // whether to enable or not the "remember me" checkbox (home: false)
-              'remember_me_enabled' => true,
+              'remember_me_enabled' => false,
 
               // remember me name form field (home: '_remember_me')
               'remember_me_parameter' => 'custom_remember_me_param',
