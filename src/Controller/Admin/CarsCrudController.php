@@ -6,6 +6,7 @@ use App\Entity\Cars;
 use App\Form\PhotosType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
@@ -78,14 +79,16 @@ class CarsCrudController extends AbstractCrudController
                 'label' => 'Crée le',
                 'disabled' => 'disabled'
                 ]);
-            yield ImageField::new('photos[0]')
-                ->setLabel('Photos')
-                ->setBasePath('/media/photos')
-                ->setUploadDir('public/media/photos')
-                ->setFormTypeOptions([
-                    'label' => 'Image du véhicule',
-                    'allow_file_upload' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-                ]);
+
+
+//            yield ImageField::new('photos')
+//                ->setLabel('Photos')
+//                ->setBasePath('/media/photos')
+//                ->setUploadDir('public/media/photos')
+//                ->setFormTypeOptions([
+//                    'label' => 'Image du véhicule',
+//                    'allow_file_upload' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+//                ]);
 
 //            TextEditorField::new('description'),
 
