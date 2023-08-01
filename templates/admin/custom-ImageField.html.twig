@@ -1,0 +1,37 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{% set images = field.formattedValue %}
+
+{% if images is not iterable %}
+    {% set images = [images] %}
+{% endif %}
+
+
+{% set html_id = 'ea-lightbox-' ~ field.uniqueId ~ '-' ~ entity.instance.id %}
+<a href="#" class="ea-lightbox-thumbnail" data-ea-lightbox-content-selector="#{{ html_id }}">
+    <img src="{{ vich_uploader_asset(images[0], 'file') }}" class="img-fluid" alt="vignette voiture {{ entity.instance }}">
+</a>
+
+<div id="{{ html_id }}" class="ea-lightbox">
+    <div id="carousel-{{ entity.instance.id }}" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            {% for image in images %}
+            <div class="carousel-item {{ loop.first ? 'active' : '' }}">
+                <img src="{{ vich_uploader_asset(image, 'file') }}" alt="photo {{ loop.index }} voiture {{ entity.instance }}">
+            </div>
+            {% endfor %}
+        </div>
+        {% if images | length > 1 %}
+        <a class="carousel-control-prev z-2" href="#carousel-{{ entity.instance.id }}" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </a>
+        <a class="carousel-control-next z-2" href="#carousel-{{ entity.instance.id }}" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </a>
+        {% endif %}
+    </div>
+</div>
+

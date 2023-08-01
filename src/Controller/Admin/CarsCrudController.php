@@ -79,18 +79,28 @@ class CarsCrudController extends AbstractCrudController
                 'label' => 'Crée le',
                 'disabled' => 'disabled'
                 ]);
-
-
 //            yield ImageField::new('photos')
 //                ->setLabel('Photos')
+//                ->setProperty('PhotosFilename')
 //                ->setBasePath('/media/photos')
 //                ->setUploadDir('public/media/photos')
 //                ->setFormTypeOptions([
 //                    'label' => 'Image du véhicule',
 //                    'allow_file_upload' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-//                ]);
+//                ])
+//                ->onlyOnIndex()
+//            ;
+            yield VichImageField::new('photos')
+                ->setLabel('Photos')
+                ->setBasePath('/media/photos')
+                ->setUploadDir('public/media/photos')
+                ->setFormTypeOptions([
+                    'label' => 'Image du véhicule',
+                    'allow_file_upload' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+                ])
+                ->onlyOnIndex()
+            ;
 
-//            TextEditorField::new('description'),
 
     }
 

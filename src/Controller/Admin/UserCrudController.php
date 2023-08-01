@@ -79,17 +79,17 @@ class UserCrudController extends AbstractCrudController
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmez le mot de passe'],
-                'constraints' => [
+//                'constraints' => [
 //                    new NotBlank(['message' => 'Le mot de passe ne peut pas être vide.']),
 //                    new Length([
 //                        'min' => 8,
 //                        'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
 //                    ]),
-                    new Regex(
-                        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/",
-                        'Le mot de passe doit contenir au minimum 12 caractères dont une minuscule, une majuscule, un chiffre, un caractère spéciale'
-                    )
-                ]
+//                    new Regex(
+//                        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/",
+//                        'Le mot de passe doit contenir au minimum 12 caractères dont une minuscule, une majuscule, un chiffre, un caractère spéciale'
+//                    )
+//                ]
             ])
         ;
         if (strval($this->getUser()->getId()) !== $this->request->query->get("entityId")) {

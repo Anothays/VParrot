@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -26,8 +27,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\Regex(
-        pattern: "/^[0-9]{10}$/",
-        message: 'Le mot de passe doit contenir au moins 12 caractères avec des minuscules et majuscule et un caractère spécial'
+        pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/",
+        message: 'Le mot de passe doit contenir au m inimum 12 caractères dont une minuscule, une majuscule, un chiffre, un caractère spéciale'
     )]
     private ?string $password = null;
 

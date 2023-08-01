@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Cars;
+use App\Entity\Contact;
 use App\Entity\Details;
 use App\Entity\Photos;
 use App\Entity\Services;
@@ -296,6 +297,25 @@ class AppFixtures extends Fixture
         $manager->persist($service3);
         $manager->persist($service4);
         $manager->persist($service5);
+
+
+        /**
+         * Creation des messages visiteurs
+         */
+
+        for ($i = 0; $i < 20; $i++) {
+            $message = new Contact();
+            $message
+                ->setName($this->faker->name())
+                ->setLastName($this->faker->lastName())
+                ->setEmail($this->faker->email())
+                ->setPhone($this->faker->phoneNumber())
+                ->setMessage($this->faker->text(255))
+                ->setSubject($this->faker->text(30))
+            ;
+
+            $manager->persist($message);
+        }
 
         $manager->flush();
     }

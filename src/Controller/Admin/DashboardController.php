@@ -12,10 +12,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class DashboardController extends AbstractDashboardController
@@ -49,7 +51,7 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('Espace Administrateur')
-            ->setFaviconPath("/media/logo3.png")
+            ->setFaviconPath("/media/logo4.png")
             ->renderContentMaximized()
             ;
     }
@@ -59,13 +61,23 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute('Retour vers le site', 'fa-solid fa-house', 'app_home_index');
         yield MenuItem::linkToCrud('Véhicules', 'fa-solid fa-car', Cars::class);
         yield MenuItem::linkToCrud('Témoignages', 'fa-regular fa-comment-dots', Testimonials::class);
-        if ($this->isGranted('ROLE_ADMIN')) {
-            yield MenuItem::linkToCrud('Employés', 'fa-solid fa-users', User::class);
-            yield MenuItem::linkToCrud('Services', 'fa-solid fa-wrench', Services::class);
-            yield MenuItem::linkToCrud('Informations', 'fa-solid fa-circle-info', Details::class)
-                ->setAction(Crud::PAGE_EDIT)
-                ->setEntityId(1);
-        }
+        yield MenuItem::linkToCrud('Employés', 'fa-solid fa-users', User::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Services', 'fa-solid fa-wrench', Services::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Messages', 'fa-solid fa-envelope', Contact::class);
+        yield MenuItem::linkToCrud('Informations', 'fa-solid fa-circle-info', Details::class)->setPermission('ROLE_ADMIN')
+            ->setAction(Crud::PAGE_EDIT)
+            ->setEntityId(1)
+        ;
+    }
+
+    public function configureUserMenu(UserInterface $user): UserMenu
+    {
+        return parent::configureUserMenu($user)
+            ->displayUserAvatar(false)
+//            ->addMenuItems([
+//                MenuItem::linkToRoute('Retour vers le site', 'fa-solid fa-house', 'app_home_index')
+//            ])
+        ;
     }
 
     public function configureActions(): Actions

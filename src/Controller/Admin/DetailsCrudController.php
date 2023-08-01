@@ -6,6 +6,7 @@ use App\Entity\Details;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
@@ -14,7 +15,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\DomCrawler\Field\TextareaFormField;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class DetailsCrudController extends AbstractCrudController
 {
@@ -53,6 +56,12 @@ class DetailsCrudController extends AbstractCrudController
             ,
         ];
     }
+
+
+//    protected function getRedirectResponseAfterSave(AdminContext $context, string $action): RedirectResponse
+//    {
+//        return parent::getRedirectResponseAfterSave($context, $action);
+//    }
 
     function configureActions(Actions $actions): Actions
     {

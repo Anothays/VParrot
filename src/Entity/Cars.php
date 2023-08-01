@@ -194,5 +194,11 @@ class Cars
         return $this;
     }
 
-
+//    public function getPhotosFilename() {
+//        $photosFilename = [];
+//        foreach ($this->getPhotos() as $photo) {
+//            $photosFilename[] = $photo->getFilename();
+//        }
+//        return $photosFilename;
+//    }
 }

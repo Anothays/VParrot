@@ -44,6 +44,11 @@ class Contact
         return $this->name;
     }
 
+    public function getFullname(): ?string
+    {
+        return $this->name . $this->lastName;
+    }
+
     public function setName(string $name): self
     {
         $this->name = $name;
