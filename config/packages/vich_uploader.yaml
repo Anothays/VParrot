@@ -14,8 +14,8 @@ vich_uploader:
                     options: { property: 'car.licensePlate', transliterate: true }
 
             services:
-                uri_prefix: /media/photos/services
-                upload_destination: media/photos/services/
+                uri_prefix: /media/photos/service
+                upload_destination: media/photos/service/
                 namer:
                     service: Vich\UploaderBundle\Naming\PropertyNamer
                     options: {property: 'name'}

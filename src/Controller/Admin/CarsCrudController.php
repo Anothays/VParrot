@@ -2,8 +2,10 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Cars;
-use App\Form\PhotosType;
+use App\Controller\Admin\CustomFields\VichImageField;
+use App\Entity\CarConstructors;
+use App\Entity\Car;
+use App\Form\PhotoType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -28,7 +30,7 @@ class CarsCrudController extends AbstractCrudController
 
     public static function getEntityFqcn(): string
     {
-        return Cars::class;
+        return Car::class;
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -46,7 +48,7 @@ class CarsCrudController extends AbstractCrudController
     {
 
 //            yield IdField::new('id')->hideOnForm();
-            yield TextField::new('brand')->setLabel('Constructeur');
+            yield TextField::new('constructor')->setLabel('Constructeur');
             yield TextField::new('model')->setLabel('Modèle');
             yield TextField::new('licensePlate')->setLabel('Immatriculation');
             yield ChoiceField::new('engine')->setLabel('Moteur')
@@ -63,35 +65,27 @@ class CarsCrudController extends AbstractCrudController
 //                ->setLabel('Référence de la voiture');
             yield IntegerField::new('registration_year')->setLabel('Année');
             yield CollectionField::new('photos')
-                ->setEntryType(PhotosType::class)
+                ->setEntryType(PhotoType::class)
                 ->hideOnIndex();
-            yield DateTimeField::new('modifiedAt')
+            yield DateTimeField::new('createdAt', 'Crée le')
                 ->hideWhenCreating()
-                ->setLabel('Modifié')
-                ->setFormTypeOptions([
-                'label' => 'Dernière modification',
-                'disabled' => 'disabled'
-                ]);
-            yield DateTimeField::new('createdAt')
-                ->hideWhenCreating()
-                ->setLabel('Crée')
                 ->setFormTypeOptions([
                 'label' => 'Crée le',
                 'disabled' => 'disabled'
                 ]);
-//            yield ImageField::new('photos')
-//                ->setLabel('Photos')
-//                ->setProperty('PhotosFilename')
-//                ->setBasePath('/media/photos')
-//                ->setUploadDir('public/media/photos')
-//                ->setFormTypeOptions([
-//                    'label' => 'Image du véhicule',
-//                    'allow_file_upload' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-//                ])
-//                ->onlyOnIndex()
-//            ;
+            yield DateTimeField::new('modifiedAt', 'Modifié le')
+                ->hideWhenCreating()
+                ->setFormTypeOptions([
+                    'label' => 'Dernière modification',
+                    'disabled' => 'disabled'
+                ]);
+            yield AssociationField::new('establishment', 'Stocké dans l\'établissement');
+            yield AssociationField::new('user', 'Ajouté par')
+                ->setValue($this->getUser())
+//                ->hideOnForm()
+            ;
             yield VichImageField::new('photos')
-                ->setLabel('Photos')
+                ->setLabel('Photo')
                 ->setBasePath('/media/photos')
                 ->setUploadDir('public/media/photos')
                 ->setFormTypeOptions([
@@ -100,8 +94,16 @@ class CarsCrudController extends AbstractCrudController
                 ])
                 ->onlyOnIndex()
             ;
-
-
+//            yield ImageField::new('filenames[0]')
+//                ->setLabel('Photo')
+//                ->setBasePath('/media/photos')
+//                ->setUploadDir('public/media/photos')
+//                ->setFormTypeOptions([
+//                    'label' => 'Image du véhicule',
+//                    'allow_file_upload' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+//                ])
+//                ->onlyOnIndex()
+//            ;
     }
 
 

@@ -2,18 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\ContactRepository;
+use App\Repository\ContactMessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: ContactRepository::class)]
-class Contact
+#[ORM\Entity(repositoryClass: ContactMessageRepository::class)]
+class ContactMessage
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\ManyToOne(inversedBy: 'contactMessages')]
+    private ?Car $car = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -34,9 +38,33 @@ class Contact
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private ?bool $termsAccepted = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCar(): ?Car
+    {
+        return $this->car;
+    }
+
+    public function setCar(?Car $car): self
+    {
+        $this->car = $car;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -115,4 +143,29 @@ class Contact
 
         return $this;
     }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getTermsAccepted(): ?bool
+    {
+        return $this->termsAccepted;
+    }
+
+    public function setTermsAccepted(?bool $termsAccepted): ContactMessage
+    {
+        $this->termsAccepted = $termsAccepted;
+        return $this;
+    }
+
+
 }

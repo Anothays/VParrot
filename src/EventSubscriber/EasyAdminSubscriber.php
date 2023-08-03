@@ -2,8 +2,9 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Cars;
-use App\Entity\Photos;
+use App\Entity\Car;
+use App\Entity\Photo;
+use App\Entity\Testimonial;
 use App\Entity\User;
 use App\Service\ImageService;
 use Doctrine\ORM\EntityManager;
@@ -16,6 +17,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeCrudActionEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityDeletedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -23,6 +25,7 @@ use Symfony\Component\Form\Event\SubmitEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -33,55 +36,38 @@ use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isInstanceOf;
 use function PHPUnit\Framework\isType;
 
+
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
-    private ImageService $imageService;
-    private ParameterBag $parameterBag;
-
-    public function __construct(ImageService $imageService, ParameterBagInterface $parameterBag)
+    public function __construct()
     {
-        $this->parameterBag = $parameterBag;
-        $this->imageService = $imageService;
-
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-//            AfterEntityPersistedEvent::class => ['createMediaFolder'],
-//            AfterEntityUpdatedEvent::class => ['updateMediaFolder'],
-            AfterEntityDeletedEvent::class => ['deleteMediaFolder'],
+            BeforeCrudActionEvent::class => ['update'],
+            AfterEntityDeletedEvent::class => ['deleteEntityMediaFolder'],
         ];
     }
 
-    public function updateMediaFolder(AfterEntityUpdatedEvent $event)
+
+    public function update(BeforeCrudActionEvent $event)
     {
-        $instance = $event->getEntityInstance();
-        if ($instance instanceof Cars) {
-            $photos = $instance->getPhotos();
-            $pathFolder = $this->parameterBag->get("public_media_photos") . '/ref_' . $instance->getReference();
-            if (!is_dir($pathFolder)) {
-                mkdir($pathFolder, 0777,true);
-            }
-            foreach ($photos as $photo) {
-                /**
-                 * @var File $file
-                 */
-                $file = $photo->getFile();
-                $file->move($pathFolder);
-//                $file->setPathname('lol');
-//                dd($file);
+        if ($event->getAdminContext()->getRequest()->get('crudAction') === 'edit') {
+            $instance = $event->getAdminContext()->getEntity()->getInstance();
+            if ($instance instanceof Testimonial) {
+                $instance->isValidated() ? $instance->setUser(null) : $instance->setUser($event->getAdminContext()->getUser());
             }
         }
     }
-
 
     public function createMediaFolder(AfterEntityPersistedEvent $event)
     {
 
         $instance = $event->getEntityInstance();
 
-        if ($instance instanceof Cars) {
+        if ($instance instanceof Car) {
             $photos = $instance->getPhotos();
             if (!isEmpty($photos)) {
                 $pathFolder = $this->parameterBag->get("public_media_photos") . '/ref_' . $instance->getReference();
@@ -100,40 +86,41 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function deleteMediaFolder(AfterEntityDeletedEvent $event) {
+    public function deleteEntityMediaFolder(AfterEntityDeletedEvent $event) {
         $instance = $event->getEntityInstance();
-        if ($instance instanceof Cars) {
+        if ($instance instanceof Car) {
             $mediaFolder = $this->parameterBag->get('public_media_photos');
             $carPhotoFolder = $instance->getLicensePlate();
             rmdir($mediaFolder.'/'.$carPhotoFolder);
         }
     }
 
-    public function cropImage(BeforeEntityPersistedEvent | BeforeEntityUpdatedEvent $event)
-    {
-        $instance = $event->getEntityInstance();
-        if ($instance instanceof Cars) {
-            $srcFileName = $instance->getImageName();
-            if($srcFileName) {
-                $file = new File($this->parameterBag->get('resized_images_directory') . '/' . $srcFileName);
-                $image = $this->imageService->add($file);
-                $entity = $event->getEntityInstance();
-                if (!($entity instanceof Cars)) {
-                    return;
-                }
-                $entity->setImageName($image);
-            }
-        }
-    }
-
-    public function deleteImage( BeforeEntityDeletedEvent $event)
-    {
-        $instance = $event->getEntityInstance();
-        if ($instance instanceof Cars) {
-            $srcFileName = $instance->getimageName();
-            $this->imageService->delete($srcFileName);
-        }
-    }
+//   // Fonction appellant le service image qui n'est plus utilisé dans le projet
+//    public function cropImage(BeforeEntityPersistedEvent | BeforeEntityUpdatedEvent $event)
+//    {
+//        $instance = $event->getEntityInstance();
+//        if ($instance instanceof Car) {
+//            $srcFileName = $instance->getImageName();
+//            if($srcFileName) {
+//                $file = new File($this->parameterBag->get('resized_images_directory') . '/' . $srcFileName);
+//                $image = $this->imageService->add($file);
+//                $entity = $event->getEntityInstance();
+//                if (!($entity instanceof Car)) {
+//                    return;
+//                }
+//                $entity->setImageName($image);
+//            }
+//        }
+//    }
+//
+//    public function deleteImage( BeforeEntityDeletedEvent $event)
+//    {
+//        $instance = $event->getEntityInstance();
+//        if ($instance instanceof Car) {
+//            $srcFileName = $instance->getimageName();
+//            $this->imageService->delete($srcFileName);
+//        }
+//    }
 
 
 

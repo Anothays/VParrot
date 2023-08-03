@@ -20,10 +20,12 @@ function initPage() {
     const form = document.getElementById('contactForm')
     form.addEventListener('submit', function(e) {
         e.preventDefault()
-        console.log(this.action)
         fetch(this.action, {
             body: new FormData(e.target),
             method: 'POST',
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
         })
             .then(res => res.json())
             .then(_ => {
@@ -44,7 +46,7 @@ function preFillForm() {
         button.addEventListener('click', (e) => {
             const id = button.id.slice(4)
             const licensePlate = document.getElementById(`licensePlate-${id}`).innerText
-            const objectForm = document.getElementById('contact_subject')
+            const objectForm = document.getElementById('contact_message_subject')
             const brand = document.getElementById(`brand-${id}`).innerText
             const model = document.getElementById(`model-${id}`).innerText
             const modalTitle = document.getElementById('staticBackdropLabel')

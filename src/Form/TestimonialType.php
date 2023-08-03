@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Testimonials;
+use App\Entity\Testimonial;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\Type\BooleanFilterType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -63,7 +63,7 @@ class TestimonialType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Testimonials::class,
+            'data_class' => Testimonial::class,
         ]);
     }
 }

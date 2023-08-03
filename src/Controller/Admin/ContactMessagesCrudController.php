@@ -2,20 +2,21 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Contact;
+use App\Entity\ContactMessage;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class ContactCrudController extends AbstractCrudController
+class ContactMessagesCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Contact::class;
+        return ContactMessage::class;
     }
 
 
@@ -25,6 +26,8 @@ class ContactCrudController extends AbstractCrudController
         yield EmailField::new('email')->setLabel('Email');
         yield TelephoneField::new('phone')->setLabel('Téléphone');
         yield TextField::new('subject')->setLabel('Objet du message');
+        yield AssociationField::new('car', 'Véhicule')
+        ;
         yield TextField::new('message')->setLabel('Message');
         ;
     }

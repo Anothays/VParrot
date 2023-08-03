@@ -21,10 +21,15 @@ function initPage() {
     const form = document.getElementById('contactForm')
     form.addEventListener('submit', function(e) {
         e.preventDefault()
-        console.log(this.action)
+        const formData = new FormData(e.target)
+        formData.append('car', '1')
+        console.log(formData)
         fetch(this.action, {
-            body: new FormData(e.target),
+            body: formData,
             method: 'POST',
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
         })
         .then(res => res.json())
         .then(_ => {
@@ -118,7 +123,11 @@ function getData(url) {
     const carsListItems = document.getElementById('cars-list-container')
     // carsListItems.innerHTML = '<div class="text-center vh-100"><p class="">Chargement...</p></div>'
     carsListItems.innerHTML = '<div class="text-center vh-100"><div class="spinner-border" role="status"><span class="visually-hidden">Chargement...</span></div></div>'
-    fetch(url.href)
+    fetch(url.href, {
+        headers: {
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    })
     .then(res => res.json())
     .then(data => {
         paginator.innerHTML = data.pagination.content
@@ -144,7 +153,7 @@ function preFillForm() {
         button.addEventListener('click', (e) => {
             const id = button.id.slice(4)
             const licensePlate = document.getElementById(`licensePlate-${id}`).innerText
-            const objectForm = document.getElementById('contact_subject')
+            const objectForm = document.getElementById('contact_message_subject')
             const brand = document.getElementById(`brand-${id}`).innerText
             const model = document.getElementById(`model-${id}`).innerText
             const modalTitle = document.getElementById('staticBackdropLabel')

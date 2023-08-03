@@ -2,9 +2,11 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Services;
+use App\Entity\Service;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -16,7 +18,6 @@ use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 class ServicesCrudController extends AbstractCrudController
 {
-
     private ParameterBag $parameterBag;
 
     public function __construct(ParameterBagInterface $parameterBag)
@@ -24,9 +25,16 @@ class ServicesCrudController extends AbstractCrudController
         $this->parameterBag = $parameterBag;
     }
 
+    public function createEntity(string $entityFqcn): Service
+    {
+        $service = new Service();
+        $service->setUser($this->getUser());
+        return $service;
+    }
+
     public static function getEntityFqcn(): string
     {
-        return Services::class;
+        return Service::class;
     }
 
     public function configureFields(string $pageName): iterable
@@ -39,8 +47,11 @@ class ServicesCrudController extends AbstractCrudController
             ->onlyOnForms()
         ;
         yield ImageField::new('imageName')
-            ->setBasePath("media/photos/Services")
+            ->setBasePath("media/photos/Service")
             ->onlyOnIndex()
+        ;
+        yield AssociationField::new('user', 'Ajouté par')
+            ->hideOnForm()
         ;
     }
 
@@ -53,6 +64,12 @@ class ServicesCrudController extends AbstractCrudController
             ->setPaginatorPageSize(10)
             ->showEntityActionsInlined()
             ;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return parent::configureActions($actions)
+        ;
     }
 
 }

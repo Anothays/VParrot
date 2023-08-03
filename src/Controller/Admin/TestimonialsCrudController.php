@@ -2,11 +2,14 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Testimonials;
+use App\Controller\Admin\CustomFields\CustomBooleanField;
+use App\Entity\Testimonial;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Event\AfterCrudActionEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
@@ -19,7 +22,7 @@ class TestimonialsCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Testimonials::class;
+        return Testimonial::class;
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -36,7 +39,7 @@ class TestimonialsCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
-        yield TextField::new('author')->setLabel('Autheur');
+        yield TextField::new('author')->setLabel('Auteur');
         yield ChoiceField::new('note')->setLabel('note')
             ->setChoices([
                 '1' => 1,
@@ -47,21 +50,27 @@ class TestimonialsCrudController extends AbstractCrudController
             ])
         ;
         yield TextField::new('comment')->setLabel('Commentaire');
-        yield DateTimeField::new('created_at')
+        yield DateTimeField::new('created_at', 'Crée le')
             ->hideWhenCreating()
             ->setFormTypeOptions([
                 'label' => 'Crée le',
                 'disabled' => 'disabled'
-                ])
-            ->setLabel('Crée');
-        yield DateTimeField::new('modified_at')
+                ]);
+        yield DateTimeField::new('modified_at', 'Modifié le')
             ->hideWhenCreating()
             ->setFormTypeOptions([
-                'label' => 'Crée le',
+                'label' => 'Dernière modification',
                 'disabled' => 'disabled'
-                ])
-            ->setLabel('Modifié');
-        yield BooleanField::new('validated')->setLabel('approuvé');
+                ]);
+        yield BooleanField::new('validated', 'Approuvé')
+            ->onlyOnIndex()
+//            ->renderAsSwitch(false)
+        ;
+        yield TextField::new('validated', 'Approuvé par')
+            ->onlyOnDetail()
+            ->setProperty('user')
+        ;
+//        yield CustomBooleanField::new('validated')->setLabel('approuvé');
 
     }
 

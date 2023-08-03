@@ -2,11 +2,11 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Cars;
-use App\Entity\Contact;
-use App\Entity\Details;
-use App\Entity\Services;
-use App\Entity\Testimonials;
+use App\Entity\Car;
+use App\Entity\ContactMessage;
+use App\Entity\Establishment;
+use App\Entity\Service;
+use App\Entity\Testimonial;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -59,12 +59,12 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToRoute('Retour vers le site', 'fa-solid fa-house', 'app_home_index');
-        yield MenuItem::linkToCrud('Véhicules', 'fa-solid fa-car', Cars::class);
-        yield MenuItem::linkToCrud('Témoignages', 'fa-regular fa-comment-dots', Testimonials::class);
+        yield MenuItem::linkToCrud('Véhicules', 'fa-solid fa-car', Car::class);
+        yield MenuItem::linkToCrud('Avis', 'fa-regular fa-comment-dots', Testimonial::class);
         yield MenuItem::linkToCrud('Employés', 'fa-solid fa-users', User::class)->setPermission('ROLE_ADMIN');
-        yield MenuItem::linkToCrud('Services', 'fa-solid fa-wrench', Services::class)->setPermission('ROLE_ADMIN');
-        yield MenuItem::linkToCrud('Messages', 'fa-solid fa-envelope', Contact::class);
-        yield MenuItem::linkToCrud('Informations', 'fa-solid fa-circle-info', Details::class)->setPermission('ROLE_ADMIN')
+        yield MenuItem::linkToCrud('Services', 'fa-solid fa-wrench', Service::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Messages', 'fa-solid fa-envelope', ContactMessage::class);
+        yield MenuItem::linkToCrud('Informations', 'fa-solid fa-circle-info', Establishment::class)->setPermission('ROLE_ADMIN')
             ->setAction(Crud::PAGE_EDIT)
             ->setEntityId(1)
         ;

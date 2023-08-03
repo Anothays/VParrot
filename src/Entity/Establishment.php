@@ -2,16 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\DetailsRepository;
+use App\Repository\EstablishmentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DetailsRepository::class)]
-class Details
+#[ORM\Entity(repositoryClass: EstablishmentRepository::class)]
+class Establishment
 {
     #[ORM\Id]
     #[ORM\Column]
     private ?int $id = 1;
+
+    #[ORM\Column(length: 30, nullable: false)]
+    private ?string $siteName = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private array $openedDays = [];
@@ -31,9 +36,31 @@ class Details
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $servicesDescription = null;
 
+    #[ORM\ManyToOne(inversedBy: 'createdEstablishments')]
+    private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'establishment', targetEntity: Car::class)]
+    private Collection $cars;
+
+    public function __construct()
+    {
+        $this->cars = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getSiteName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getOpenedDays(): array
@@ -84,14 +111,6 @@ class Details
         return $this;
     }
 
-
-    public function setId(?int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -111,6 +130,59 @@ class Details
     public function setServicesDescription(?string $servicesDescription): self
     {
         $this->servicesDescription = $servicesDescription;
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Car>
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars->add($car);
+            $car->setEstablishment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->removeElement($car)) {
+            // set the owning side to null (unless already changed)
+            if ($car->getEstablishment() === $this) {
+                $car->setEstablishment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSiteName(): ?string
+    {
+        return $this->siteName;
+    }
+
+    public function setSiteName(?string $siteName): Establishment
+    {
+        $this->siteName = $siteName;
         return $this;
     }
 

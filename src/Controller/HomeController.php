@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Cars;
-use App\Entity\Photos;
-use App\Entity\Testimonials;
+use App\Entity\Car;
+use App\Entity\Photo;
+use App\Entity\Testimonial;
 use App\Form\TestimonialType;
-use App\Repository\DetailsRepository;
-use App\Repository\ServicesRepository;
-use App\Repository\TestimonialsRepository;
+use App\Repository\EstablishmentRepository;
+use App\Repository\ServiceRepository;
+use App\Repository\TestimonialRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,9 +24,9 @@ class HomeController extends AbstractController
     }
 
     #[Route('/', name: 'app_home_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, TestimonialsRepository $testimonialsRepository, ServicesRepository $servicesRepository, DetailsRepository $detailsRepository): Response
+    public function index(Request $request, TestimonialRepository $testimonialsRepository, ServiceRepository $servicesRepository, EstablishmentRepository $establishmentRepository): Response
     {
-        $testimonials = new Testimonials();
+        $testimonials = new Testimonial();
         $form = $this->createForm(TestimonialType::class, $testimonials);
         $form->handleRequest($request);
 
@@ -45,7 +45,7 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'form' => $form,
-            'details' => $detailsRepository->find(1),
+            'details' => $establishmentRepository->find(1),
             'testimonials' => $testimonialsRepository->findBy(["validated" => "1"],["createdAt" => "DESC"], 5, 0),
             'services' => $servicesRepository->findAll(),
         ]);

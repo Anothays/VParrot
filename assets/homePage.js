@@ -23,6 +23,9 @@ function initPage() {
         fetch(this.action, {
             body: new FormData(e.target),
             method: 'POST',
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
         })
         .then(res => res.json())
         .then(res => {
@@ -45,7 +48,11 @@ function initBtn() {
         url.searchParams.append('ajax', '1')
         url.searchParams.append('page', '1')
         // console.log(url)
-        fetch(url)
+        fetch(url, {
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        })
         .then(res => res.json())
         .then(data => {
             const ul = document.createElement('ul')
@@ -70,7 +77,11 @@ function initLinks(a) {
         const url = new URL(document.location.href)
         url.searchParams.append('ajax', '1')
         url.searchParams.append('page', a.innerText)
-        fetch(url)
+        fetch(url, {
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 const ul = document.getElementById('testimonials-list')

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -37,6 +39,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Testimonial::class)]
+    private Collection $validatedTestimonials;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Service::class)]
+    private Collection $createdServices;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Establishment::class)]
+    private Collection $createdEstablishments;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Car::class)]
+    private Collection $createdCars;
+
+    public function __construct()
+    {
+        $this->validatedTestimonials = new ArrayCollection();
+        $this->createdServices = new ArrayCollection();
+        $this->createdEstablishments = new ArrayCollection();
+        $this->createdCars = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getFullName();
+    }
 
     public function getId(): ?int
     {
@@ -128,6 +155,131 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->name . ' ' . $this->lastName;
+    }
+
+    /**
+     * @return Collection<int, Testimonial>
+     */
+    public function getValidatedTestimonials(): Collection
+    {
+        return $this->validatedTestimonials;
+    }
+
+    public function addValidatedTestimonial(Testimonial $validatedTestimonial): self
+    {
+        if (!$this->validatedTestimonials->contains($validatedTestimonial)) {
+            $this->validatedTestimonials->add($validatedTestimonial);
+            $validatedTestimonial->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeValidatedTestimonial(Testimonial $validatedTestimonial): self
+    {
+        if ($this->validatedTestimonials->removeElement($validatedTestimonial)) {
+            // set the owning side to null (unless already changed)
+            if ($validatedTestimonial->getUser() === $this) {
+                $validatedTestimonial->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Service>
+     */
+    public function getCreatedServices(): Collection
+    {
+        return $this->createdServices;
+    }
+
+    public function addCreatedService(Service $createdService): self
+    {
+        if (!$this->createdServices->contains($createdService)) {
+            $this->createdServices->add($createdService);
+            $createdService->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedService(Service $createdService): self
+    {
+        if ($this->createdServices->removeElement($createdService)) {
+            // set the owning side to null (unless already changed)
+            if ($createdService->getUser() === $this) {
+                $createdService->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Establishment>
+     */
+    public function getCreatedEstablishments(): Collection
+    {
+        return $this->createdEstablishments;
+    }
+
+    public function addCreatedEstablishment(Establishment $createdEstablishment): self
+    {
+        if (!$this->createdEstablishments->contains($createdEstablishment)) {
+            $this->createdEstablishments->add($createdEstablishment);
+            $createdEstablishment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedEstablishment(Establishment $createdEstablishment): self
+    {
+        if ($this->createdEstablishments->removeElement($createdEstablishment)) {
+            // set the owning side to null (unless already changed)
+            if ($createdEstablishment->getUser() === $this) {
+                $createdEstablishment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Car>
+     */
+    public function getCreatedCars(): Collection
+    {
+        return $this->createdCars;
+    }
+
+    public function addCreatedCar(Car $createdCar): self
+    {
+        if (!$this->createdCars->contains($createdCar)) {
+            $this->createdCars->add($createdCar);
+            $createdCar->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedCar(Car $createdCar): self
+    {
+        if ($this->createdCars->removeElement($createdCar)) {
+            // set the owning side to null (unless already changed)
+            if ($createdCar->getUser() === $this) {
+                $createdCar->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Cars;
+use App\Entity\Car;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class CarsType extends AbstractType
+class CarType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -62,6 +62,7 @@ class CarsType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ])
+
 //            ->add('imageFile', VichImageType::class, [
 //                'attr' => [
 //                    'class' => 'form-control'
@@ -76,7 +77,7 @@ class CarsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Cars::class,
+            'data_class' => Car::class,
         ]);
     }
 }

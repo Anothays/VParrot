@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ServicesRepository;
+use App\Repository\ServiceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[ORM\Entity(repositoryClass: ServicesRepository::class)]
+#[ORM\Entity(repositoryClass: ServiceRepository::class)]
 #[Vich\Uploadable]
-class Services
+class Service
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,6 +34,9 @@ class Services
 
     #[ORM\Column(type: "datetime", columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
     private ?\DateTime $modifiedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'createdServices')]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -114,6 +117,18 @@ class Services
     public function setModifiedAt(?\DateTime $modifiedAt): self
     {
         $this->modifiedAt = $modifiedAt;
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
         return $this;
     }
 

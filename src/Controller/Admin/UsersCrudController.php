@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
-class UserCrudController extends AbstractCrudController
+class UsersCrudController extends AbstractCrudController
 {
     private $userPasswordHasher;
     private $request;

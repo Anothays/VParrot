@@ -2,21 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\PhotosRepository;
+use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[ORM\Entity(repositoryClass: PhotosRepository::class)]
+#[ORM\Entity(repositoryClass: PhotoRepository::class)]
 #[Vich\Uploadable]
-class Photos
+class Photo
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column()]
     private ?int $id = null;
 
-    #[Vich\UploadableField(mapping: 'cars', fileNameProperty: 'filename', size: 'size')]
+    #[Vich\UploadableField(mapping: 'cars', fileNameProperty: 'filename')]
     private ?File $file = null;
 
     #[ORM\Column(length: 255)]
@@ -24,13 +24,11 @@ class Photos
 
     #[ORM\ManyToOne(inversedBy: 'photos')]
     #[ORM\JoinColumn(nullable: false, name: "car_id")]
-    private ?Cars $car = null;
+    private ?Car $car = null;
 
     #[ORM\Column(type: "datetime", columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
     private ?\DateTime $modifiedAt = null;
 
-    #[ORM\Column(type: 'integer', nullable: 'true')]
-    private ?int $size = null;
 
     public function getId(): ?int
     {
@@ -63,12 +61,12 @@ class Photos
         return $this;
     }
 
-    public function getCar(): ?Cars
+    public function getCar(): ?Car
     {
         return $this->car;
     }
 
-    public function setCar(?Cars $car): self
+    public function setCar(?Car $car): self
     {
         $this->car = $car;
 
@@ -88,17 +86,6 @@ class Photos
     public function setModifiedAt(?\DateTime $modifiedAt): self
     {
         $this->modifiedAt = $modifiedAt;
-        return $this;
-    }
-
-    public function getSize(): ?int
-    {
-        return $this->size;
-    }
-
-    public function setSize(?int $size): self
-    {
-        $this->size = $size;
         return $this;
     }
 

@@ -2,28 +2,28 @@
 
 namespace App\Repository;
 
-use App\Entity\Cars;
+use App\Entity\Car;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Cars>
+ * @extends ServiceEntityRepository<Car>
  *
- * @method Cars|null find($id, $lockMode = null, $lockVersion = null)
- * @method Cars|null findOneBy(array $criteria, array $orderBy = null)
- * @method Cars[]    findAll()
- * @method Cars[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Car|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Car|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Car[]    findAll()
+ * @method Car[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CarsRepository extends ServiceEntityRepository
+class CarRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry, public EntityManagerInterface $entityManager)
     {
-        parent::__construct($registry, Cars::class);
+        parent::__construct($registry, Car::class);
     }
 
-    public function save(Cars $entity, bool $flush = false): void
+    public function save(Car $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -32,7 +32,7 @@ class CarsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Cars $entity, bool $flush = false): void
+    public function remove(Car $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -46,7 +46,7 @@ class CarsRepository extends ServiceEntityRepository
         $result = [];
         $query = $this->entityManager->createQueryBuilder()
             ->select('c')
-            ->from('App:Cars', 'c')
+            ->from('App:Car', 'c')
             ->setMaxResults($limit)
             ->setFirstResult(($page * $limit) - $limit)
         ;
@@ -71,7 +71,7 @@ class CarsRepository extends ServiceEntityRepository
     }
 
     /**
-    //     * @return Cars[] Returns an array of Cars objects
+    //     * @return Car[] Returns an array of Car objects
     //     */
     public function findByFilters($value, int $page, int $limit = 5): array
     {
@@ -110,7 +110,7 @@ class CarsRepository extends ServiceEntityRepository
 
 
 //    /**
-//     * @return Cars[] Returns an array of Cars objects
+//     * @return Car[] Returns an array of Car objects
 //     */
 //    public function findByExampleField($value)
 //    {
@@ -124,7 +124,7 @@ class CarsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Cars
+//    public function findOneBySomeField($value): ?Car
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

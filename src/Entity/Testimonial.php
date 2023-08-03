@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\TestimonialsRepository;
+use App\Repository\TestimonialRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TestimonialsRepository::class)]
-class Testimonials
+#[ORM\Entity(repositoryClass: TestimonialRepository::class)]
+class Testimonial
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,6 +30,11 @@ class Testimonials
 
     #[ORM\Column(type: "datetime", columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
     private ?\DateTime $modifiedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'validatedTestimonials')]
+    private ?User $user = null;
+
+
 
     public function __construct()
     {
@@ -109,6 +114,18 @@ class Testimonials
     public function setModifiedAt(\DateTime $modifiedAt): self
     {
         $this->modifiedAt = $modifiedAt;
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
         return $this;
     }
 }

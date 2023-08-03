@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Details;
+use App\Entity\Establishment;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -19,11 +19,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\DomCrawler\Field\TextareaFormField;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class DetailsCrudController extends AbstractCrudController
+class EstablishmentsCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Details::class;
+        return Establishment::class;
     }
 
     public function configureCrud(Crud $crud): Crud

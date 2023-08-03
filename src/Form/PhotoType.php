@@ -2,14 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Cars;
-use App\Entity\Photos;
+use App\Entity\Car;
+use App\Entity\Photo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class PhotosType extends AbstractType
+class PhotoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -21,7 +21,7 @@ class PhotosType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Photos::class
+            'data_class' => Photo::class
         ]);
     }
 }

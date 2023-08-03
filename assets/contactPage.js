@@ -17,6 +17,9 @@ function initPage() {
         fetch(this.action, {
             body: new FormData(e.target),
             method: 'POST',
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
         })
             .then(res => res.json())
             .then(_ => {
@@ -35,6 +38,9 @@ function initPage() {
     //     form.forEach((val, key) => params.append(key, val))
     //     fetch(`${url}?${params.toString()}`, {
     //         method: 'POST',
+    //             headers: {
+    //                 "X-Requested-With": "XMLHttpRequest"
+    //             }
     //     })
     //         .then(res => res.json())
     //         .then(data => {

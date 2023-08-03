@@ -5,8 +5,12 @@
     {{ form_row(form.email) }}
     {{ form_row(form.phone) }}
     {{ form_row(form.message) }}
+    {{ form_row(form.termsAccepted) }}
+    {% if app.request.pathInfo == '/cars/' %}
+        <input type="number" id="carIdInput" hidden>
+    {% endif %}
     <div class="modal-footer">
-        {% if app.request.pathInfo == '/cars' %}
+        {% if app.request.pathInfo == '/cars/' %}
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
         {% endif %}
         <button type="submit" class="btn btn-dark  m-3">Envoyer</button>
