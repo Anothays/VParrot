@@ -17,6 +17,7 @@ class ContactMessage
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'contactMessages')]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?Car $car = null;
 
     #[ORM\Column(length: 255)]

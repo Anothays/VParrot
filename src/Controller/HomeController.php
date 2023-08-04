@@ -6,7 +6,7 @@ use App\Entity\Car;
 use App\Entity\Photo;
 use App\Entity\Testimonial;
 use App\Form\TestimonialType;
-use App\Repository\EstablishmentRepository;
+use App\Repository\SocietyInfoRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\TestimonialRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/', name: 'app_home_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, TestimonialRepository $testimonialRepository, ServiceRepository $servicesRepository, EstablishmentRepository $establishmentRepository, SerializerInterface $serializer): Response
+    public function index(Request $request, TestimonialRepository $testimonialRepository, ServiceRepository $servicesRepository, SocietyInfoRepository $establishmentRepository, SerializerInterface $serializer): Response
     {
         $testimonials = new Testimonial();
         $form = $this->createForm(TestimonialType::class, $testimonials);

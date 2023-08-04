@@ -8,7 +8,7 @@ use App\Form\CarType;
 use App\Form\ContactMessageType;
 use App\Repository\CarRepository;
 use App\Repository\ContactMessageRepository;
-use App\Repository\EstablishmentRepository;
+use App\Repository\SocietyInfoRepository;
 use App\Service\ImageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,7 +69,7 @@ class CarsController extends AbstractController
     }
 
 //    #[Route('/new', name: 'app_cars_new', methods: ['GET', 'POST'])]
-//    public function new(Request $request, CarRepository $carsRepository, EstablishmentRepository $scheduleRepository, ImageService $imageService): Response
+//    public function new(Request $request, CarRepository $carsRepository, SocietyInfoRepository $scheduleRepository, ImageService $imageService): Response
 //    {
 //        $car = new Car();
 //        $form = $this->createForm(CarType::class, $car);
@@ -112,7 +112,7 @@ class CarsController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_cars_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Car $car, CarRepository $carsRepository, EstablishmentRepository $scheduleRepository, ImageService $imageService): Response
+    public function edit(Request $request, Car $car, CarRepository $carsRepository, SocietyInfoRepository $scheduleRepository, ImageService $imageService): Response
     {
         $form = $this->createForm(CarType::class, $car);
         $form->handleRequest($request);

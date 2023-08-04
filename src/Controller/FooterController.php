@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\EstablishmentRepository;
+use App\Repository\SocietyInfoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,10 +10,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class FooterController extends AbstractController
 {
 
-    public function index(EstablishmentRepository $establishmentRepository): Response
+    public function index(SocietyInfoRepository $societyInfoRepository): Response
     {
         return $this->render('footer.html.twig', [
-            'details' => $establishmentRepository->find(1),
+            'details' => $societyInfoRepository->find(1),
         ]);
     }
 }

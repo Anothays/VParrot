@@ -49,8 +49,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Service::class)]
     private Collection $createdServices;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Establishment::class)]
-    private Collection $createdEstablishments;
+//    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Establishment::class)]
+    #[ORM\ManyToOne(inversedBy: 'user')]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
+    private ?Establishment $establishment;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Car::class)]
     private Collection $createdCars;
@@ -60,7 +62,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->approvedTestimonials = new ArrayCollection();
         $this->createdTestimonials = new ArrayCollection();
         $this->createdServices = new ArrayCollection();
-        $this->createdEstablishments = new ArrayCollection();
         $this->createdCars = new ArrayCollection();
     }
 
@@ -180,7 +181,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->approvedTestimonials->contains($testimonial)) {
             $this->approvedTestimonials->add($testimonial);
-            $testimonial->setUser($this);
+            $testimonial->setApprovedBy($this);
         }
 
         return $this;
@@ -190,8 +191,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->approvedTestimonials->removeElement($testimonial)) {
             // set the owning side to null (unless already changed)
-            if ($testimonial->getUser() === $this) {
-                $testimonial->setUser(null);
+            if ($testimonial->getApprovedBy() === $this) {
+                $testimonial->setApprovedBy(null);
             }
         }
 
@@ -210,7 +211,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->createdTestimonials->contains($testimonial)) {
             $this->createdTestimonials->add($testimonial);
-            $testimonial->setUser($this);
+            $testimonial->setCreatedBy($this);
         }
         return $this;
     }
@@ -219,8 +220,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->createdTestimonials->removeElement($testimonial)) {
             // set the owning side to null (unless already changed)
-            if ($testimonial->getUser() === $this) {
-                $testimonial->setUser(null);
+            if ($testimonial->getCreatedBy() === $this) {
+                $testimonial->setCreatedBy(null);
             }
         }
         return $this;
@@ -256,33 +257,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Establishment>
-     */
-    public function getCreatedEstablishments(): Collection
+    public function getEstablishment(): Establishment
     {
-        return $this->createdEstablishments;
+        return $this->establishment;
     }
 
-    public function addCreatedEstablishment(Establishment $createdEstablishment): self
+    public function setEstablishment(Establishment $establishment): self
     {
-        if (!$this->createdEstablishments->contains($createdEstablishment)) {
-            $this->createdEstablishments->add($createdEstablishment);
-            $createdEstablishment->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCreatedEstablishment(Establishment $createdEstablishment): self
-    {
-        if ($this->createdEstablishments->removeElement($createdEstablishment)) {
-            // set the owning side to null (unless already changed)
-            if ($createdEstablishment->getUser() === $this) {
-                $createdEstablishment->setUser(null);
-            }
-        }
-
+        $this->establishment = $establishment;
         return $this;
     }
 

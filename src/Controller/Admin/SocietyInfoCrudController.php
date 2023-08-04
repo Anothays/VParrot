@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Establishment;
+use App\Entity\SocietyInformations;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -20,11 +21,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\DomCrawler\Field\TextareaFormField;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class EstablishmentsCrudController extends AbstractCrudController
+class SocietyInfoCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Establishment::class;
+        return SocietyInformations::class;
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -33,14 +34,12 @@ class EstablishmentsCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('Établissement')
             ->setEntityLabelInPlural('Établissements')
             ->showEntityActionsInlined()
-
             ;
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('siteName', 'Établissement'),
             TelephoneField::new('telephone')->setLabel('Numéro de téléphone'),
             EmailField::new('Email')->setLabel('Adresse e-mail'),
             TextField::new('address')->setLabel('Adresse postale'),
@@ -57,15 +56,15 @@ class EstablishmentsCrudController extends AbstractCrudController
         ];
     }
 
-//    function configureActions(Actions $actions): Actions
-//    {
-//        return parent::configureActions($actions)
-//            ->remove(Crud::PAGE_INDEX, Action::NEW)
-//            ->remove(Crud::PAGE_INDEX, Action::DELETE)
-//            ->disable(Action::NEW, Action::DELETE)
-//            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
-//            ;
-//    }
+    function configureActions(Actions $actions): Actions
+    {
+        return parent::configureActions($actions)
+            ->remove(Crud::PAGE_INDEX, Action::NEW)
+            ->remove(Crud::PAGE_INDEX, Action::DELETE)
+            ->disable(Action::NEW, Action::DELETE)
+            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
+            ;
+    }
 
 
 }

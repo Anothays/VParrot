@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -74,8 +75,7 @@ class UsersCrudController extends AbstractCrudController
                     'type' => EmailType::class,
                     'first_options' => ['label' => 'Email'],
                     'second_options' => ['label' => 'Confirmez l\'adresse email'],
-                ])
-            ,
+                ]),
         ];
         $password = TextField::new('password')
             ->onlyOnForms()
@@ -84,17 +84,6 @@ class UsersCrudController extends AbstractCrudController
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmez le mot de passe'],
-//                'constraints' => [
-//                    new NotBlank(['message' => 'Le mot de passe ne peut pas être vide.']),
-//                    new Length([
-//                        'min' => 8,
-//                        'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
-//                    ]),
-//                    new Regex(
-//                        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/",
-//                        'Le mot de passe doit contenir au minimum 12 caractères dont une minuscule, une majuscule, un chiffre, un caractère spéciale'
-//                    )
-//                ]
             ])
         ;
         if (strval($this->getUser()->getId()) !== $this->request->query->get("entityId")) {
@@ -107,8 +96,10 @@ class UsersCrudController extends AbstractCrudController
             ->setChoices([
                 'Administrateur' => 'ROLE_ADMIN',
                 'Utilisateur' => 'ROLE_USER'
-            ])
-        ;
+            ]);
+
+        $fields[] = AssociationField::new('establishment', 'lieu de travail');
+
 
         if (strval($this->getUser()->getId()) === $this->request->query->get("entityId")) {
             $roleField->hideOnForm();

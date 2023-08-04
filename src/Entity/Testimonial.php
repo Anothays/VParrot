@@ -34,12 +34,14 @@ class Testimonial
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'createdTestimonials')]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?User $createdBy = null;
 
     #[ORM\Column(type: "datetime", columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
     private ?\DateTime $modifiedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'approvedTestimonials')]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?User $approvedBy = null;
 
 

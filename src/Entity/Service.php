@@ -36,6 +36,7 @@ class Service
     private ?\DateTime $modifiedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'createdServices')]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?User $user = null;
 
     public function __construct()

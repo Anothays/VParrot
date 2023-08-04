@@ -49,10 +49,11 @@ class Car
     private Collection $contactMessages;
 
     #[ORM\ManyToOne(inversedBy: 'createdCars')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'cars')]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?Establishment $establishment = null;
 
 
@@ -61,7 +62,7 @@ class Car
         $this->createdAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
         $this->modifiedAt = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
         $this->photos = new ArrayCollection();
-        $this->contacts = new ArrayCollection();
+        $this->contactMessages = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -178,27 +179,27 @@ class Car
         return $this;
     }
 
-    public function getContacts(): Collection
+    public function getContactMessages(): Collection
     {
-        return $this->contacts;
+        return $this->contactMessages;
     }
 
-    public function addContact(ContactMessage $contact): self
+    public function addContact(ContactMessage $message): self
     {
-        if (!$this->contacts->contains($contact)) {
-            $this->contacts->add($contact);
-            $contact->setCarId($this);
+        if (!$this->contactMessages->contains($message)) {
+            $this->contactMessages->add($message);
+            $message->setCar($this);
         }
 
         return $this;
     }
 
-    public function removeContact(ContactMessage $contact): self
+    public function removeContact(ContactMessage $message): self
     {
-        if ($this->contacts->removeElement($contact)) {
+        if ($this->contactMessages->removeElement($message)) {
             // set the owning side to null (unless already changed)
-            if ($contact->getCarId() === $this) {
-                $contact->setCarId(null);
+            if ($message->getCar() === $this) {
+                $message->setCar(null);
             }
         }
 

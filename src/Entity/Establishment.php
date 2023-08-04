@@ -5,45 +5,28 @@ namespace App\Entity;
 use App\Repository\EstablishmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EstablishmentRepository::class)]
 class Establishment
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = 1;
+    private ?int $id = null;
 
     #[ORM\Column(length: 30, nullable: false)]
     private ?string $siteName = null;
 
-    #[ORM\Column(type: Types::JSON, nullable: true)]
-    private array $openedDays = [];
-
-    #[ORM\Column(length: 10, nullable: true)]
-    private ?string $telephone = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $address = null;
-
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    private ?string $email = null;
-
-    #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $description = null;
-
-    #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $servicesDescription = null;
-
-    #[ORM\ManyToOne(inversedBy: 'createdEstablishments')]
-    private ?User $user = null;
+    #[ORM\OneToMany(mappedBy: 'establishment', targetEntity: User::class)]
+    private Collection $users;
 
     #[ORM\OneToMany(mappedBy: 'establishment', targetEntity: Car::class)]
     private Collection $cars;
 
     public function __construct()
     {
+        $this->users = new ArrayCollection();
         $this->cars = new ArrayCollection();
     }
 
@@ -57,85 +40,39 @@ class Establishment
         return $this->id;
     }
 
-    public function getOpenedDays(): array
+    public function getSiteName(): ?string
     {
-        return $this->openedDays;
+        return $this->siteName;
     }
 
-    public function setOpenedDays(?array $openedDays): self
+    public function setSiteName(?string $siteName): Establishment
     {
-        $this->openedDays = $openedDays;
-
+        $this->siteName = $siteName;
         return $this;
     }
 
-    public function getTelephone(): ?string
+    public function getUsers(): Collection
     {
-        return $this->telephone;
+        return $this->users;
     }
 
-    public function setTelephone(?string $telephone): self
+    public function addUser(?User $user): self
     {
-        $this->telephone = $telephone;
-
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setEstablishment($this);
+        }
         return $this;
     }
 
-    public function getAddress(): ?string
+    public function removeUser(?User $user): self
     {
-        return $this->address;
-    }
-
-    public function setAddress(?string $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(?string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    public function getServicesDescription(): ?string
-    {
-        return $this->servicesDescription;
-    }
-
-    public function setServicesDescription(?string $servicesDescription): self
-    {
-        $this->servicesDescription = $servicesDescription;
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getEstablishment() === $this) {
+                $user->setEstablishment(null);
+            }
+        }
         return $this;
     }
 
@@ -168,17 +105,4 @@ class Establishment
 
         return $this;
     }
-
-    public function getSiteName(): ?string
-    {
-        return $this->siteName;
-    }
-
-    public function setSiteName(?string $siteName): Establishment
-    {
-        $this->siteName = $siteName;
-        return $this;
-    }
-
-
 }
