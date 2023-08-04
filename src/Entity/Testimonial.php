@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TestimonialRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TestimonialRepository::class)]
 class Testimonial
@@ -14,25 +15,32 @@ class Testimonial
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['testimonial'])]
     private ?string $author = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['testimonial'])]
     private ?string $comment = null;
 
     #[ORM\Column]
+    #[Groups(['testimonial'])]
     private ?int $note = null;
 
     #[ORM\Column]
-    private ?bool $validated = null;
+    private ?bool $isApproved = false;
 
-    #[ORM\Column()]
+    #[ORM\Column]
+    #[Groups(['testimonial'])]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'createdTestimonials')]
+    private ?User $createdBy = null;
 
     #[ORM\Column(type: "datetime", columnDefinition: "DATETIME on update CURRENT_TIMESTAMP")]
     private ?\DateTime $modifiedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'validatedTestimonials')]
-    private ?User $user = null;
+    #[ORM\ManyToOne(inversedBy: 'approvedTestimonials')]
+    private ?User $approvedBy = null;
 
 
 
@@ -83,14 +91,14 @@ class Testimonial
         return $this;
     }
 
-    public function isValidated(): ?bool
+    public function getIsApproved(): ?bool
     {
-        return $this->validated;
+        return $this->isApproved;
     }
 
-    public function setValidated(bool $validated): self
+    public function setIsApproved(bool $bool): self
     {
-        $this->validated = $validated;
+        $this->isApproved = $bool;
 
         return $this;
     }
@@ -117,14 +125,26 @@ class Testimonial
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getApprovedBy(): ?User
     {
-        return $this->user;
+        return $this->approvedBy;
     }
 
-    public function setUser(?User $user): self
+    public function setApprovedBy(?User $user): self
     {
-        $this->user = $user;
+        $this->approvedBy = $user;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $user): self
+    {
+        $this->createdBy = $user;
 
         return $this;
     }

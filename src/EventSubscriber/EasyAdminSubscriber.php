@@ -18,6 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityDeletedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use phpDocumentor\Reflection\Types\This;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -39,50 +40,36 @@ use function PHPUnit\Framework\isType;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
-    public function __construct()
+
+    private $security;
+
+    public function __construct(Security $security)
     {
+        $this->security = $security;
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            BeforeCrudActionEvent::class => ['update'],
+            BeforeEntityUpdatedEvent::class => ['beforeUpdateEntity'],
+            BeforeEntityPersistedEvent::class => ['afterCreateEntity'],
             AfterEntityDeletedEvent::class => ['deleteEntityMediaFolder'],
         ];
     }
 
-
-    public function update(BeforeCrudActionEvent $event)
+    public function beforeUpdateEntity(BeforeEntityUpdatedEvent $event)
     {
-        if ($event->getAdminContext()->getRequest()->get('crudAction') === 'edit') {
-            $instance = $event->getAdminContext()->getEntity()->getInstance();
-            if ($instance instanceof Testimonial) {
-                $instance->isValidated() ? $instance->setUser(null) : $instance->setUser($event->getAdminContext()->getUser());
-            }
-        }
+        $instance = $event->getEntityInstance();
+        $currentUser = $this->security->getUser();
+        $instance instanceof Testimonial ? $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null) : null;
     }
 
-    public function createMediaFolder(AfterEntityPersistedEvent $event)
-    {
-
+    public function afterCreateEntity(BeforeEntityPersistedEvent $event) {
         $instance = $event->getEntityInstance();
-
-        if ($instance instanceof Car) {
-            $photos = $instance->getPhotos();
-            if (!isEmpty($photos)) {
-                $pathFolder = $this->parameterBag->get("public_media_photos") . '/ref_' . $instance->getReference();
-                if (!is_dir($pathFolder)) {
-                    mkdir($pathFolder, 0777,true);
-                }
-                foreach ($photos as $photo) {
-                    /**
-                     * @var File $file
-                     */
-                    $file = $photo->getFile();
-                    $file->move($pathFolder);
-                    dd($file);
-                }
-            }
+        $currentUser = $this->security->getUser();
+        if ($instance instanceof Testimonial) {
+            $instance->setCreatedBy($currentUser);
+            $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null);
         }
     }
 
@@ -94,6 +81,32 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             rmdir($mediaFolder.'/'.$carPhotoFolder);
         }
     }
+
+
+//    public function createMediaFolder(AfterEntityPersistedEvent $event)
+//    {
+//
+//        $instance = $event->getEntityInstance();
+//
+//        if ($instance instanceof Car) {
+//            $photos = $instance->getPhotos();
+//            if (!isEmpty($photos)) {
+//                $pathFolder = $this->parameterBag->get("public_media_photos") . '/ref_' . $instance->getReference();
+//                if (!is_dir($pathFolder)) {
+//                    mkdir($pathFolder, 0777,true);
+//                }
+//                foreach ($photos as $photo) {
+//                    /**
+//                     * @var File $file
+//                     */
+//                    $file = $photo->getFile();
+//                    $file->move($pathFolder);
+//                    dd($file);
+//                }
+//            }
+//        }
+//    }
+
 
 //   // Fonction appellant le service image qui n'est plus utilisé dans le projet
 //    public function cropImage(BeforeEntityPersistedEvent | BeforeEntityUpdatedEvent $event)

@@ -46,8 +46,6 @@ class CarsCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-
-//            yield IdField::new('id')->hideOnForm();
             yield TextField::new('constructor')->setLabel('Constructeur');
             yield TextField::new('model')->setLabel('Modèle');
             yield TextField::new('licensePlate')->setLabel('Immatriculation');
@@ -61,12 +59,11 @@ class CarsCrudController extends AbstractCrudController
             ;
             yield IntegerField::new('mileage')->setLabel('Kilométrage');
             yield NumberField::new('price')->setLabel('Prix');
-//            yield IntegerField::new('reference')
-//                ->setLabel('Référence de la voiture');
             yield IntegerField::new('registration_year')->setLabel('Année');
             yield CollectionField::new('photos')
                 ->setEntryType(PhotoType::class)
-                ->hideOnIndex();
+                ->hideOnIndex()
+            ;
             yield DateTimeField::new('createdAt', 'Crée le')
                 ->hideWhenCreating()
                 ->setFormTypeOptions([
@@ -82,7 +79,6 @@ class CarsCrudController extends AbstractCrudController
             yield AssociationField::new('establishment', 'Stocké dans l\'établissement');
             yield AssociationField::new('user', 'Ajouté par')
                 ->setValue($this->getUser())
-//                ->hideOnForm()
             ;
             yield VichImageField::new('photos')
                 ->setLabel('Photo')

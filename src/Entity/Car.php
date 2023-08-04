@@ -66,7 +66,7 @@ class Car
 
     public function __toString(): string
     {
-        return (string) $this->getConstructor() . $this->getModel();
+        return (string) $this->getConstructor() . ' ' . $this->getModel();
     }
 
     public function getId(): ?int

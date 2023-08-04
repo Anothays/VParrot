@@ -26,7 +26,7 @@ class ContactMessagesCrudController extends AbstractCrudController
         yield EmailField::new('email')->setLabel('Email');
         yield TelephoneField::new('phone')->setLabel('Téléphone');
         yield TextField::new('subject')->setLabel('Objet du message');
-        yield AssociationField::new('car', 'Véhicule')
+        yield AssociationField::new('car', 'Véhicule concerné')
         ;
         yield TextField::new('message')->setLabel('Message');
         ;
@@ -40,7 +40,9 @@ class ContactMessagesCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Liste des messages')
             ->setPaginatorPageSize(10)
             ->showEntityActionsInlined()
-        ;
+            ->setPageTitle(Crud::PAGE_DETAIL, function($message){ return 'Demande de ' . $message->getName();})
+
+            ;
     }
 
     public function configureActions(Actions $actions): Actions

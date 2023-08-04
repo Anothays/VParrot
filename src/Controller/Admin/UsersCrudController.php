@@ -46,7 +46,6 @@ class UsersCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Employé')
             ->setEntityLabelInPlural('Employés')
-            ->setEntityPermission('ROLE_SUPER_ADMIN')
             ->setPageTitle('index','Liste des employés')
             ;
     }
@@ -55,6 +54,12 @@ class UsersCrudController extends AbstractCrudController
     {
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->remove(Crud::PAGE_INDEX, Action::DELETE)
+            ->setPermissions([
+                Action::DELETE => 'ROLE_SUPER_ADMIN',
+                Action::EDIT => 'ROLE_SUPER_ADMIN',
+                Action::NEW => 'ROLE_SUPER_ADMIN',
+            ])
             ;
     }
 

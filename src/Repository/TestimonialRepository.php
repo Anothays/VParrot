@@ -40,16 +40,13 @@ class TestimonialRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @return Testimonial[] Returns an array of Testimonial objects
-     */
     public function findTestimonialsPaginated(int $page, int $limit = 10): array
     {
         $result = [];
         $query = $this->getEntityManager()->createQueryBuilder()
             ->select('t')
             ->from('App:Testimonial', 't')
-            ->where('t.validated = 1')
+            ->where('t.isApproved = 1')
             ->setMaxResults($limit)
             ->orderBy('t.createdAt', 'DESC')
             ->setFirstResult(($page * $limit) - $limit)
@@ -71,6 +68,7 @@ class TestimonialRepository extends ServiceEntityRepository
         $result['page'] = $page;
         $result['limit'] = $limit;
         $result['count'] = $paginator->count();
+
         return $result;
 
     }

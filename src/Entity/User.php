@@ -40,8 +40,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Testimonial::class)]
-    private Collection $validatedTestimonials;
+    #[ORM\OneToMany(mappedBy: 'approvedBy', targetEntity: Testimonial::class)]
+    private Collection $approvedTestimonials;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Testimonial::class)]
+    private Collection $createdTestimonials;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Service::class)]
     private Collection $createdServices;
@@ -54,7 +57,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->validatedTestimonials = new ArrayCollection();
+        $this->approvedTestimonials = new ArrayCollection();
+        $this->createdTestimonials = new ArrayCollection();
         $this->createdServices = new ArrayCollection();
         $this->createdEstablishments = new ArrayCollection();
         $this->createdCars = new ArrayCollection();
@@ -169,28 +173,56 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getValidatedTestimonials(): Collection
     {
-        return $this->validatedTestimonials;
+        return $this->approvedTestimonials;
     }
 
-    public function addValidatedTestimonial(Testimonial $validatedTestimonial): self
+    public function addValidatedTestimonial(Testimonial $testimonial): self
     {
-        if (!$this->validatedTestimonials->contains($validatedTestimonial)) {
-            $this->validatedTestimonials->add($validatedTestimonial);
-            $validatedTestimonial->setUser($this);
+        if (!$this->approvedTestimonials->contains($testimonial)) {
+            $this->approvedTestimonials->add($testimonial);
+            $testimonial->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeValidatedTestimonial(Testimonial $validatedTestimonial): self
+    public function removeValidatedTestimonial(Testimonial $testimonial): self
     {
-        if ($this->validatedTestimonials->removeElement($validatedTestimonial)) {
+        if ($this->approvedTestimonials->removeElement($testimonial)) {
             // set the owning side to null (unless already changed)
-            if ($validatedTestimonial->getUser() === $this) {
-                $validatedTestimonial->setUser(null);
+            if ($testimonial->getUser() === $this) {
+                $testimonial->setUser(null);
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Testimonial>
+     */
+    public function getCreatedTestimonials(): Collection
+    {
+        return $this->createdTestimonials;
+    }
+
+    public function addCreatedTestimonial(Testimonial $testimonial): self
+    {
+        if (!$this->createdTestimonials->contains($testimonial)) {
+            $this->createdTestimonials->add($testimonial);
+            $testimonial->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removeCreatedTestimonial(Testimonial $testimonial): self
+    {
+        if ($this->createdTestimonials->removeElement($testimonial)) {
+            // set the owning side to null (unless already changed)
+            if ($testimonial->getUser() === $this) {
+                $testimonial->setUser(null);
+            }
+        }
         return $this;
     }
 

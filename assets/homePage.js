@@ -53,7 +53,10 @@ function initBtn() {
                 "X-Requested-With": "XMLHttpRequest"
             }
         })
-        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+            return res.json()
+        })
         .then(data => {
             const ul = document.createElement('ul')
             ul.className = "m-0 p-0 text-center"

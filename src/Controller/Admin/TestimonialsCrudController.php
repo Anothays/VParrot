@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterCrudActionEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
@@ -33,6 +34,7 @@ class TestimonialsCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Liste des témoignages')
             ->setPaginatorPageSize(20)
             ->showEntityActionsInlined()
+            ->setPageTitle(Crud::PAGE_DETAIL, function($testimonial){ return 'Avis de ' . $testimonial->getAuthor();})
             ;
     }
 
@@ -61,16 +63,17 @@ class TestimonialsCrudController extends AbstractCrudController
             ->setFormTypeOptions([
                 'label' => 'Dernière modification',
                 'disabled' => 'disabled'
-                ]);
-        yield BooleanField::new('validated', 'Approuvé')
-            ->onlyOnIndex()
-//            ->renderAsSwitch(false)
+            ]);
+        yield BooleanField::new('isApproved', 'Visible sur le site')
+            ->hideOnDetail()
         ;
-        yield TextField::new('validated', 'Approuvé par')
+        yield AssociationField::new('approvedBy', 'Rendu visible par')
             ->onlyOnDetail()
-            ->setProperty('user')
         ;
-//        yield CustomBooleanField::new('validated')->setLabel('approuvé');
+        yield AssociationField::new('createdBy', 'Crée par')
+//            ->formatValue(function($user, $lol){return $user ?? '<span class="badge badge-secondary">visiteur</span>';})
+            ->hideOnForm()
+        ;
 
     }
 

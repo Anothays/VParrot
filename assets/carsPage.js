@@ -22,7 +22,6 @@ function initPage() {
     form.addEventListener('submit', function(e) {
         e.preventDefault()
         const formData = new FormData(e.target)
-        formData.append('car', '1')
         console.log(formData)
         fetch(this.action, {
             body: formData,
@@ -153,11 +152,12 @@ function preFillForm() {
         button.addEventListener('click', (e) => {
             const id = button.id.slice(4)
             const licensePlate = document.getElementById(`licensePlate-${id}`).innerText
-            const objectForm = document.getElementById('contact_message_subject')
+            const subjectForm = document.getElementById('contact_message_subject')
             const brand = document.getElementById(`brand-${id}`).innerText
             const model = document.getElementById(`model-${id}`).innerText
             const modalTitle = document.getElementById('staticBackdropLabel')
-            objectForm.value = `${brand} ${model} : ${licensePlate}`
+            subjectForm.value = `${brand} ${model} : ${licensePlate}`
+            subjectForm.setAttribute("readonly","true")
             modalTitle.innerText = `${licensePlate}`
         })
     })

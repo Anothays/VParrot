@@ -61,11 +61,12 @@ class ContactMessageType extends AbstractType
             ->add('phone', TelType::class, [
                 'label' => 'Numéro de téléphone (facultatif)',
                 'required' => false,
+                'invalid_message' => 'LOL',
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'téléphone',
                     'pattern' => "^[0-9]{10}$",
-                    'title' => 'xxxxxxxxxx'
+                    'title' => '0123456789',
                 ],
                 'label_attr' => [
                     'class' => 'form-label mt-4'
@@ -82,17 +83,8 @@ class ContactMessageType extends AbstractType
                 ]
             ])
             ->add('termsAccepted', CheckboxType::class, [
-                'label' => "Vous devez consentir que l'on enregistre ces données",
-//                'help' => "Pour soumettre ce formulaire, vous devez accepter que l'on enregistre vos données",
-
+                'label' => "Vous consentez à ce que vos données soient sauvegardées pour traitement de ce formulaire",
             ])
-//            ->add('car', NumberType::class, [
-//                'label_attr' => ['hidden'],
-//                'attr' => [
-//                    "hidden" => 'true',
-//                ],
-//                'mapped' => 'false',
-//            ])
         ;
     }
 

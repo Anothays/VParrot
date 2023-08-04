@@ -81,7 +81,7 @@ class AppFixtures extends Fixture
         notre équipe expérimentée est à l'écoute de vos besoins pour garantir le bon fonctionnement et la longévité de votre véhicule. Chez Garage V. Parrot, 
         nous comprenons que la confiance est essentielle lorsque l'on confie son bien le plus précieux entre des mains expertes. 
         C'est pourquoi nous nous engageons à instaurer une relation de confiance avec chacun de nos clients, 
-        en vous offrant un service personnalisé qui répond spécifiquement à vos exigences et vos attentes. ";
+        en vous offrant un service personnalisé qui répond spécifiquement à vos exigences et vos attentes.";
 
         $servicesDescription = "Nous nous occupons de la réparation et l’entretien de votre voiture, peu importe la marque ou le modèle de celle-ci. 
         Profitez d’une prestation de qualité effectuée par des véritables experts auto. Notre désir est de vous offrir une expérience complète 
@@ -92,7 +92,6 @@ class AppFixtures extends Fixture
 
         $establishment = new Establishment();
         $establishment
-            ->setId(1)
             ->setSiteName('Siège social')
             ->setAddress('7 avenue du vase de Soissons, 31000 Toulouse')
             ->setEmail('vincentParrot@VP.com')
@@ -306,10 +305,13 @@ class AppFixtures extends Fixture
                 ->setAuthor($this->faker->name())
                 ->setComment($this->faker->text(255))
                 ->setNote($this->faker->numberBetween(1,5))
-                ->setValidated(random_int(0,1))
+                ->setIsApproved(random_int(0,1))
             ;
-            if ($testimonial->isValidated()) {
-                $testimonial->setUser($admin);
+            if ($testimonial->getIsApproved()) {
+                $testimonial->setApprovedBy($admin);
+            }
+            if (random_int(0,1)) {
+                $testimonial->setCreatedBy($admin);
             }
             $manager->persist($testimonial);
         }

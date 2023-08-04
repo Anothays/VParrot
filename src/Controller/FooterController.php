@@ -10,10 +10,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class FooterController extends AbstractController
 {
 
-    public function index(EstablishmentRepository $detailRepository): Response
+    public function index(EstablishmentRepository $establishmentRepository): Response
     {
         return $this->render('footer.html.twig', [
-            'details' => $detailRepository->findAll()[0],
+            'details' => $establishmentRepository->find(1),
         ]);
     }
 }
