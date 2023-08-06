@@ -34,7 +34,6 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $testimonials->setValidated(false);
             $testimonialRepository->save($testimonials, true);
             return $this->json([
                 'message' => 'Merci pour votre avis !'

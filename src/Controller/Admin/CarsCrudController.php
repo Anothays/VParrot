@@ -55,8 +55,7 @@ class CarsCrudController extends AbstractCrudController
                     'Diesel' => 'Diesel',
                     'Électrique' => 'Électrique',
                     'Hybrid' => 'Hybrid'
-                ])
-            ;
+                ]);
             yield IntegerField::new('mileage')->setLabel('Kilométrage');
             yield NumberField::new('price')->setLabel('Prix');
             yield IntegerField::new('registration_year')->setLabel('Année');
@@ -69,7 +68,8 @@ class CarsCrudController extends AbstractCrudController
                 ->setFormTypeOptions([
                 'label' => 'Crée le',
                 'disabled' => 'disabled'
-                ]);
+                ])
+            ;
             yield DateTimeField::new('modifiedAt', 'Modifié le')
                 ->hideWhenCreating()
                 ->setFormTypeOptions([
@@ -77,9 +77,7 @@ class CarsCrudController extends AbstractCrudController
                     'disabled' => 'disabled'
                 ]);
             yield AssociationField::new('establishment', 'Stocké dans l\'établissement');
-            yield AssociationField::new('user', 'Ajouté par')
-                ->setValue($this->getUser())
-            ;
+            yield AssociationField::new('user', 'Ajouté par');
             yield VichImageField::new('photos')
                 ->setLabel('Photo')
                 ->setBasePath('/media/photos')
@@ -88,7 +86,7 @@ class CarsCrudController extends AbstractCrudController
                     'label' => 'Image du véhicule',
                     'allow_file_upload' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
                 ])
-                ->onlyOnIndex()
+                ->hideOnForm()
             ;
 //            yield ImageField::new('filenames[0]')
 //                ->setLabel('Photo')

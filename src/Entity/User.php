@@ -21,8 +21,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(type: 'json')]
-    private array $roles = [];
+//    #[ORM\Column(type: 'json')]
+//    private array $roles = [];
 
     /**
      * @var string The hashed password
@@ -45,6 +45,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Testimonial::class)]
     private Collection $createdTestimonials;
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Service::class)]
     private Collection $createdServices;
@@ -262,7 +265,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->establishment;
     }
 
-    public function setEstablishment(Establishment $establishment): self
+    public function setEstablishment(?Establishment $establishment): self
     {
         $this->establishment = $establishment;
         return $this;
@@ -297,4 +300,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
 }

@@ -25,7 +25,8 @@ Encore
     .addEntry('carsShow', './assets/carsShow.js')
     .addEntry('contact', './assets/contactPage.js')
     .addEntry('home', './assets/homePage.js')
-    .addEntry('customBooleanField', './assets/customBooleanField.js')
+    .addEntry('FilterInputs', './assets/FilterInputs.js')
+    .addEntry('TriggerForm', './assets/TriggerFormBtn.js')
     // .enableStimulusBridge('./assets/controllers.json')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

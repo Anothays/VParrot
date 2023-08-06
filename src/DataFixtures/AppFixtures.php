@@ -9,6 +9,7 @@ use App\Entity\Car;
 use App\Entity\ContactMessage;
 use App\Entity\Establishment;
 use App\Entity\Photo;
+use App\Entity\Role;
 use App\Entity\Service;
 use App\Entity\SocietyInformations;
 use App\Entity\Testimonial;
@@ -66,6 +67,7 @@ class AppFixtures extends Fixture
             ->setPassword("$2y$13\$vTUgEfGhWNnwfSbpGLks1u95lSRJR3SI9xLwP0sAbjVoKezcc7fUm") // %7913%!ZorroEstArrive
             ->setName('Vincent')
             ->setLastName('Parrot')
+
         ;
         $manager->persist($admin);
 

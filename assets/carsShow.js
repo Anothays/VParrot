@@ -2,11 +2,13 @@ import * as bootstrap from "bootstrap";
 
 window.addEventListener('DOMContentLoaded', () => {
     initPage()
+    document.querySelectorAll('.trigerFormModal').forEach(button => {
+        new TriggerFormBtn(button)
+    })
 })
 
 // init Page elements (filters, form, modals)
 function initPage() {
-    preFillForm()
 
     // notification toast
     const toastLiveExample = document.getElementById('liveToast')
@@ -27,31 +29,13 @@ function initPage() {
                 "X-Requested-With": "XMLHttpRequest"
             }
         })
-            .then(res => res.json())
-            .then(_ => {
-                modalFormBootstrap.hide()
-                toastBootstrap.show()
-                e.target.reset()
-            })
-            .catch(error => console.log(error))
-    })
-}
-
-
-
-// Fill the form with the associated informations
-function preFillForm() {
-    const buttons = document.querySelectorAll('.trigerFormModal')
-    buttons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const id = button.id.slice(4)
-            const licensePlate = document.getElementById(`licensePlate-${id}`).innerText
-            const objectForm = document.getElementById('contact_message_subject')
-            const brand = document.getElementById(`brand-${id}`).innerText
-            const model = document.getElementById(`model-${id}`).innerText
-            const modalTitle = document.getElementById('staticBackdropLabel')
-            objectForm.value = `${brand} ${model} : ${licensePlate}`
-            modalTitle.innerText = `${licensePlate}`
+        .then(res => res.json())
+        .then(_ => {
+            modalFormBootstrap.hide()
+            toastBootstrap.show()
+            e.target.reset()
         })
+        .catch(error => console.log(error))
     })
 }
+

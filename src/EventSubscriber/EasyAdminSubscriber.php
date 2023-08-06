@@ -32,6 +32,7 @@ use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Vich\UploaderBundle\Event\Event;
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\isInstanceOf;
@@ -42,17 +43,19 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 {
 
     private $security;
+    private $userPasswordHasher;
 
-    public function __construct(Security $security)
+    public function __construct(Security $security, UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->security = $security;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
             BeforeEntityUpdatedEvent::class => ['beforeUpdateEntity'],
-            BeforeEntityPersistedEvent::class => ['afterCreateEntity'],
+            BeforeEntityPersistedEvent::class => ['beforeCreateEntity'],
             AfterEntityDeletedEvent::class => ['deleteEntityMediaFolder'],
         ];
     }
@@ -61,15 +64,35 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     {
         $instance = $event->getEntityInstance();
         $currentUser = $this->security->getUser();
-        $instance instanceof Testimonial ? $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null) : null;
+
+        switch (get_class($instance)) {
+            case Testimonial::class :
+                $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null);
+                break;
+            case User::class :
+//                dd($instance);
+                break;
+
+        }
     }
 
-    public function afterCreateEntity(BeforeEntityPersistedEvent $event) {
+    public function beforeCreateEntity(BeforeEntityPersistedEvent $event) {
         $instance = $event->getEntityInstance();
         $currentUser = $this->security->getUser();
-        if ($instance instanceof Testimonial) {
-            $instance->setCreatedBy($currentUser);
-            $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null);
+//        if ($instance instanceof Testimonial) {
+//            $instance->setCreatedBy($currentUser);
+//            $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null);
+//        }
+        switch (get_class($instance)) {
+            case Testimonial::class :
+                $instance->setCreatedBy($currentUser);
+                $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null);
+                break;
+            case User::class :
+                // Hashing password before persisting
+                $hash = $this->userPasswordHasher->hashPassword($instance, $instance->getPassword());
+                $instance->setPassword($hash);
+                break;
         }
     }
 

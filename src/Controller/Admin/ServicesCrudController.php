@@ -18,20 +18,6 @@ use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 class ServicesCrudController extends AbstractCrudController
 {
-    private ParameterBag $parameterBag;
-
-    public function __construct(ParameterBagInterface $parameterBag)
-    {
-        $this->parameterBag = $parameterBag;
-    }
-
-    public function createEntity(string $entityFqcn): Service
-    {
-        $service = new Service();
-        $service->setUser($this->getUser());
-        return $service;
-    }
-
     public static function getEntityFqcn(): string
     {
         return Service::class;
@@ -41,7 +27,6 @@ class ServicesCrudController extends AbstractCrudController
     {
         yield TextField::new('name')->setLabel('Nom de la prestation');
         yield TextareaField::new('description')->setLabel('description de la prestation');
-//        yield VichImageField::new('imageName');
         yield TextField::new('imageFile')
             ->setFormType(VichImageType::class)
             ->onlyOnForms()
