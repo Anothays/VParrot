@@ -16,9 +16,9 @@ vich_uploader:
             services:
                 uri_prefix: /media/photos/service
                 upload_destination: media/photos/service/
-                namer:
-                    service: Vich\UploaderBundle\Naming\PropertyNamer
-                    options: {property: 'name'}
+                namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+#                    service: Vich\UploaderBundle\Naming\PropertyNamer
+#                    options: {property: 'name'}
 #                directory_namer:
 #                    service: vich_uploader.namer_directory_property
 #                    options: { property: 'name', transliterate: true }

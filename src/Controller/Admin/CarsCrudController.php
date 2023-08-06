@@ -61,6 +61,7 @@ class CarsCrudController extends AbstractCrudController
             yield IntegerField::new('registration_year')->setLabel('Année');
             yield CollectionField::new('photos')
                 ->setEntryType(PhotoType::class)
+                ->setFormTypeOption('error_bubbling', false)
                 ->hideOnIndex()
             ;
             yield DateTimeField::new('createdAt', 'Crée le')

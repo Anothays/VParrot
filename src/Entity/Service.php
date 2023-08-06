@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ServiceRepository::class)]
 #[Vich\Uploadable]
@@ -27,6 +28,7 @@ class Service
     private ?string $imageName = null;
 
     #[Vich\UploadableField(mapping: 'services', fileNameProperty: 'imageName')]
+    #[Assert\Image()]
     private ?File $imageFile = null;
 
     #[ORM\Column]

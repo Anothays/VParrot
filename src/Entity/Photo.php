@@ -6,6 +6,7 @@ use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 #[Vich\Uploadable]
@@ -16,7 +17,8 @@ class Photo
     #[ORM\Column()]
     private ?int $id = null;
 
-    #[Vich\UploadableField(mapping: 'cars', fileNameProperty: 'filename', size: 'imageSize', mimeType: 'mimeType', originalName: 'filename', dimensions: "1920*1080")]
+    #[Vich\UploadableField(mapping: 'cars', fileNameProperty: 'filename', size: 'imageSize', mimeType: 'mimeType')]
+    #[Assert\Image()]
     private ?File $file = null;
 
     #[ORM\Column(length: 255)]
@@ -92,10 +94,10 @@ class Photo
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->getFilename();
-    }
+//    public function __toString(): string
+//    {
+//        return $this->getFilename() || '';
+//    }
 
     public function getModifiedAt(): ?\DateTime
     {

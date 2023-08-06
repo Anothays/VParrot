@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -27,15 +28,18 @@ class ServicesCrudController extends AbstractCrudController
     {
         yield TextField::new('name')->setLabel('Nom de la prestation');
         yield TextareaField::new('description')->setLabel('description de la prestation');
-        yield TextField::new('imageFile')
+
+        yield TextField::new('imageFile', 'Image')
             ->setFormType(VichImageType::class)
             ->onlyOnForms()
         ;
+
         yield ImageField::new('imageName')
             ->setBasePath("media/photos/Service")
             ->onlyOnIndex()
         ;
         yield AssociationField::new('user', 'Ajouté par')
+            ->setValue($this->getUser())
             ->hideOnForm()
         ;
     }

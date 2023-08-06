@@ -14,7 +14,7 @@ class ServiceType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('image')
+            ->add('imageName')
             ->add('photo')
         ;
     }

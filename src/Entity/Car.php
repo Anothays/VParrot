@@ -45,6 +45,7 @@ class Car
     private ?\DateTime $modifiedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'car', targetEntity: Photo::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[Assert\Valid]
     private Collection $photos;
 
     #[ORM\OneToMany(mappedBy: 'car_id', targetEntity: ContactMessage::class)]

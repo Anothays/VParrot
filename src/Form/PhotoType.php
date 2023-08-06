@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class PhotoType extends AbstractType
 {
@@ -16,7 +17,7 @@ class PhotoType extends AbstractType
     {
         $builder
             ->add('file', VichImageType::class, [
-            'label' => 'photo',
+                'label' => 'photo',
             ])
             ->add('alt', TextType::class, [
                 'label' => 'Texte alternatif',

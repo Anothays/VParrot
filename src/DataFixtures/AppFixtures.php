@@ -232,8 +232,6 @@ class AppFixtures extends Fixture
                         $image->setFile($file);
                         $image->setImageSize($file->getSize());
                         $image->setMimeType($file->getMimeType());
-
-
                     }
                 }
                 $establishment->addCar($car);
