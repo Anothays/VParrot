@@ -1,37 +1,29 @@
 import * as bootstrap from "bootstrap";
+import NotificationToast from "./NotificationToast";
+import Modal from "./Modal";
 
 window.addEventListener('DOMContentLoaded', () => {
     initPage()
 })
 
 function initPage() {
-    // notification toast
-    const toastLive = document.getElementById('liveToast')
-    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLive)
-    const messageToast = document.getElementById('notificationMessage')
     initBtn()
-
-    // form modal
-    const modalForm = document.getElementById('staticBackdrop')
-    const modalFormBootstrap = bootstrap.Modal.getOrCreateInstance(modalForm)
-
+    const notification = new NotificationToast('liveToast')
+    const modal = new Modal('staticBackdrop')
     // handle formSubmit
     const form = document.getElementById('testimonialForm')
     form.addEventListener('submit', function(e) {
         e.preventDefault()
-        console.log(e.target)
         fetch(this.action, {
             body: new FormData(e.target),
             method: 'POST',
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            }
+            headers: {"X-Requested-With": "XMLHttpRequest"}
         })
         .then(res => res.json())
         .then(res => {
-            messageToast.innerText = res.message
-            modalFormBootstrap.hide()
-            toastBootstrap.show()
+            notification.setMessage(res.message)
+            modal.hide()
+            notification.show()
             e.target.reset()
         })
         .catch(error => console.log(error))
@@ -48,15 +40,8 @@ function initBtn() {
         url.searchParams.append('ajax', '1')
         url.searchParams.append('page', '1')
         // console.log(url)
-        fetch(url, {
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            }
-        })
-        .then(res => {
-            console.log(res)
-            return res.json()
-        })
+        fetch(url, {headers: {"X-Requested-With": "XMLHttpRequest"}})
+        .then(res => res.json())
         .then(data => {
             const ul = document.createElement('ul')
             ul.className = "m-0 p-0 text-center"
@@ -80,28 +65,24 @@ function initLinks(a) {
         const url = new URL(document.location.href)
         url.searchParams.append('ajax', '1')
         url.searchParams.append('page', a.innerText)
-        fetch(url, {
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                const ul = document.getElementById('testimonials-list')
-                ul.innerHTML = null
-                data.data.forEach(testimonial => {
-                    const li = createBootstrapCard(testimonial)
-                    ul.append(li)
-                })
-                const allLinks = document.querySelectorAll('#pagination-list a')
-                allLinks.forEach(a => {
-                    if (a !== e.target) {
-                        a.className = a.className.replace('active', 'lol').replace('disabled', 'mdr')
-                    }
-                } )
-                e.target.className += 'active disabled'
+        fetch(url, {headers: {"X-Requested-With": "XMLHttpRequest"}})
+        .then(res => res.json())
+        .then(data => {
+            const ul = document.getElementById('testimonials-list')
+            ul.innerHTML = null
+            data.data.forEach(testimonial => {
+                const li = createBootstrapCard(testimonial)
+                ul.append(li)
             })
-            .catch(error => console.log(error))
+            const allLinks = document.querySelectorAll('#pagination-list a')
+            allLinks.forEach(a => {
+                if (a !== e.target) {
+                    a.className = a.className.replace('active', 'lol').replace('disabled', 'mdr')
+                }
+            } )
+            e.target.className += 'active disabled'
+        })
+        .catch(error => console.log(error))
     })
 }
 

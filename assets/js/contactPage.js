@@ -1,4 +1,5 @@
 import * as bootstrap from "bootstrap";
+import NotificationToast from "./NotificationToast";
 
 window.addEventListener('DOMContentLoaded', () => {
     initPage()
@@ -7,8 +8,9 @@ window.addEventListener('DOMContentLoaded', () => {
 function initPage() {
 
     // notification toast
-    const toastLiveExample = document.getElementById('liveToast')
-    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+    const notification = new NotificationToast('liveToast')
+    // const toastLiveExample = document.getElementById('liveToast')
+    // const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
 
     // handle formSubmit
     const form = document.getElementById('contactForm')
@@ -17,13 +19,12 @@ function initPage() {
         fetch(this.action, {
             body: new FormData(e.target),
             method: 'POST',
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            }
+            headers: {"X-Requested-With": "XMLHttpRequest"}
         })
             .then(res => res.json())
-            .then(_ => {
-                toastBootstrap.show()
+            .then(res => {
+                notification.setMessage(res.message)
+                notification.show()
                 e.target.reset()
             })
             .catch(error => console.log(error))

@@ -1,19 +1,15 @@
 import * as bootstrap from "bootstrap";
 import TriggerFormBtn from "./TriggerFormBtn";
 import FilterInputs from "./FilterInputs";
+import NotificationToast from "./NotificationToast";
+import Modal from "./Modal"
 
 window.addEventListener('DOMContentLoaded', () => {
 
     new TriggerFormBtn(document.querySelectorAll('.trigerFormModal'))
     new FilterInputs()
-
-    // notification toast
-    const toastLiveExample = document.getElementById('liveToast')
-    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-
-    // form modal
-    const modalForm = document.getElementById('staticBackdrop')
-    const modalFormBootstrap = bootstrap.Modal.getOrCreateInstance(modalForm)
+    const notification = new NotificationToast('liveToast')
+    const modal = new Modal('staticBackdrop')
 
     // handle formSubmit
     const form = document.getElementById('contactForm')
@@ -22,14 +18,13 @@ window.addEventListener('DOMContentLoaded', () => {
         fetch(this.action, {
             body: new FormData(e.target),
             method: 'POST',
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            }
+            headers: {"X-Requested-With": "XMLHttpRequest"}
         })
         .then(res => res.json())
-        .then(_ => {
-            modalFormBootstrap.hide()
-            toastBootstrap.show()
+        .then(res => {
+            notification.setMessage(res.message)
+            modal.hide()
+            notification.show()
             e.target.reset()
         })
         .catch(error => console.log(error))
