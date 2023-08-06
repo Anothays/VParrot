@@ -10,7 +10,9 @@
 
 {% set html_id = 'ea-lightbox-' ~ field.uniqueId ~ '-' ~ entity.instance.id %}
 <a href="#" class="ea-lightbox-thumbnail" data-ea-lightbox-content-selector="#{{ html_id }}">
-    <img src="{{ vich_uploader_asset(images[0], 'file') }}" class="img-fluid" alt="vignette voiture {{ entity.instance }}">
+    {% if images | length > 0 %}
+        <img src="{{ vich_uploader_asset(images[0], 'file') }}" class="img-fluid" alt="vignette voiture {{ entity.instance }}">
+    {% endif %}
 </a>
 
 <div id="{{ html_id }}" class="ea-lightbox">

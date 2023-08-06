@@ -78,17 +78,7 @@ class CarsCrudController extends AbstractCrudController
                 ]);
             yield AssociationField::new('establishment', 'Stocké dans l\'établissement');
             yield AssociationField::new('user', 'Ajouté par');
-            yield VichImageField::new('photos')
-                ->setLabel('Photo')
-                ->setBasePath('/media/photos')
-                ->setUploadDir('public/media/photos')
-                ->setFormTypeOptions([
-                    'label' => 'Image du véhicule',
-                    'allow_file_upload' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-                ])
-                ->hideOnForm()
-            ;
-//            yield ImageField::new('filenames[0]')
+//            yield VichImageField::new('photos')
 //                ->setLabel('Photo')
 //                ->setBasePath('/media/photos')
 //                ->setUploadDir('public/media/photos')
@@ -96,8 +86,18 @@ class CarsCrudController extends AbstractCrudController
 //                    'label' => 'Image du véhicule',
 //                    'allow_file_upload' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
 //                ])
-//                ->onlyOnIndex()
+//                ->hideOnForm()
 //            ;
+            yield ImageField::new('filenames[0]')
+                ->setLabel('Photo')
+                ->setBasePath('/media/photos')
+                ->setUploadDir('public/media/photos')
+                ->setFormTypeOptions([
+                    'label' => 'Image du véhicule',
+                    'allow_file_upload' => ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+                ])
+                ->onlyOnIndex()
+            ;
     }
 
 

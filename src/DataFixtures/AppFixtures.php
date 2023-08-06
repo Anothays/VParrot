@@ -227,6 +227,13 @@ class AppFixtures extends Fixture
                             $this->parameterBag->get('assets_images') . "/". $brand . "/" . $carModel . "/" . $image->getFilename(),
                             $this->parameterBag->get("public_media_photos") . '/' . $car->getLicensePlate() . '/' . $image->getFilename()
                         );
+
+                        $file = new File($this->parameterBag->get('public_media_photos') . '/' . $car->getLicensePlate() . '/' . $image->getFilename());
+                        $image->setFile($file);
+                        $image->setImageSize($file->getSize());
+                        $image->setMimeType($file->getMimeType());
+
+
                     }
                 }
                 $establishment->addCar($car);

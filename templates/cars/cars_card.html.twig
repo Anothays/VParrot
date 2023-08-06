@@ -5,8 +5,8 @@
             <div class="h-100 carousel-inner bg-primary rounded-top-3 ">
                 {% for photo in car.getPhotos() %}
                     <div class="h-100 carousel-item rounded-top-3 {{ loop.first ? 'active' : ''}} ">
-                         <img src="{{ asset('media/photos/' ~ car.getLicensePlate ~ '/' ~ photo.filename) }}" class="d-block w-100 rounded-top-3 object-fit-cover" alt="Photo véhicule {{ loop.index }}" style="max-width: 300px; height: 250px;">
-                                <img src="{{ vich_uploader_asset(photo, 'file') }}" class="h-100 w-100 object-fit-cover rounded-top-3"  alt="Photo véhicule {{ loop.index }}">
+{#                        <img src="{{ asset('media/photos/' ~ car.getLicensePlate ~ '/' ~ photo.filename) }}" class="d-block w-100 rounded-top-3 object-fit-cover" alt="Photo véhicule {{ loop.index }}" style="max-width: 300px; height: 250px;">#}
+                        <img src="{{ vich_uploader_asset(photo, 'file') }}" class="h-100 w-100 object-fit-cover rounded-top-3"  alt="{{ photo.alt ?? [car.constructor,car.model] | join(' ')}}">
                     </div>
                 {% endfor %}
             </div>
@@ -34,7 +34,7 @@
             <p>Année : {{ car.registrationYear }}</p>
             <div class="">
                 <a href="{{ path('app_cars_show', {id: car.id}) }}" class="btn btn-dark rounded-5 mb-3">Plus d'informations</a>
-                <button id="car-{{ car.id }}" type="button" class="btn btn-dark rounded-5 trigerFormModal mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Contactez le vendeur</button>
+                <button id="car-{{ car.id }}" type="button" class="btn btn-dark rounded-5 trigerFormModal mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Contacter le vendeur</button>
             </div>
         </div>
     </article>

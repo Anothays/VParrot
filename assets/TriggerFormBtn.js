@@ -1,3 +1,4 @@
+// Handle click event on button "Contacter le vendeur"
 export default class TriggerFormBtn {
     constructor(buttons) {
         this.buttons = buttons

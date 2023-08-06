@@ -6,6 +6,7 @@ use App\Repository\CarRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CarRepository::class)]
 class Car
@@ -25,6 +26,7 @@ class Car
     private ?string $engine = null;
 
     #[ORM\Column(length: 9)]
+    #[Assert\Regex(pattern: "/^[a-zA-Z]{2}-\d{3}-[a-zA-Z]{2}$/", message: "Veuillez renseigner un numéro de plaque valide. exemple : XX-123-WW")]
     private ?string $licensePlate = null;
 
     #[ORM\Column]
@@ -67,7 +69,7 @@ class Car
 
     public function __toString(): string
     {
-        return (string) $this->getConstructor() . ' ' . $this->getModel();
+        return (string) $this->getModel(). ' ' . $this->getConstructor();
     }
 
     public function getId(): ?int
@@ -254,13 +256,13 @@ class Car
 
     // fonction de test pour le crudController associé
 
-//    public function getfilenames(): array
-//    {
-//        $tab = [];
-//        foreach ($this->getPhotos() as $photos) {
-//            $tab[] = $this->getLicensePlate() .'/'. $photos->getfilename();
-//        }
-//        return $tab;
-//    }
+    public function getfilenames(): array
+    {
+        $tab = [];
+        foreach ($this->getPhotos() as $photos) {
+            $tab[] = $this->getLicensePlate() .'/'. $photos->getfilename();
+        }
+        return $tab;
+    }
 
 }

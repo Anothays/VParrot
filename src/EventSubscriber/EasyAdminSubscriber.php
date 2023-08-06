@@ -44,11 +44,14 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
     private $security;
     private $userPasswordHasher;
+    private $parameterBag;
 
-    public function __construct(Security $security, UserPasswordHasherInterface $userPasswordHasher)
+    public function __construct(Security $security, UserPasswordHasherInterface $userPasswordHasher, ParameterBagInterface $parameterBag)
     {
+
         $this->security = $security;
         $this->userPasswordHasher = $userPasswordHasher;
+        $this->parameterBag = $parameterBag;
     }
 
     public static function getSubscribedEvents(): array
@@ -72,7 +75,8 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             case User::class :
 //                dd($instance);
                 break;
-
+            default :
+                break;
         }
     }
 
@@ -93,15 +97,24 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                 $hash = $this->userPasswordHasher->hashPassword($instance, $instance->getPassword());
                 $instance->setPassword($hash);
                 break;
+            default :
+                break;
         }
     }
 
     public function deleteEntityMediaFolder(AfterEntityDeletedEvent $event) {
         $instance = $event->getEntityInstance();
-        if ($instance instanceof Car) {
-            $mediaFolder = $this->parameterBag->get('public_media_photos');
-            $carPhotoFolder = $instance->getLicensePlate();
-            rmdir($mediaFolder.'/'.$carPhotoFolder);
+        switch (get_class($instance)) {
+            case Car::class :
+
+                $mediaFolder = $this->parameterBag->get('public_media_photos');
+                $carPhotoFolder = $instance->getLicensePlate();
+                if (is_dir($mediaFolder.'/'.$carPhotoFolder)) {
+                    rmdir($mediaFolder.'/'.$carPhotoFolder);
+                }
+                break;
+            default :
+                break;
         }
     }
 

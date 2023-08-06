@@ -1,14 +1,8 @@
 import * as bootstrap from "bootstrap";
+import TriggerFormBtn from "./TriggerFormBtn";
 
 window.addEventListener('DOMContentLoaded', () => {
-    initPage()
-    document.querySelectorAll('.trigerFormModal').forEach(button => {
-        new TriggerFormBtn(button)
-    })
-})
-
-// init Page elements (filters, form, modals)
-function initPage() {
+    new TriggerFormBtn(document.querySelectorAll('.trigerFormModal'))
 
     // notification toast
     const toastLiveExample = document.getElementById('liveToast')
@@ -29,13 +23,15 @@ function initPage() {
                 "X-Requested-With": "XMLHttpRequest"
             }
         })
-        .then(res => res.json())
-        .then(_ => {
-            modalFormBootstrap.hide()
-            toastBootstrap.show()
-            e.target.reset()
-        })
-        .catch(error => console.log(error))
+            .then(res => res.json())
+            .then(_ => {
+                modalFormBootstrap.hide()
+                toastBootstrap.show()
+                e.target.reset()
+            })
+            .catch(error => console.log(error))
     })
-}
+})
+
+
 

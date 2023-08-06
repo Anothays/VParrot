@@ -22,7 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('cars', './assets/carsPage.js')
-    .addEntry('carsShow', './assets/carsShow.js')
+    .addEntry('car', './assets/carPage.js')
     .addEntry('contact', './assets/contactPage.js')
     .addEntry('home', './assets/homePage.js')
     .addEntry('FilterInputs', './assets/FilterInputs.js')

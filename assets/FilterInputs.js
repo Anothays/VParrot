@@ -4,6 +4,7 @@ export default class FilterInputs {
     constructor() {
         this.#initResetFiltersButton()
         this.#initFiltersInput()
+        this.#setPagination()
         this.#setPaginationRange()
     }
 

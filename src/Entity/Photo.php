@@ -16,11 +16,20 @@ class Photo
     #[ORM\Column()]
     private ?int $id = null;
 
-    #[Vich\UploadableField(mapping: 'cars', fileNameProperty: 'filename')]
+    #[Vich\UploadableField(mapping: 'cars', fileNameProperty: 'filename', size: 'imageSize', mimeType: 'mimeType', originalName: 'filename', dimensions: "1920*1080")]
     private ?File $file = null;
 
     #[ORM\Column(length: 255)]
     private ?string $filename = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $alt = null;
+
+    #[ORM\Column()]
+    private ?int $imageSize = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $mimeType = null;
 
     #[ORM\ManyToOne(inversedBy: 'photos')]
     #[ORM\JoinColumn(nullable: false, name: "car_id")]
@@ -61,6 +70,16 @@ class Photo
         return $this;
     }
 
+    public function setImageSize(?int $imageSize): void
+    {
+        $this->imageSize = $imageSize;
+    }
+
+    public function getImageSize(): ?int
+    {
+        return $this->imageSize;
+    }
+
     public function getCar(): ?Car
     {
         return $this->car;
@@ -86,6 +105,28 @@ class Photo
     public function setModifiedAt(?\DateTime $modifiedAt): self
     {
         $this->modifiedAt = $modifiedAt;
+        return $this;
+    }
+
+    public function getAlt(): ?string
+    {
+        return $this->alt;
+    }
+
+    public function setAlt(?string $alt): Photo
+    {
+        $this->alt = $alt;
+        return $this;
+    }
+
+    public function getMimeType(): ?string
+    {
+        return $this->mimeType;
+    }
+
+    public function setMimeType(?string $mimeType): self
+    {
+        $this->mimeType = $mimeType;
         return $this;
     }
 
