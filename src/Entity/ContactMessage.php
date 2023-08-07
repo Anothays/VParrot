@@ -29,7 +29,7 @@ class ContactMessage
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 15, nullable: true)]
     #[Assert\Regex(pattern: "/^[0-9]{10}$/", message: 'numéro de téléphone non valide')]
     private ?string $phone = null;
 

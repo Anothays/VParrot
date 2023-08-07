@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\Car;
 use App\Entity\Photo;
+use App\Entity\Service;
 use App\Entity\Testimonial;
 use App\Entity\User;
 use App\Service\ImageService;
@@ -90,10 +91,12 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                 $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null);
                 break;
             case User::class :
-
                 // Hashing password before persisting
                 $hash = $this->userPasswordHasher->hashPassword($instance, $instance->getPassword());
                 $instance->setPassword($hash);
+                break;
+            case Service::class :
+                $instance->setUser($currentUser);
                 break;
             default :
                 break;

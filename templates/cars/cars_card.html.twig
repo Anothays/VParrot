@@ -31,7 +31,7 @@
             <p id="licensePlate-{{ car.id }}">{{ car.licensePlate }}</p>
             <p>Prix : {{ car.price }} €</p>
             <p>Kilométrage : {{ car.mileage }} km</p>
-            <p>Année : {{ car.registrationYear }}</p>
+            <p>Année : {{ car.registrationYear | date('Y') }}</p>
             <div class="">
                 <a href="{{ path('app_cars_show', {id: car.id}) }}" class="btn btn-dark rounded-5 mb-3">Plus d'informations</a>
                 <button id="car-{{ car.id }}" type="button" class="btn btn-dark rounded-5 trigerFormModal mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Contacter le vendeur</button>

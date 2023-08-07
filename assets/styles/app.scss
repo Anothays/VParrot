@@ -5,6 +5,12 @@
 body {
   padding: 0;
   margin: 0;
-  //background-color: whitesmoke;
-  //background: url('logo4.png') no-repeat;
+}
+
+
+@media screen and (min-width: 1440px) {
+  .contactForm {
+    width: 50%;
+    margin-inline: auto;
+  }
 }

@@ -94,10 +94,10 @@ class Photo
         return $this;
     }
 
-//    public function __toString(): string
-//    {
-//        return $this->getFilename() || '';
-//    }
+    public function __toString(): string
+    {
+        return $this->getFilename() || '';
+    }
 
     public function getModifiedAt(): ?\DateTime
     {

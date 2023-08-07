@@ -40,8 +40,7 @@ class ServicesCrudController extends AbstractCrudController
             ->onlyOnIndex()
         ;
         yield AssociationField::new('user', 'Ajouté par')
-            ->setValue($this->getUser())
-            ->hideOnForm()
+            ->onlyOnIndex()
         ;
         yield BooleanField::new('published');
     }

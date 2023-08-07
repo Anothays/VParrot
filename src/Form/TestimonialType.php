@@ -22,7 +22,7 @@ class TestimonialType extends AbstractType
                 'label' => 'Pseudo',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Le nom sous lequel votre commentaire apparaîtra'
+                    'placeholder' => 'Choississez un pseudo'
                 ],
                 'label_attr' => [
                     'class' => 'form-label  mt-4'

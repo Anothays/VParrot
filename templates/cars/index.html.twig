@@ -16,13 +16,6 @@
         {% include 'cars/filters.html.twig' %}
     </div>
 
-{#    {% if app.user is not null and app.user.roles|filter(role => role in ['ROLE_ADMIN', 'ROLE_USER'])|length > 0 %}#}
-{#        <a class="btn btn-dark m-3" href="{{ path('app_cars_new') }}">Ajouter un véhicule</a>#}
-{#    {% endif %}#}
-
-{#    <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Filtrer</button>#}
-
-
     {# Pagination #}
     {% include 'cars/pagination.html.twig' %}
 

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ServiceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -44,10 +46,22 @@ class Service
     #[ORM\Column()]
     private ?bool $published = false;
 
+    #[ORM\ManyToMany(targetEntity: Garage::class, inversedBy: 'services')]
+    private Collection $garage;
+
+
+
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
         $this->modifiedAt = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+        $this->garage = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 
     public function getId(): ?int
@@ -146,6 +160,30 @@ class Service
     public function setPublished(?bool $published): self
     {
         $this->published = $published;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Garage>
+     */
+    public function getGarage(): Collection
+    {
+        return $this->garage;
+    }
+
+    public function addGarage(Garage $garage): self
+    {
+        if (!$this->garage->contains($garage)) {
+            $this->garage->add($garage);
+        }
+
+        return $this;
+    }
+
+    public function removeGarage(Garage $garage): self
+    {
+        $this->garage->removeElement($garage);
+
         return $this;
     }
 

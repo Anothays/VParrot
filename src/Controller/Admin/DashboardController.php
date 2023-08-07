@@ -4,8 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Car;
 use App\Entity\ContactMessage;
+use App\Entity\Garage;
 use App\Entity\Service;
-use App\Entity\SocietyInformations;
+use App\Entity\Schedule;
 use App\Entity\Testimonial;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -54,6 +55,7 @@ class DashboardController extends AbstractDashboardController
             ->setTitle('Espace Administrateur')
             ->setFaviconPath("/media/logo4.png")
             ->renderContentMaximized()
+            ->disableDarkMode(true)
             ;
     }
 
@@ -65,7 +67,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Avis', 'fa-regular fa-comment-dots', Testimonial::class);
         yield MenuItem::linkToCrud('Employés', 'fa-solid fa-users', User::class)->setPermission('ROLE_SUPER_ADMIN');
         yield MenuItem::linkToCrud('Services', 'fa-solid fa-wrench', Service::class)->setPermission('ROLE_ADMIN');
-        yield MenuItem::linkToCrud('Informations', 'fa-solid fa-circle-info', SocietyInformations::class)
+        yield MenuItem::linkToCrud('Établissements', 'fa-solid fa-warehouse', Garage::class)->setPermission('ROLE_SUPER_ADMIN');
+        yield MenuItem::linkToCrud('Horaires', 'fa-solid fa-circle-info', Schedule::class)
             ->setPermission('ROLE_SUPER_ADMIN')
             ->setAction(Action::EDIT)
             ->setEntityId(1)
@@ -73,13 +76,12 @@ class DashboardController extends AbstractDashboardController
 
     }
 
+
+
     public function configureUserMenu(UserInterface $user): UserMenu
     {
         return parent::configureUserMenu($user)
             ->displayUserAvatar(false)
-//            ->addMenuItems([
-//                MenuItem::linkToRoute('Retour vers le site', 'fa-solid fa-house', 'app_home_index')
-//            ])
         ;
     }
 

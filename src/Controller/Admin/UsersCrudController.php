@@ -58,12 +58,10 @@ class UsersCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-//            ->add(Crud::PAGE_INDEX, Action::DETAIL)
-//            ->remove(Crud::PAGE_INDEX, Action::DELETE)
             ->setPermissions([
-                Action::DELETE => 'ROLE_ADMIN',
-                Action::EDIT => 'ROLE_ADMIN',
-                Action::NEW => 'ROLE_ADMIN',
+                Action::DELETE => 'ROLE_SUPER_ADMIN',
+                Action::EDIT => 'ROLE_SUPER_ADMIN',
+                Action::NEW => 'ROLE_SUPER_ADMIN',
             ])
             ;
     }
@@ -74,6 +72,7 @@ class UsersCrudController extends AbstractCrudController
         $fields = [
             TextField::new('name')->setLabel('Prénom'),
             TextField::new('lastName')->setLabel('Nom'),
+            AssociationField::new('garage', 'Établissement'),
             EmailField::new('email')
                 ->onlyWhenCreating()
                 ->setFormType(RepeatedType::class)
@@ -95,66 +94,30 @@ class UsersCrudController extends AbstractCrudController
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmez le mot de passe'],
             ]);
+
         if ($this->getUser() !== $this->getContext()->getEntity()->getInstance()) {
             $passwordField->hideWhenUpdating();
         }
+
+        $fields[] = $passwordField;
         $roleField = ChoiceField::new('roles', 'Rôles attribués')
             ->setPermission('ROLE_SUPER_ADMIN')
+            ->onlyOnForms()
             ->allowMultipleChoices()
             ->setChoices([
                 'Administrateur' => 'ROLE_ADMIN',
                 'Utilisateur' => 'ROLE_USER'
             ]);
 
-
         if (strval($this->getUser()->getId()) === $this->request->query->get("entityId")) {
             $roleField->hideOnForm();
         }
 
         $fields[] = $roleField;
-        $fields[] = $passwordField;
+
         return $fields;
     }
 
-//    public function createNewFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
-//    {
-//        $formBuilder = parent::createNewFormBuilder($entityDto, $formOptions, $context);
-//        return $this->addPasswordEventListener($formBuilder);
-//    }
-//
-//    public function createEditFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
-//    {
-//        $formBuilder = parent::createEditFormBuilder($entityDto, $formOptions, $context);
-//        return $this->addPasswordEventListener($formBuilder);
-//    }
-//
-//    private function addPasswordEventListener(FormBuilderInterface $formBuilder): FormBuilderInterface
-//    {
-//        return $formBuilder->addEventListener(FormEvents::POST_SUBMIT, $this->formatSubmitFormData());
-//    }
-//
-//    private function formatSubmitFormData() {
-//        return function($event) {
-//            $form = $event->getForm();
-//
-//            if (!$form->isValid()) {
-//                return;
-//            }
-//
-//            // Hash password
-//            $password = $form->get('password')->getData() ;
-//            if ($password) {
-//                $hash = $this->userPasswordHasher->hashPassword($this->getUser(), $password);
-//                $form->getData()->setPassword($hash);
-//            }
-//
-//            // format Roles
-////            $roles = $form->get('roles')->getData();
-//////            dd($roles);
-////            if ($roles) {
-////                $form->getData()->setRoles($roles);
-////            }
-//        };
-//    }
+
 
 }

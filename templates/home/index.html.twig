@@ -10,17 +10,34 @@
 {% block main %}
 <section class="w-100 text-center">
     <h1 class="p-5">Votre confiance, notre engagement !</h1>
-    <p class="p-5 m-0">{{ details.description|striptags }}</p>
+    <p class="p-5 m-0">
+        Fondé par Vincent Parrot, un expert en réparation automobile fort de 15 années d'expérience,
+        notre garage est fier de vous accueillir à Toulouse depuis 2021. Passionné par les voitures et soucieux de leur performance
+        et de votre sécurité, nous sommes déterminés à offrir des services de qualité supérieure à tous nos clients.
+        Au fil des deux dernières années, nous avons établi une réputation solide en proposant une vaste gamme de services spécialisés.
+        Qu'il s'agisse de la réparation minutieuse de la carrosserie ou de l'entretien méticuleux de la mécanique,
+        notre équipe expérimentée est à l'écoute de vos besoins pour garantir le bon fonctionnement et la longévité de votre véhicule. Chez Garage V. Parrot,
+        nous comprenons que la confiance est essentielle lorsque l'on confie son bien le plus précieux entre des mains expertes.
+        C'est pourquoi nous nous engageons à instaurer une relation de confiance avec chacun de nos clients,
+        en vous offrant un service personnalisé qui répond spécifiquement à vos exigences et vos attentes.
+    </p>
 </section>
 
 <section class="w-100 text-center bg-primary-subtle">
     <h2 class="text-center pt-5">Nos prestations</h2>
-    <p class="p-5"> {{ details.servicesDescription|striptags }}</p>
+    <p class="p-5">
+        Nous nous occupons de la réparation et l’entretien de votre voiture, peu importe la marque ou le modèle de celle-ci.
+        Profitez d’une prestation de qualité effectuée par des véritables experts auto. Notre désir est de vous offrir une expérience complète
+        en matière automobile, où qualité, transparence et satisfaction sont nos maîtres-mots. Chez Garage V. Parrot,
+        nous croyons fermement en l'importance d'évoluer avec notre temps. Faites-nous confiance pour prendre soin de votre voiture comme si c'était la nôtre.
+        N'hésitez pas à nous contacter pour toute question ou prise de rendez-vous. Merci de nous accorder votre confiance,
+        nous avons hâte de vous accueillir dans notre garage. Vincent Parrot et toute l'équipe du Garage V. Parrot.
+    </p>
     {% include 'home/services-list.html.twig' %}
 </section>
 
 
-<section id="testimonials" class=" pb-5 px-5 text-center">
+<section id="testimonials" class=" pb-5 px-lg-5 text-center">
     <h2 class="text-center p-5">Nos clients nous recommandent (ou pas...)</h2>
     <button id="toggleTestimonials" type="button" class="btn btn-outline-dark rounded-5 mb-5" data-bs-toggle="modal" data-bs-target="#testimonialsModal">Voir tous les avis</button>
     {% include 'home/testimonials-list.html.twig' %}

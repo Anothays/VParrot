@@ -2,18 +2,19 @@
 
 namespace App\Controller;
 
-use App\Repository\SocietyInfoRepository;
+use App\Repository\GarageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class FooterController extends AbstractController
 {
-
-    public function index(SocietyInfoRepository $societyInfoRepository): Response
+    public function index(GarageRepository $garageRepository): Response
     {
+        $garage = $garageRepository->findAll()[0];
+        $schedule = $garage->getSchedule()->getOpenedDays();
         return $this->render('footer.html.twig', [
-            'details' => $societyInfoRepository->find(1),
+            'garage' => $garage,
+            'schedule' => $schedule
         ]);
     }
 }

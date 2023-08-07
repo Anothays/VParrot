@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TestimonialRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -18,11 +19,11 @@ class Testimonial
     #[Groups(['testimonial'])]
     private ?string $author = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     #[Groups(['testimonial'])]
     private ?string $comment = null;
 
-    #[ORM\Column]
+    #[ORM\Column(length: 1)]
     #[Groups(['testimonial'])]
     private ?int $note = null;
 
@@ -43,7 +44,6 @@ class Testimonial
     #[ORM\ManyToOne(inversedBy: 'approvedTestimonials')]
     #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?User $approvedBy = null;
-
 
 
     public function __construct()
@@ -150,4 +150,5 @@ class Testimonial
 
         return $this;
     }
+
 }

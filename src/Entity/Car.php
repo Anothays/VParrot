@@ -20,6 +20,9 @@ class Car
     private ?string $constructor = null;
 
     #[ORM\Column(length: 50)]
+    private ?string $model = null;
+
+    #[ORM\Column(length: 50)]
     private ?string $engine = null;
 
     #[ORM\Column(length: 9)]
@@ -57,7 +60,10 @@ class Car
 
     #[ORM\ManyToOne(inversedBy: 'cars')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Model $model = null;
+    private ?Garage $garage = null;
+
+
+
 
     public function __construct()
     {
@@ -252,14 +258,25 @@ class Car
         return $this;
     }
 
-    public function getModel(): ?Model
+    public function getModel(): ?string
     {
         return $this->model;
     }
 
-    public function setModel(?Model $model): self
+    public function setModel(?string $model): self
     {
         $this->model = $model;
+        return $this;
+    }
+
+    public function getGarage(): ?Garage
+    {
+        return $this->garage;
+    }
+
+    public function setGarage(?Garage $garage): self
+    {
+        $this->garage = $garage;
 
         return $this;
     }

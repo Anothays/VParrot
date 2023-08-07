@@ -6,7 +6,7 @@ use App\Entity\Car;
 use App\Entity\Photo;
 use App\Entity\Testimonial;
 use App\Form\TestimonialType;
-use App\Repository\SocietyInfoRepository;
+use App\Repository\ScheduleRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\TestimonialRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,13 +21,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 class HomeController extends AbstractController
 {
 
-    public function __construct(public ParameterBagInterface $parameterBag)
-    {
-
-    }
+    public function __construct(public ParameterBagInterface $parameterBag){}
 
     #[Route('/', name: 'app_home_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, TestimonialRepository $testimonialRepository, ServiceRepository $servicesRepository, SocietyInfoRepository $societyInfoRepository, SerializerInterface $serializer): Response
+    public function index(Request $request, TestimonialRepository $testimonialRepository, ServiceRepository $servicesRepository, ScheduleRepository $societyInfoRepository, SerializerInterface $serializer): Response
     {
         $testimonials = new Testimonial();
         $form = $this->createForm(TestimonialType::class, $testimonials);
@@ -47,15 +44,9 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'form' => $form,
-            'details' => $societyInfoRepository->find(1),
+//            'details' => $societyInfoRepository->find(2),
             'testimonials' => $testimonialRepository->findBy(["isApproved" => "1"],["createdAt" => "DESC"], 5, 0),
             'services' => $servicesRepository->findBy(['published' => 1]),
         ]);
     }
-
-//    #[Route('/test', name: 'app_home_test', methods: ['GET', 'POST'])]
-//    public function test(): Response
-//    {
-//        return $this->render('custom-ImageField.html.twig');
-//    }
 }

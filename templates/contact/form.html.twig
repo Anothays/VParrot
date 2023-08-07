@@ -1,11 +1,11 @@
-{{ form_start(form, {'attr': {'id': 'contactForm'}}) }}
+{{ form_start(form, {'attr': {'id': 'contactForm', 'class': 'contactForm, px-3'} }) }}
     {{ form_row(form.name) }}
     {{ form_row(form.lastName) }}
     {{ form_row(form.subject) }}
     {{ form_row(form.email) }}
     {{ form_row(form.phone) }}
     {{ form_row(form.message) }}
-    {{ form_row(form.termsAccepted) }}
+    {{ form_row(form.termsAccepted, {'attr': {'class': 'mx-2'}}) }}
     <div class="modal-footer">
         {% if app.request.pathInfo == '/cars/' %}
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>

@@ -8,7 +8,7 @@ use App\Form\CarType;
 use App\Form\ContactMessageType;
 use App\Repository\CarRepository;
 use App\Repository\ContactMessageRepository;
-use App\Repository\SocietyInfoRepository;
+use App\Repository\ScheduleRepository;
 use App\Service\ImageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,7 +59,6 @@ class CarsController extends AbstractController
                 'message' => 'Nous avons bien reçus votre message, nous reviendrons vers vous aussi vite que possible'
             ]);
         }
-
         $page = $request->get('page') ?? "1";
         return $this->render('cars/index.html.twig', [
             'cars' => $carsRepository->findCarsPaginated($page),
@@ -67,29 +66,6 @@ class CarsController extends AbstractController
             'form' => $form
         ]);
     }
-
-//    #[Route('/new', name: 'app_cars_new', methods: ['GET', 'POST'])]
-//    public function new(Request $request, CarRepository $carsRepository, SocietyInfoRepository $scheduleRepository, ImageService $imageService): Response
-//    {
-//        $car = new Car();
-//        $form = $this->createForm(CarType::class, $car);
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $image = $form->get('imageFile')->getData();
-//            if($image) {
-////                dd($image[0]);
-//                $fichier = $imageService->add($image[0], null, 300,300);
-//                $car->setImageName($fichier);
-//            }
-//            $carsRepository->save($car, true);
-//            return $this->redirectToRoute('app_cars_index', [], Response::HTTP_SEE_OTHER);
-//        }
-//
-//        return $this->renderForm('cars/new.html.twig', [
-//            'car' => $car,
-//            'form' => $form,
-//        ]);
-//    }
 
     #[Route('/{id}', name: 'app_cars_show', methods: ['GET', 'POST'])]
     public function show(Car $car, Request $request, ContactMessageRepository $contactRepository): Response
@@ -112,7 +88,7 @@ class CarsController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_cars_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Car $car, CarRepository $carsRepository, SocietyInfoRepository $scheduleRepository, ImageService $imageService): Response
+    public function edit(Request $request, Car $car, CarRepository $carsRepository, ScheduleRepository $scheduleRepository, ImageService $imageService): Response
     {
         $form = $this->createForm(CarType::class, $car);
         $form->handleRequest($request);
@@ -127,7 +103,6 @@ class CarsController extends AbstractController
                 $car->setImageName($fichier);
             }
             $carsRepository->save($car, true);
-
             return $this->redirectToRoute('app_cars_index', [], Response::HTTP_SEE_OTHER);
         }
 

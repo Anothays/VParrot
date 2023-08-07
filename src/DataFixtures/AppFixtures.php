@@ -7,10 +7,11 @@ use App\Entity\CarEngine;
 use App\Entity\CarModels;
 use App\Entity\Car;
 use App\Entity\ContactMessage;
+use App\Entity\Garage;
 use App\Entity\Photo;
 use App\Entity\Role;
 use App\Entity\Service;
-use App\Entity\SocietyInformations;
+use App\Entity\Schedule;
 use App\Entity\Testimonial;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -55,23 +56,8 @@ class AppFixtures extends Fixture
     {
         $this->rmdirRecursive($this->parameterBag->get("public_media_photos"));
 
-
         /**
-         * Création de l'admin
-         */
-        $admin = new User();
-        $admin
-            ->setEmail("vincentParrot@VP.com")
-            ->setRoles(["ROLE_SUPER_ADMIN"])
-            ->setPassword("$2y$13\$vTUgEfGhWNnwfSbpGLks1u95lSRJR3SI9xLwP0sAbjVoKezcc7fUm") // %7913%!ZorroEstArrive
-            ->setName('Vincent')
-            ->setLastName('Parrot')
-
-        ;
-        $manager->persist($admin);
-
-        /**
-         * Création d'un établissement
+         * Création d'un Schedule
          */
         $description = "Fondé par Vincent Parrot, un expert en réparation automobile fort de 15 années d'expérience, 
         notre garage est fier de vous accueillir à Toulouse depuis 2021. Passionné par les voitures et soucieux de leur performance 
@@ -90,10 +76,9 @@ class AppFixtures extends Fixture
         N'hésitez pas à nous contacter pour toute question ou prise de rendez-vous. Merci de nous accorder votre confiance, 
         nous avons hâte de vous accueillir dans notre garage. Vincent Parrot et toute l'équipe du Garage V. Parrot.";
 
-        $societyInfos = new SocietyInformations();
+        $societyInfos = new Schedule();
         $societyInfos
-            ->setAddress('7 avenue du vase de Soissons, 31000 Toulouse')
-            ->setEmail('vincentParrot@VP.com')
+            ->setId(1)
             ->setOpenedDays([
                 "1" => "Lun : 08h00 - 12h00, 13h00 - 17h00",
                 "2" => "Mar : 08h00 - 12h00, 13h00 - 17h00",
@@ -103,11 +88,39 @@ class AppFixtures extends Fixture
                 "6" => "Sam : 10h00 - 12h00, 13h00 - 16h00",
                 "7" => "Dim : fermé"
             ])
-            ->setTelephone('0000000000')
-            ->setDescription($description)
-            ->setServicesDescription($servicesDescription)
+//
+//            ->setDescription($description)
+//            ->setServicesDescription($servicesDescription)
         ;
         $manager->persist($societyInfos);
+
+        /**
+         * Creation d'un garage
+         */
+        $garage = new Garage();
+        $garage
+            ->setAddress('7 avenue du vase de Soissons, 31000 Toulouse')
+            ->setMail('vincentParrot@VP.com')
+            ->setTelephone('0123456789')
+            ->setSchedule($societyInfos)
+            ->setName('Siege Social')
+        ;
+        $manager->persist($garage);
+
+
+        /**
+         * Création de l'admin
+         */
+        $admin = new User();
+        $admin
+            ->setEmail("vincentParrot@VP.com")
+            ->setRoles(["ROLE_SUPER_ADMIN"])
+            ->setPassword("$2y$13\$vTUgEfGhWNnwfSbpGLks1u95lSRJR3SI9xLwP0sAbjVoKezcc7fUm") // %7913%!ZorroEstArrive
+            ->setName('Vincent')
+            ->setLastName('Parrot')
+            ->setGarage($garage)
+        ;
+        $manager->persist($admin);
 
         /**
          * Creation des services
@@ -120,6 +133,8 @@ class AppFixtures extends Fixture
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage1.png'))
             ->setUser($admin)
             ->setPublished(true)
+            ->addGarage($garage)
+
         ;
 
         $service2 = new Service();
@@ -129,6 +144,8 @@ class AppFixtures extends Fixture
             ->setImageName('Révision.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage2.jpg'))
             ->setUser($admin)
+            ->setPublished(true)
+            ->addGarage($garage)
         ;
 
         $service3 = new Service();
@@ -139,6 +156,7 @@ class AppFixtures extends Fixture
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage3.jpg'))
             ->setUser($admin)
             ->setPublished(true)
+            ->addGarage($garage)
         ;
 
         $service4 = new Service();
@@ -149,6 +167,7 @@ class AppFixtures extends Fixture
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage4.jpg'))
             ->setUser($admin)
             ->setPublished(true)
+            ->addGarage($garage)
         ;
 
         $service5 = new Service();
@@ -159,6 +178,7 @@ class AppFixtures extends Fixture
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage5.jpg'))
             ->setUser($admin)
             ->setPublished(true)
+            ->addGarage($garage)
         ;
 
         // Création d'un dossier de photos pour les services
@@ -168,6 +188,7 @@ class AppFixtures extends Fixture
         copy($this->parameterBag->get("assets_images") . '/' . $service3->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service3->getImageName());
         copy($this->parameterBag->get("assets_images") . '/' . $service4->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service4->getImageName());
         copy($this->parameterBag->get("assets_images") . '/' . $service5->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service5->getImageName());
+
 
         $manager->persist($service1);
         $manager->persist($service2);
@@ -205,6 +226,7 @@ class AppFixtures extends Fixture
                         'Hybrid' => 'Hybrid'
                     ]))
                     ->setUser($admin)
+                    ->setGarage($garage)
                 ;
 
                 $photos = scandir($this->parameterBag->get('assets_images') . "/$brand/$carModel");
@@ -213,7 +235,7 @@ class AppFixtures extends Fixture
                         $image = new Photo();
                         $image->setFilename($photo);
                         $manager->persist($image);
-                        $car->addPhoto($image);
+                        $image->setCar($car);
                         if (!is_dir($this->parameterBag->get("public_media_photos") . '/' . $car->getLicensePlate())) {
                             mkdir($this->parameterBag->get("public_media_photos") . '/' . $car->getLicensePlate(), 0777,true);
                         }
@@ -231,46 +253,6 @@ class AppFixtures extends Fixture
                 $manager->persist($car);
             }
         }
-//        for ($i=1; $i <= 20; $i++) {
-//            $randBrand = array_rand($brands);
-//            $randCarKey = array_rand($brands[$randBrand]);
-//            $randCarModel = $brands[$randBrand][$randCarKey];
-//
-//            $immatriculation = strtoupper($this->faker->randomLetter()).strtoupper($this->faker->randomLetter()).'-'.$this->faker->randomNumber(3,true).'-'.strtoupper($this->faker->randomLetter()).strtoupper($this->faker->randomLetter());
-//            $cars = new Car();
-//            $cars
-//                ->setModel($randCarModel)
-//                ->setBrand($randBrand)
-//                ->setLicensePlate($immatriculation)
-//                ->setMileage(mt_rand(0, 200000))
-//                ->setPrice(mt_rand(8000, 50000))
-//                ->setRegistrationYear($this->faker->year())
-//                ->setEngine($this->faker->randomKey([
-//                    'Essence' => 'Essence',
-//                    'Diesel' => 'Diesel',
-//                    'Électrique' => 'Électrique',
-//                    'Hybrid' => 'Hybrid'
-//                ]))
-//            ;
-//
-//            $photos = scandir($this->parameterBag->get('assets_images') . "/$randBrand/$randCarModel");
-//            foreach ($photos as $photo) {
-//                if (!is_dir($photo)) {
-//                    $image = new Photo();
-//                    $image->setFilename($photo);
-//                    $manager->persist($image);
-//                    $cars->addPhoto($image);
-//                    if (!is_dir($this->parameterBag->get("public_media_photos") . '/' . $cars->getLicensePlate())) {
-//                        mkdir($this->parameterBag->get("public_media_photos") . '/' . $cars->getLicensePlate(), 0777,true);
-//                    }
-//                    copy(
-//                        $this->parameterBag->get('assets_images') . "/". $randBrand . "/" . $randCarModel . "/" . $image->getFilename(),
-//                        $this->parameterBag->get("public_media_photos") . '/' . $cars->getLicensePlate() . '/' . $image->getFilename()
-//                    );
-//                }
-//            }
-//            $manager->persist($cars);
-//        }
 
         /**
          * Création des employés
@@ -283,6 +265,7 @@ class AppFixtures extends Fixture
                 ->setRoles(["ROLE_USER"])
                 ->setName($this->faker->firstName())
                 ->setLastName($this->faker->lastName())
+                ->setGarage($garage);
             ;
             $manager->persist($user);
         }
@@ -308,7 +291,7 @@ class AppFixtures extends Fixture
         }
 
         /**
-         * Creation des messages visiteurs
+         * Creation des messages de contact
          */
         for ($i = 0; $i < 5; $i++) {
             $message = new ContactMessage();
@@ -316,14 +299,13 @@ class AppFixtures extends Fixture
                 ->setName($this->faker->name())
                 ->setLastName($this->faker->lastName())
                 ->setEmail($this->faker->email())
-                ->setPhone($this->faker->phoneNumber())
+                ->setPhone($this->faker->e164PhoneNumber())
                 ->setMessage($this->faker->text(255))
                 ->setSubject($this->faker->text(30))
                 ->setTermsAccepted(true)
             ;
             $manager->persist($message);
         }
-
         $manager->flush();
     }
 }

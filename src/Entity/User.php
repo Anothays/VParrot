@@ -27,7 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(length: 60)]
     #[Assert\Regex(
         pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/",
         message: 'Le mot de passe doit contenir au m inimum 12 caractères dont une minuscule, une majuscule, un chiffre, un caractère spéciale'
@@ -55,9 +55,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Car::class)]
     private Collection $createdCars;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Garage $garage = null;
+
     public function __construct()
     {
-        $this->approvedTestimonials = new ArrayCollection();
+            $this->approvedTestimonials = new ArrayCollection();
         $this->createdTestimonials = new ArrayCollection();
         $this->createdServices = new ArrayCollection();
         $this->createdCars = new ArrayCollection();
@@ -281,6 +285,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $createdCar->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGarage(): ?Garage
+    {
+        return $this->garage;
+    }
+
+    public function setGarage(?Garage $garage): self
+    {
+        $this->garage = $garage;
 
         return $this;
     }
