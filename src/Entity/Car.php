@@ -20,9 +20,6 @@ class Car
     private ?string $constructor = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $model = null;
-
-    #[ORM\Column(length: 50)]
     private ?string $engine = null;
 
     #[ORM\Column(length: 9)]
@@ -58,6 +55,10 @@ class Car
     #[ORM\Column]
     private ?bool $published = false;
 
+    #[ORM\ManyToOne(inversedBy: 'cars')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Model $model = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
@@ -86,19 +87,6 @@ class Car
         $this->constructor = $constructor;
         return $this;
     }
-
-    public function getModel(): ?string
-    {
-        return $this->model;
-    }
-
-    public function setModel(?string $model): Car
-    {
-        $this->model = $model;
-        return $this;
-    }
-
-
 
     public function getRegistrationYear(): ?int
     {
@@ -261,6 +249,18 @@ class Car
     public function setPublished(?bool $published): self
     {
         $this->published = $published;
+        return $this;
+    }
+
+    public function getModel(): ?Model
+    {
+        return $this->model;
+    }
+
+    public function setModel(?Model $model): self
+    {
+        $this->model = $model;
+
         return $this;
     }
 
