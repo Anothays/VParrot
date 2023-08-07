@@ -9,6 +9,7 @@ use App\Form\PhotoType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
@@ -77,7 +78,6 @@ class CarsCrudController extends AbstractCrudController
                     'label' => 'Dernière modification',
                     'disabled' => 'disabled'
                 ]);
-            yield AssociationField::new('establishment', 'Stocké dans l\'établissement');
             yield AssociationField::new('user', 'Ajouté par');
 //            yield VichImageField::new('photos')
 //                ->setLabel('Photo')
@@ -99,6 +99,7 @@ class CarsCrudController extends AbstractCrudController
                 ])
                 ->onlyOnIndex()
             ;
+            yield BooleanField::new('published');
     }
 
 

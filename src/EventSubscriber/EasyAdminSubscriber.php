@@ -83,16 +83,14 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     public function beforeCreateEntity(BeforeEntityPersistedEvent $event) {
         $instance = $event->getEntityInstance();
         $currentUser = $this->security->getUser();
-//        if ($instance instanceof Testimonial) {
-//            $instance->setCreatedBy($currentUser);
-//            $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null);
-//        }
+
         switch (get_class($instance)) {
             case Testimonial::class :
                 $instance->setCreatedBy($currentUser);
                 $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null);
                 break;
             case User::class :
+
                 // Hashing password before persisting
                 $hash = $this->userPasswordHasher->hashPassword($instance, $instance->getPassword());
                 $instance->setPassword($hash);
@@ -100,6 +98,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             default :
                 break;
         }
+
     }
 
     public function deleteEntityMediaFolder(AfterEntityDeletedEvent $event) {

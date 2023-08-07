@@ -27,7 +27,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/', name: 'app_home_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, TestimonialRepository $testimonialRepository, ServiceRepository $servicesRepository, SocietyInfoRepository $establishmentRepository, SerializerInterface $serializer): Response
+    public function index(Request $request, TestimonialRepository $testimonialRepository, ServiceRepository $servicesRepository, SocietyInfoRepository $societyInfoRepository, SerializerInterface $serializer): Response
     {
         $testimonials = new Testimonial();
         $form = $this->createForm(TestimonialType::class, $testimonials);
@@ -47,9 +47,9 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'form' => $form,
-            'details' => $establishmentRepository->find(1),
+            'details' => $societyInfoRepository->find(1),
             'testimonials' => $testimonialRepository->findBy(["isApproved" => "1"],["createdAt" => "DESC"], 5, 0),
-            'services' => $servicesRepository->findAll(),
+            'services' => $servicesRepository->findBy(['published' => 1]),
         ]);
     }
 

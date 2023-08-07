@@ -47,6 +47,7 @@ class CarRepository extends ServiceEntityRepository
         $query = $this->entityManager->createQueryBuilder()
             ->select('c')
             ->from('App:Car', 'c')
+            ->where('c.published = 1')
             ->setMaxResults($limit)
             ->setFirstResult(($page * $limit) - $limit)
         ;
@@ -77,6 +78,7 @@ class CarRepository extends ServiceEntityRepository
     {
         $result = [];
         $query = $this->createQueryBuilder('c')
+            ->where('c.published = 1')
             ->andWhere('c.mileage >= :mileageMin')
             ->andWhere('c.mileage <= :mileageMax')
             ->andWhere('c.price >= :priceMin')

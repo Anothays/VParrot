@@ -41,6 +41,9 @@ class Service
     #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?User $user = null;
 
+    #[ORM\Column()]
+    private ?bool $published = false;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris'));
@@ -132,6 +135,17 @@ class Service
     {
         $this->user = $user;
 
+        return $this;
+    }
+
+    public function getPublished(): ?bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(?bool $published): self
+    {
+        $this->published = $published;
         return $this;
     }
 

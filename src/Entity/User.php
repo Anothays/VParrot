@@ -6,11 +6,13 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity('email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,10 +21,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email(message: 'Cet email est déjà utilisé')]
     private ?string $email = null;
-
-//    #[ORM\Column(type: 'json')]
-//    private array $roles = [];
 
     /**
      * @var string The hashed password
@@ -51,11 +51,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Service::class)]
     private Collection $createdServices;
-
-//    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Establishment::class)]
-    #[ORM\ManyToOne(inversedBy: 'user')]
-    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
-    private ?Establishment $establishment;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Car::class)]
     private Collection $createdCars;
@@ -257,17 +252,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
-        return $this;
-    }
-
-    public function getEstablishment(): Establishment
-    {
-        return $this->establishment;
-    }
-
-    public function setEstablishment(?Establishment $establishment): self
-    {
-        $this->establishment = $establishment;
         return $this;
     }
 

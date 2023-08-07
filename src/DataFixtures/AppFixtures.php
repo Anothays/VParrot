@@ -7,7 +7,6 @@ use App\Entity\CarEngine;
 use App\Entity\CarModels;
 use App\Entity\Car;
 use App\Entity\ContactMessage;
-use App\Entity\Establishment;
 use App\Entity\Photo;
 use App\Entity\Role;
 use App\Entity\Service;
@@ -111,16 +110,6 @@ class AppFixtures extends Fixture
         $manager->persist($societyInfos);
 
         /**
-         * Création d'un établissement
-         */
-        $establishment = new Establishment();
-        $establishment
-            ->setSiteName('Siège social')
-            ->addUser($admin)
-        ;
-        $manager->persist($establishment);
-
-        /**
          * Creation des services
          */
         $service1 = new Service();
@@ -130,6 +119,7 @@ class AppFixtures extends Fixture
             ->setImageName('entretien et vidange.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage1.png'))
             ->setUser($admin)
+            ->setPublished(true)
         ;
 
         $service2 = new Service();
@@ -148,6 +138,7 @@ class AppFixtures extends Fixture
             ->setImageName('Courroie de distribution.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage3.jpg'))
             ->setUser($admin)
+            ->setPublished(true)
         ;
 
         $service4 = new Service();
@@ -157,6 +148,7 @@ class AppFixtures extends Fixture
             ->setImageName('Pneumatiques.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage4.jpg'))
             ->setUser($admin)
+            ->setPublished(true)
         ;
 
         $service5 = new Service();
@@ -166,6 +158,7 @@ class AppFixtures extends Fixture
             ->setImageName('freinage.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage5.jpg'))
             ->setUser($admin)
+            ->setPublished(true)
         ;
 
         // Création d'un dossier de photos pour les services
@@ -204,6 +197,7 @@ class AppFixtures extends Fixture
                     ->setMileage(mt_rand(0, 200000))
                     ->setPrice(mt_rand(8000, 50000))
                     ->setRegistrationYear($this->faker->year())
+                    ->setPublished(mt_rand(0, 1))
                     ->setEngine($this->faker->randomKey([
                         'Essence' => 'Essence',
                         'Diesel' => 'Diesel',
@@ -234,7 +228,6 @@ class AppFixtures extends Fixture
                         $image->setMimeType($file->getMimeType());
                     }
                 }
-                $establishment->addCar($car);
                 $manager->persist($car);
             }
         }
@@ -291,7 +284,6 @@ class AppFixtures extends Fixture
                 ->setName($this->faker->firstName())
                 ->setLastName($this->faker->lastName())
             ;
-            $establishment->addUser($user);
             $manager->persist($user);
         }
 

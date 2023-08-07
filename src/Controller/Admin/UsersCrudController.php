@@ -106,7 +106,6 @@ class UsersCrudController extends AbstractCrudController
                 'Utilisateur' => 'ROLE_USER'
             ]);
 
-        $fields[] = AssociationField::new('establishment', 'lieu de travail');
 
         if (strval($this->getUser()->getId()) === $this->request->query->get("entityId")) {
             $roleField->hideOnForm();

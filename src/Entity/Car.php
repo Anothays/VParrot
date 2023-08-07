@@ -55,10 +55,8 @@ class Car
     #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'cars')]
-    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
-    private ?Establishment $establishment = null;
-
+    #[ORM\Column]
+    private ?bool $published = false;
 
     public function __construct()
     {
@@ -243,17 +241,6 @@ class Car
         return $this;
     }
 
-    public function getEstablishment(): ?Establishment
-    {
-        return $this->establishment;
-    }
-
-    public function setEstablishment(?Establishment $establishment): self
-    {
-        $this->establishment = $establishment;
-
-        return $this;
-    }
 
     // fonction de test pour le crudController associé
 
@@ -264,6 +251,17 @@ class Car
             $tab[] = $this->getLicensePlate() .'/'. $photos->getfilename();
         }
         return $tab;
+    }
+
+    public function getPublished(): ?bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(?bool $published): self
+    {
+        $this->published = $published;
+        return $this;
     }
 
 }

@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\Car;
 use App\Entity\ContactMessage;
-use App\Entity\Establishment;
 use App\Entity\Service;
 use App\Entity\SocietyInformations;
 use App\Entity\Testimonial;
@@ -64,7 +63,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Véhicules', 'fa-solid fa-car', Car::class);
         yield MenuItem::linkToCrud('Demandes de contact', 'fa-solid fa-envelope', ContactMessage::class);
         yield MenuItem::linkToCrud('Avis', 'fa-regular fa-comment-dots', Testimonial::class);
-        yield MenuItem::linkToCrud('Établissements', 'fa-solid fa-warehouse', Establishment::class)->setPermission('ROLE_ADMIN');
         yield MenuItem::linkToCrud('Employés', 'fa-solid fa-users', User::class)->setPermission('ROLE_SUPER_ADMIN');
         yield MenuItem::linkToCrud('Services', 'fa-solid fa-wrench', Service::class)->setPermission('ROLE_ADMIN');
         yield MenuItem::linkToCrud('Informations', 'fa-solid fa-circle-info', SocietyInformations::class)
