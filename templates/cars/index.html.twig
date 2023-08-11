@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-    {{ encore_entry_script_tags('cars') }}
+    <script defer src="{{ asset('js/NotificationToast.js') }}"></script>
+    <script defer src="{{ asset('js/Modal.js') }}"></script>
+    <script defer src="{{ asset('js/TriggerFormBtn.js') }}"></script>
+    <script defer src="{{ asset('js/FilterInputs.js') }}"></script>
+    <script defer src="{{ asset('js/carsPage.js') }}"></script>
 {% endblock %}
 
 {% block title %}Voitures d'occasion{% endblock %}

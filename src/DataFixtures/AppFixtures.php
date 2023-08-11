@@ -218,7 +218,7 @@ class AppFixtures extends Fixture
                     ->setMileage(mt_rand(0, 200000))
                     ->setPrice(mt_rand(8000, 50000))
                     ->setRegistrationYear($this->faker->year())
-                    ->setPublished(mt_rand(0, 1))
+                    ->setPublished(true)
                     ->setEngine($this->faker->randomKey([
                         'Essence' => 'Essence',
                         'Diesel' => 'Diesel',

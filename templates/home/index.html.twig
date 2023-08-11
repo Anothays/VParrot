@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-    {{ encore_entry_script_tags('home') }}
-    {{ encore_entry_script_tags('Notification') }}
-    {{ encore_entry_script_tags('Modal') }}
+    <script defer src="{{ asset('js/NotificationToast.js') }}"></script>
+    <script defer src="{{ asset('js/Modal.js') }}"></script>
+    <script defer src="{{ asset('js/homePage.js') }}"></script>
 {% endblock %}
 
 {% block main %}

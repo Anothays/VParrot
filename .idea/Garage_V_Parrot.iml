@@ -136,7 +136,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/uid" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-uuid" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/easycorp/easyadmin-bundle" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/webpack-encore-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/doctrine-fixtures-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/data-fixtures" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fakerphp/faker" />

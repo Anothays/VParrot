@@ -1,74 +1,78 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-    {{ encore_entry_script_tags('car') }}
+    <script defer src="{{ asset('js/NotificationToast.js') }}"></script>
+    <script defer src="{{ asset('js/Modal.js') }}"></script>
+    <script defer src="{{ asset('js/TriggerFormBtn.js') }}"></script>
+    <script defer src="{{ asset('js/carPage.js') }}"></script>
 {% endblock %}
 
 {% block title %}Cars{% endblock %}
 
 {% block main %}
-    <div id="carousel" class="carousel mx-auto carousel-dark slide w-25 position-relative" data-ride="carousel">
-        <div class="carousel-inner">
-            {% for photo in car.getPhotos() %}
-                <div class="carousel-item {{ loop.first ? 'active' : ''}}" >
-                    <img src="{{ vich_uploader_asset(photo, 'file') }}" class="d-block w-100" alt="Photo véhicule {{ loop.index }}" style="max-width: 1000px; height: 400px;">
-                </div>
-            {% endfor %}
+{#    <a class="btn btn-dark m-3" href="{{ path('app_cars_index') }}">Retour</a>#}
+<div class="d-flex flex-column">
+    <div class="d-flex flex-column flex-sm-row justify-content-center">
+
+        <div id="carousel" class="carousel carousel-dark slide w-100 my-auto position-relative" data-ride="carousel">
+            <div class="carousel-inner">
+                {% for photo in car.getPhotos() %}
+                    <div class="carousel-item {{ loop.first ? 'active' : ''}}">
+                        <img src="{{ vich_uploader_asset(photo, 'file') }}" class="d-block w-100 mx-auto object-fit-contain" alt="Photo véhicule {{ loop.index }}" style="max-width: 1000px;">
+                    </div>
+                {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#carousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </a>
         </div>
-        <a class="carousel-control-prev" href="#carousel" role="button" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carousel" role="button" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </a>
+
+        <table class="table table-bordered table-striped table-sm m-0 w-100">
+            <tbody>
+            <tr>
+                <td>Modèle</td>
+                <td id="model-{{ car.id }}">{{ car.model }}</td>
+            </tr>
+            <tr>
+                <td>Marque</td>
+                <td id="brand-{{ car.id }}">{{ car.constructor }}</td>
+            </tr>
+            <tr>
+                <td>Immatriculation</td>
+                <td id="licensePlate-{{ car.id }}">{{ car.licensePlate }}</td>
+            </tr>
+            <tr>
+                <td>Moteur</td>
+                <td>{{ car.engine }}</td>
+            </tr>
+            <tr>
+                <td>Année de mise en circulation</td>
+                <td>{{ car.registrationYear }}</td>
+            </tr>
+            <tr>
+                <td>Kilométrage</td>
+                <td>{{ car.mileage }} km</td>
+            </tr>
+            <tr>
+                <td>Prix</td>
+                <td>{{ car.price }} €</td>
+            </tr>
+            </tbody>
+        </table>
+
     </div>
-    <table class="table table-bordered table-sm">
-        <tbody>
-{#        <tr>#}
-{#            <td>Référence annonce</td>#}
-{#            <td id="ref-{{ id }}">ref : {{ car.reference }}</td>#}
-{#        </tr>#}
-        <tr>
-            <td>Modèle</td>
-            <td id="model-{{ car.id }}">{{ car.model }}</td>
-        </tr>
-        <tr>
-            <td>Marque</td>
-            <td id="brand-{{ car.id }}">{{ car.constructor }}</td>
-        </tr>
-        <tr>
-            <td>Immatriculation</td>
-            <td id="licensePlate-{{ car.id }}">{{ car.licensePlate }}</td>
-        </tr>
-        <tr>
-            <td>Moteur</td>
-            <td>{{ car.engine }}</td>
-        </tr>
-        <tr>
-            <td>Année de mise en circulation</td>
-            <td>{{ car.registrationYear }}</td>
-        </tr>
-        <tr>
-            <td>Kilométrage</td>
-            <td>{{ car.mileage }} km</td>
-        </tr>
-        <tr>
-            <td>Prix</td>
-            <td>{{ car.price }} €</td>
-        </tr>
-        </tbody>
-    </table>
-    <a class="btn btn-dark m-3" href="{{ path('app_cars_index') }}">Retour</a>
-{#        {% if app.user is not null %}#}
-{#            <a class="btn btn-dark" href="{{ path('app_cars_edit', {'id': car.id}) }}">éditer</a>#}
-{#            {{ include('cars/_delete_form.html.twig') }}#}
-{#        {% endif %}#}
-    <button id="car-{{ car.id }}" type="button" class="btn btn-dark trigerFormModal m-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Acheter
+    <button id="car-{{ car.id }}" type="button" class="btn btn-dark trigerFormModal mx-auto my-5 rounded-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Contacter le vendeur
     </button>
+</div>
+
+
+
 
     {# Modale contenant le formulaire #}
     {% include 'cars/form_modal.html.twig' %}

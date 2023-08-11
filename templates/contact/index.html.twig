@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-    {{ encore_entry_script_tags('contact') }}
+
 {% endblock %}
 
 {% block title %}
@@ -12,5 +11,7 @@
 {% block main %}
 <h1 class="text-center mt-5">Contactez-nous</h1>
     {% include 'notifications/toast.html.twig' %}
-    {% include 'contact/form.html.twig' %}
+    <div class="mx-auto contactForm">
+        {% include 'contact/form.html.twig' %}
+    </div>
 {% endblock %}

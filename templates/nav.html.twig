@@ -9,7 +9,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav me-auto ">
+            <ul class="navbar-nav w-100">
                 <li class="nav-item">
                     <a class="nav-link {% if app.request.pathInfo == path('app_home_index') %} active {% endif %}" href={{ path('app_home_index') }}>Accueil
                         <span class="visually-hidden">(current)</span>
@@ -24,12 +24,7 @@
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.pathInfo == path('app_contact') ? 'active' : '' }}" href={{ path('app_contact') }}>Contact</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ app.request.pathInfo == path('app_legal_notice') ? 'active' : '' }}" href={{ path('app_legal_notice') }}>Mentions légales
-                        <span class="visually-hidden">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown ms-lg-auto">
                     {% if app.user %}
                         <a class="nav-link dropdown-toggle {{ app.request.pathInfo == path('app_login') ? 'active' : '' }}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Compte - {{ app.user.email() }}</a>
                         <div class="dropdown-menu">

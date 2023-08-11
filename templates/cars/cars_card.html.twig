@@ -1,7 +1,7 @@
 <li class="card rounded-3 p-0 m-1 border-0" style="width: 300px; height: 650px; min-width: 300px; min-height: 650px; max-width: 300px; max-height: 650px;">
     <article>
         {% if car.getPhotos() is not null %}
-        <div id="carousel-{{ loop.index }}" class="carousel slide" data-ride="carousel" style="width: 300px; height: 250px">
+        <div id="carousel-{{ loop.index }}" class="carousel slide " data-ride="carousel" style="width: 300px; height: 250px">
             <div class="h-100 carousel-inner bg-primary rounded-top-3 ">
                 {% for photo in car.getPhotos() %}
                     <div class="h-100 carousel-item rounded-top-3 {{ loop.first ? 'active' : ''}} ">

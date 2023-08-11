@@ -1,0 +1,23 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.contactForm {
+  width: 100%;
+}
+
+@media screen and (min-width: 500px) {
+  .contactForm {
+    width: 75%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .contactForm {
+    width: 50%;
+  }
+}
+
+
+

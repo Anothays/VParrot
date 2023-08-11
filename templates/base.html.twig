@@ -9,24 +9,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <title>{% block title %}Garage Vincent Parrot{% endblock %}</title>
     <link rel="icon" href="{{ asset('media/logo4.png') }}" type="image/png">
+
     {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
+        <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-Lux.min.css') }}">
     {% endblock %}
-    {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-    {% endblock %}
+
+    <script defer src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    {% block javascripts %}{% endblock %}
+
 </head>
 
 <body>
     <header>
         {{ include('nav.html.twig') }}
     </header>
-
     <main>
-        {% block main %}
-        {% endblock %}
+        {% block main %}{% endblock %}
     </main>
-
     {{ render(controller('App\\Controller\\FooterController::index')) }}
 </body>
 </html>
