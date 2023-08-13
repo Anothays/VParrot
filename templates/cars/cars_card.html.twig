@@ -5,7 +5,6 @@
             <div class="h-100 carousel-inner bg-primary rounded-top-3 ">
                 {% for photo in car.getPhotos() %}
                     <div class="h-100 carousel-item rounded-top-3 {{ loop.first ? 'active' : ''}} ">
-{#                        <img src="{{ asset('media/photos/' ~ car.getLicensePlate ~ '/' ~ photo.filename) }}" class="d-block w-100 rounded-top-3 object-fit-cover" alt="Photo véhicule {{ loop.index }}" style="max-width: 300px; height: 250px;">#}
                         <img src="{{ vich_uploader_asset(photo, 'file') }}" class="h-100 w-100 object-fit-cover rounded-top-3"  alt="{{ photo.alt ?? [car.constructor,car.model] | join(' ')}}">
                     </div>
                 {% endfor %}
