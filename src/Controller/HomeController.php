@@ -23,7 +23,13 @@ class HomeController extends AbstractController
 
     public function __construct(public ParameterBagInterface $parameterBag){}
 
-    #[Route('/', name: 'app_home_index', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_lol', methods: ['GET', 'POST'])]
+    public function lol(): Response
+    {
+        return new Response("hello :)");
+    }
+
+    #[Route('/a', name: 'app_home_index', methods: ['GET', 'POST'])]
     public function index(Request $request, TestimonialRepository $testimonialRepository, ServiceRepository $servicesRepository, ScheduleRepository $societyInfoRepository, SerializerInterface $serializer): Response
     {
         $testimonials = new Testimonial();
