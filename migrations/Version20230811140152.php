@@ -41,6 +41,9 @@ final class Version20230811140152 extends AbstractMigration
         $this->addSql('ALTER TABLE testimonial ADD CONSTRAINT FK_E6BDCDF7B03A8386 FOREIGN KEY (created_by_id) REFERENCES user (id) ON DELETE SET NULL');
         $this->addSql('ALTER TABLE testimonial ADD CONSTRAINT FK_E6BDCDF72D234F6A FOREIGN KEY (approved_by_id) REFERENCES user (id) ON DELETE SET NULL');
         $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649C4FFF555 FOREIGN KEY (garage_id) REFERENCES garage (id)');
+        $this->addSql("INSERT INTO `garage` VALUES (2,1,'Siege Social','vincentParrot@VP.com','0123456789','7 avenue du vase de Soissons, 31000 Toulouse')");
+        $this->addSql("INSERT INTO `schedule` VALUES (1,'{\"1\": \"Lun : 08h00 - 12h00, 13h00 - 17h00\", \"2\": \"Mar : 08h00 - 12h00, 13h00 - 17h00\", \"3\": \"Mer : 10h00 - 13h00, 14h00 - 18h00\", \"4\": \"Jeu : 08h00 - 12h00, 13h00 - 17h00\", \"5\": \"Ven : 08h00 - 12h00, 13h00 - 17h00\", \"6\": \"Sam : 10h00 - 12h00, 13h00 - 16h00\", \"7\": \"Dim : fermé\"}')");
+
     }
 
     public function down(Schema $schema): void

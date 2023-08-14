@@ -27,7 +27,7 @@
                 <span id="brand-{{ car.id }}">{{ car.constructor }}</span>
                 <span id="model-{{ car.id }}">{{ car.model }}</span>
             </h3>
-            <p id="licensePlate-{{ car.id }}">{{ car.licensePlate }}</p>
+            <p id="licensePlate-{{ car.id }}">{{ car.licensePlate | upper }}</p>
             <p>Prix : {{ car.price }} €</p>
             <p>Kilométrage : {{ car.mileage }} km</p>
             <p>Année : {{ car.registrationYear | date('Y') }}</p>

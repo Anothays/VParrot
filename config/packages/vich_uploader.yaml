@@ -11,9 +11,9 @@ vich_uploader:
                 namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
                 directory_namer:
                     service: vich_uploader.namer_directory_property
-                    options: { property: 'car.licensePlate', transliterate: true }
+                    options: { property: 'car.licensePlate', transliterate: true, force_lowercase: true}
             services:
-                uri_prefix: /media/photos/service
+                uri_prefix: /media/photos/Service
                 upload_destination: media/photos/service/
                 namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 

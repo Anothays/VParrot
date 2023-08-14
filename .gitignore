@@ -17,6 +17,8 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-/public/media/*
+/public/assets/*
 
 /node_modules
+
+GVP.sql

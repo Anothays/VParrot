@@ -27,16 +27,6 @@ class ContactController extends AbstractController
             ]);
         }
 
-        // Gestion en AJAX de la soumission du formulaire
-//        $contact = new ContactMessage();
-//        $data = $request->get('contact');
-//        $contact
-//            ->setName($data['name'])
-//            ->setEmail($data['email'])
-//            ->setMessage($data['message'])
-//            ->setLastName($data['lastName'])
-//            ->setPhone($data['phone'])
-//            ->setSubject($data['subject']);
 
         return $this->render('contact/index.html.twig', [
             'form' => $form,

@@ -8,6 +8,7 @@ class FilterInputs {
 
     // fetch data from database
     #getData(url) {
+        console.log(url)
         const paginator = document.getElementById('pagination-list')
         const paginatorTitle = document.getElementById('pagination-title')
         const carsListItems = document.getElementById('cars-list-container')
@@ -109,9 +110,11 @@ class FilterInputs {
         paginationlinks.forEach(a => {
             a.addEventListener('click', e => {
                 e.preventDefault()
-                const url = new URL(e.target.href)
+                // const url = new URL(e.target.href)
+                const url = new URL(window.location.href)
                 url.searchParams.set('ajax', '1')
-                url.searchParams.set('page', url.searchParams.get('page'))
+                // url.searchParams.set('page', url.searchParams.get('page'))
+                url.searchParams.set('page', e.target.innerText)
                 url.searchParams.set('selectPagination', selectPagination.value)
                 this.#getData(url)
             })

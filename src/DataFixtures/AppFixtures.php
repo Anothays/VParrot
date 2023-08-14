@@ -189,6 +189,9 @@ class AppFixtures extends Fixture
         copy($this->parameterBag->get("assets_images") . '/' . $service4->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service4->getImageName());
         copy($this->parameterBag->get("assets_images") . '/' . $service5->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service5->getImageName());
 
+        copy($this->parameterBag->get("assets_images") . '/' . 'logo3.png', $this->parameterBag->get("public_media") . '/logo3.png');
+        copy($this->parameterBag->get("assets_images") . '/' . 'logo4.png', $this->parameterBag->get("public_media") . '/logo4.png');
+
 
         $manager->persist($service1);
         $manager->persist($service2);
@@ -209,7 +212,7 @@ class AppFixtures extends Fixture
 
         foreach ($brands as $brand => $carsModels) {
             foreach ($carsModels as $carModel) {
-                $immatriculation = strtoupper($this->faker->randomLetter()).strtoupper($this->faker->randomLetter()).'-'.$this->faker->randomNumber(3,true).'-'.strtoupper($this->faker->randomLetter()).strtoupper($this->faker->randomLetter());
+                $immatriculation = $this->faker->randomLetter().$this->faker->randomLetter().'-'.$this->faker->randomNumber(3,true).'-'.$this->faker->randomLetter().$this->faker->randomLetter();
                 $car = new Car();
                 $car
                     ->setModel($carModel)

@@ -1,6 +1,3 @@
-import * as bootstrap from "bootstrap";
-import NotificationToast from "./NotificationToast";
-
 window.addEventListener('DOMContentLoaded', () => {
     initPage()
 })
@@ -29,25 +26,4 @@ function initPage() {
             })
             .catch(error => console.log(error))
     })
-    // form.addEventListener('submit', (e) => {
-    //     e.preventDefault()
-    //     const url = new URL(window.location.href)
-    //     const params = new URLSearchParams()
-    //     params.append('ajax', 'formSubmit')
-    //     const data = document.getElementById('contactForm')
-    //     const form = new FormData(data)
-    //     form.forEach((val, key) => params.append(key, val))
-    //     fetch(`${url}?${params.toString()}`, {
-    //         method: 'POST',
-    //             headers: {
-    //                 "X-Requested-With": "XMLHttpRequest"
-    //             }
-    //     })
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             toastBootstrap.show()
-    //             e.target.reset()
-    //         })
-    //         .catch(error => console.log(error))
-    // })
 }
