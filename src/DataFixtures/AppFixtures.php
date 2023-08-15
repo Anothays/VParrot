@@ -156,12 +156,12 @@ class AppFixtures extends Fixture
         ;
 
         // Création d'un dossier de photos pour les services
-        mkdir($this->parameterBag->get("public_media_photos") . '/Service' , 0777,true);
-        copy($this->parameterBag->get("assets_images") . '/' . $service1->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service1->getImageName());
-        copy($this->parameterBag->get("assets_images") . '/' . $service2->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service2->getImageName());
-        copy($this->parameterBag->get("assets_images") . '/' . $service3->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service3->getImageName());
-        copy($this->parameterBag->get("assets_images") . '/' . $service4->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service4->getImageName());
-        copy($this->parameterBag->get("assets_images") . '/' . $service5->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service5->getImageName());
+        mkdir($this->parameterBag->get("public_media_photos") . '/service' , 0777,true);
+        copy($this->parameterBag->get("assets_images") . '/' . $service1->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/service/' . $service1->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/' . $service2->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/service/' . $service2->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/' . $service3->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/service/' . $service3->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/' . $service4->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/service/' . $service4->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/' . $service5->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/service/' . $service5->getImageName());
         copy($this->parameterBag->get("assets_images") . '/' . 'logo3.png', $this->parameterBag->get("public_media") . '/logo3.png');
         copy($this->parameterBag->get("assets_images") . '/' . 'logo4.png', $this->parameterBag->get("public_media") . '/logo4.png');
 
@@ -242,7 +242,6 @@ class AppFixtures extends Fixture
                 ->setName($this->faker->firstName())
                 ->setLastName($this->faker->lastName())
                 ->setGarage($garage);
-            ;
             $manager->persist($user);
         }
 

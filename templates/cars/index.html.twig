@@ -13,7 +13,7 @@
 {% block main %}
 
     <h1 class="m-5 text-center px-1">Nos véhicules d'occasion</h1>
-
+{% if cars is not empty %}
     {# Filtres #}
     <div class="mx-auto">
         {% include 'cars/filters.html.twig' %}
@@ -32,6 +32,13 @@
 
     {# Notification #}
     {% include 'notifications/toast.html.twig' %}
+
+{% else %}
+
+    <div class='alert alert-info'><p class='text-info text-center'>Aucun véhicule en vente</p></div>
+
+{% endif %}
+
 
 
 

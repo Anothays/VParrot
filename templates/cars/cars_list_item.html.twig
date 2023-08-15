@@ -1,8 +1,10 @@
 <ul id="cars-list-content" class="d-flex flex-wrap  align-items-center justify-content-center p-0 mb-5" >
     {% if cars is not empty  %}
-    {% for car in cars.data %}
-       {% include 'cars/cars_card.html.twig' %}
-    {% endfor %}
+        {% for car in cars.data %}
+           {% include 'cars/cars_card.html.twig' %}
+        {% endfor %}
+    {% else %}
+        <div class='alert alert-info'><p class='text-info text-center'>Aucun véhicule en vente</p></div>
     {% endif %}
 </ul>
 
