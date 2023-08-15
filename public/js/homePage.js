@@ -72,7 +72,7 @@ function initLinks(a) {
             const allLinks = document.querySelectorAll('#pagination-list a')
             allLinks.forEach(a => {
                 if (a !== e.target) {
-                    a.className = a.className.replace('active', 'lol').replace('disabled', 'mdr')
+                    a.className = a.className.replace('active', '').replace('disabled', '')
                 }
             } )
             e.target.className += 'active disabled'

@@ -16,7 +16,7 @@
             {# Gestion de la pagination avec twig #}
             <li class="page-item">
                 <a
-                        href="{{ url(app.request.attributes.get('_route'), app.request.query.all|merge({'page': i, 'ajax': '1', 'ajaxAction' : 'pageChanged'})) }}"
+                        href="{{ url(app.request.attributes.get('_route'), app.request.query.all|merge({'page': i, 'ajax': '1'})) }}"
                         class="page-link  {{ currentPage == i ? 'active disabled' : '' }}"
                 >
                     {{ i }}

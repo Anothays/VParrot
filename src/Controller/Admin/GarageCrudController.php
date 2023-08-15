@@ -31,9 +31,6 @@ class GarageCrudController extends AbstractCrudController
             AssociationField::new('users', "Employés")->setFormTypeOption('by_reference', false),
             AssociationField::new('services', 'Prestations proposées')->setFormTypeOption('by_reference', false),
             AssociationField::new('cars', 'Voitures à vendre')->setFormTypeOption('by_reference', false),
-            AssociationField::new('schedule', "Horaires")
-                ->setQueryBuilder(fn (QueryBuilder $queryBuilder) => $queryBuilder->getEntityManager()->getRepository(Schedule::class)->find(1))
-                ->hideOnForm()
         ];
     }
 

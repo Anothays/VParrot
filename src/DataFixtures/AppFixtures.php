@@ -2,14 +2,10 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\CarConstructors;
-use App\Entity\CarEngine;
-use App\Entity\CarModels;
 use App\Entity\Car;
 use App\Entity\ContactMessage;
 use App\Entity\Garage;
 use App\Entity\Photo;
-use App\Entity\Role;
 use App\Entity\Service;
 use App\Entity\Schedule;
 use App\Entity\Testimonial;
@@ -18,10 +14,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Faker\Generator;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\File;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class AppFixtures extends Fixture
 {
@@ -59,22 +53,6 @@ class AppFixtures extends Fixture
         /**
          * Création d'un Schedule
          */
-        $description = "Fondé par Vincent Parrot, un expert en réparation automobile fort de 15 années d'expérience, 
-        notre garage est fier de vous accueillir à Toulouse depuis 2021. Passionné par les voitures et soucieux de leur performance 
-        et de votre sécurité, nous sommes déterminés à offrir des services de qualité supérieure à tous nos clients. 
-        Au fil des deux dernières années, nous avons établi une réputation solide en proposant une vaste gamme de services spécialisés. 
-        Qu'il s'agisse de la réparation minutieuse de la carrosserie ou de l'entretien méticuleux de la mécanique, 
-        notre équipe expérimentée est à l'écoute de vos besoins pour garantir le bon fonctionnement et la longévité de votre véhicule. Chez Garage V. Parrot, 
-        nous comprenons que la confiance est essentielle lorsque l'on confie son bien le plus précieux entre des mains expertes. 
-        C'est pourquoi nous nous engageons à instaurer une relation de confiance avec chacun de nos clients, 
-        en vous offrant un service personnalisé qui répond spécifiquement à vos exigences et vos attentes.";
-
-        $servicesDescription = "Nous nous occupons de la réparation et l’entretien de votre voiture, peu importe la marque ou le modèle de celle-ci. 
-        Profitez d’une prestation de qualité effectuée par des véritables experts auto. Notre désir est de vous offrir une expérience complète 
-        en matière automobile, où qualité, transparence et satisfaction sont nos maîtres-mots. Chez Garage V. Parrot, 
-        nous croyons fermement en l'importance d'évoluer avec notre temps. Faites-nous confiance pour prendre soin de votre voiture comme si c'était la nôtre. 
-        N'hésitez pas à nous contacter pour toute question ou prise de rendez-vous. Merci de nous accorder votre confiance, 
-        nous avons hâte de vous accueillir dans notre garage. Vincent Parrot et toute l'équipe du Garage V. Parrot.";
 
         $societyInfos = new Schedule();
         $societyInfos
@@ -88,9 +66,7 @@ class AppFixtures extends Fixture
                 "6" => "Sam : 10h00 - 12h00, 13h00 - 16h00",
                 "7" => "Dim : fermé"
             ])
-//
-//            ->setDescription($description)
-//            ->setServicesDescription($servicesDescription)
+
         ;
         $manager->persist($societyInfos);
 
@@ -106,7 +82,6 @@ class AppFixtures extends Fixture
             ->setName('Siege Social')
         ;
         $manager->persist($garage);
-
 
         /**
          * Création de l'admin
@@ -134,7 +109,6 @@ class AppFixtures extends Fixture
             ->setUser($admin)
             ->setPublished(true)
             ->addGarage($garage)
-
         ;
 
         $service2 = new Service();
@@ -188,7 +162,6 @@ class AppFixtures extends Fixture
         copy($this->parameterBag->get("assets_images") . '/' . $service3->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service3->getImageName());
         copy($this->parameterBag->get("assets_images") . '/' . $service4->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service4->getImageName());
         copy($this->parameterBag->get("assets_images") . '/' . $service5->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/Service/' . $service5->getImageName());
-
         copy($this->parameterBag->get("assets_images") . '/' . 'logo3.png', $this->parameterBag->get("public_media") . '/logo3.png');
         copy($this->parameterBag->get("assets_images") . '/' . 'logo4.png', $this->parameterBag->get("public_media") . '/logo4.png');
 

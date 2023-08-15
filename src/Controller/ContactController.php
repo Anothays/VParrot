@@ -20,13 +20,11 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//            $formService->handleForm($form);
             $contactRepository->save($contact, true);
             return $this->json([
                 'message' => 'Nous avons bien reçus votre message, nous reviendrons vers vous aussi vite que possible'
             ]);
         }
-
 
         return $this->render('contact/index.html.twig', [
             'form' => $form,

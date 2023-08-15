@@ -71,9 +71,6 @@ class CarRepository extends ServiceEntityRepository
         return $result;
     }
 
-    /**
-    //     * @return Car[] Returns an array of Car objects
-    //     */
     public function findByFilters($value, int $page, int $limit = 5): array
     {
         $result = [];
@@ -110,29 +107,12 @@ class CarRepository extends ServiceEntityRepository
         return $result;
     }
 
+    public function getMinMaxValues() {
+        return $this
+                    ->createQueryBuilder('m')
+                    ->select('MAX(m.mileage) as maxMileage, Min(m.mileage) as minMileage, MAX(m.price) as maxPrice, Min(m.price) as minPrice, MAX(m.registrationYear) as maxYear, MIN(m.registrationYear) as minYear')
+                    ->getQuery()
+                    ->getResult();
+    }
 
-//    /**
-//     * @return Car[] Returns an array of Car objects
-//     */
-//    public function findByExampleField($value)
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.price = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Car
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

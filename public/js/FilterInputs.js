@@ -8,33 +8,34 @@ class FilterInputs {
 
     // fetch data from database
     #getData(url) {
-        console.log(url)
         const paginator = document.getElementById('pagination-list')
         const paginatorTitle = document.getElementById('pagination-title')
         const carsListItems = document.getElementById('cars-list-container')
         carsListItems.innerHTML = '<div class="text-center vh-100"><div class="spinner-border" role="status"><span class="visually-hidden">Chargement...</span></div></div>'
         fetch(url.href, {
             headers: {
-                "X-Requested-With": "XMLHttpRequest"
+                "X-Requested-With": "XMLHttpRequest",
             }
         })
-            .then(res => res.json())
-            .then(data => {
-                paginator.innerHTML = data.pagination.content
-                paginatorTitle.innerText = `${data.contentCount} annonce${data.contentCount > 1 ? 's' : ''} auto`
-                if (data.contentCount === 0) {
-                    carsListItems.innerHTML = "<div class='alert alert-info'><p class='text-info text-xl-center'>Aucun véhicule ne correspond à vos critères de recherche !</p></div>"
-                } else {
-                    carsListItems.innerHTML = data.content.content
+        .then(res => {
+            return res.json()
+        })
+        .then(data => {
+            paginator.innerHTML = data.pagination.content
+            paginatorTitle.innerText = `${data.contentCount} annonce${data.contentCount > 1 ? 's' : ''} auto`
+            if (data.contentCount === 0) {
+                carsListItems.innerHTML = "<div class='alert alert-info'><p class='text-info text-xl-center'>Aucun véhicule ne correspond à vos critères de recherche !</p></div>"
+            } else {
+                carsListItems.innerHTML = data.content.content
 
-                    // On pré-remplie le formulaire avec la référence de l'annonce
-                    new TriggerFormBtn(document.querySelectorAll('.trigerFormModal'))
-                    this.#setPagination()
-                }
-            })
-            .catch(error => {
-                console.log(error)
-            })
+                // On pré-remplie le formulaire avec la référence de l'annonce
+                new TriggerFormBtn(document.querySelectorAll('.trigerFormModal'))
+                this.#setPagination()
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
     // init reset button filters
@@ -110,11 +111,13 @@ class FilterInputs {
         paginationlinks.forEach(a => {
             a.addEventListener('click', e => {
                 e.preventDefault()
-                // const url = new URL(e.target.href)
                 const url = new URL(window.location.href)
+                const urlParams = new URL(e.target.href).searchParams
+                urlParams.forEach((value, key) => {
+                    url.searchParams.set(key, value)
+                })
                 url.searchParams.set('ajax', '1')
-                // url.searchParams.set('page', url.searchParams.get('page'))
-                url.searchParams.set('page', e.target.innerText)
+                url.searchParams.set('page', url.searchParams.get('page') ?? e.target.innerText)
                 url.searchParams.set('selectPagination', selectPagination.value)
                 this.#getData(url)
             })
