@@ -19,7 +19,6 @@
                     <span class="visually-hidden">Next</span>
                 </a>
             {% endif %}
-
         </div>
         {% endif %}
         <div class="card-body bg-dark-subtle carItem text-center rounded-bottom-3" style="width: 300px; height: 400px">
@@ -30,7 +29,7 @@
             <p id="licensePlate-{{ car.id }}">{{ car.licensePlate | upper }}</p>
             <p>Prix : {{ car.price }} €</p>
             <p>Kilométrage : {{ car.mileage }} km</p>
-            <p>Année : {{ car.registrationYear | date('Y') }}</p>
+            <p>Année : {{ car.registrationYear }}</p>
             <div class="">
                 <a href="{{ path('app_cars_show', {id: car.id}) }}" class="btn btn-dark rounded-5 mb-3">Plus d'informations</a>
                 <button id="car-{{ car.id }}" type="button" class="btn btn-dark rounded-5 trigerFormModal mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Contacter le vendeur</button>
@@ -38,45 +37,3 @@
         </div>
     </article>
 </li>
-
-{#<li class="card rounded-3 p-0 m-1 border-0" style="width: 300px; height: 650px; min-width: 300px; min-height: 650px; max-width: 300px; max-height: 650px;">#}
-{#    <article>#}
-{#        {% if car.getPhotos() is not null %}#}
-{#            <div id="carousel-{{ loop.index }}" class="carousel slide" data-ride="carousel" style="width: 300px; height: 250px">#}
-{#                <div class="h-100 carousel-inner bg-primary rounded-top-3 ">#}
-{#                    {% for photo in car.getPhotos() %}#}
-{#                        <div class="h-100 carousel-item rounded-top-3 {{ loop.first ? 'active' : ''}} ">#}
-{#                            #}{# <img src="{{ asset('media/photos/' ~ car.getLicensePlate() ~ '/' ~ photo.getFilename()) }}" class="d-block w-100 rounded-top-3 object-fit-cover" alt="Photo véhicule {{ loop.index }}" style="max-width: 300px; height: 250px;">#}
-{#                            <img src="{{ vich_uploader_asset(photo, 'file') }}" class="h-100 w-100 object-fit-cover rounded-top-3"  alt="Photo véhicule {{ loop.index }}">#}
-{#                        </div>#}
-{#                    {% endfor %}#}
-{#                </div>#}
-{#                {% if car.getPhotos() | length > 1 %}#}
-{#                    <a class="carousel-control-prev" href="#carousel-{{ loop.index }}" role="button" data-bs-slide="prev">#}
-{#                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
-{#                        <span class="visually-hidden">Previous</span>#}
-{#                    </a>#}
-{#                    <a class="carousel-control-next" href="#carousel-{{ loop.index }}" role="button" data-bs-slide="next">#}
-{#                        <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
-{#                        <span class="visually-hidden">Next</span>#}
-{#                    </a>#}
-{#                {% endif %}#}
-
-{#            </div>#}
-{#        {% endif %}#}
-{#        <div class="card-body bg-dark-subtle carItem text-center rounded-bottom-3" style="width: 300px; height: 400px">#}
-{#            <h3 class="card-title" >#}
-{#                <span id="brand-{{ car.id }}">{{ car.brand }}</span>#}
-{#                <span id="model-{{ car.id }}">{{ car.model }}</span>#}
-{#            </h3>#}
-{#            <p id="licensePlate-{{ car.id }}">{{ car.getlicensePlate() }}</p>#}
-{#            <p>Prix : {{ car.price }} €</p>#}
-{#            <p>Kilométrage : {{ car.mileage }} km</p>#}
-{#            <p>Année : {{ car.registrationYear }}</p>#}
-{#            <div class="">#}
-{#                <a href="{{ path('app_cars_show', {id: car.id}) }}" class="btn btn-dark rounded-5 mb-3">Plus d'informations</a>#}
-{#                <button id="car-{{ car.id }}" type="button" class="btn btn-dark rounded-5 trigerFormModal mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Contactez le vendeur</button>#}
-{#            </div>#}
-{#        </div>#}
-{#    </article>#}
-{#</li>#}

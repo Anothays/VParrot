@@ -59,7 +59,7 @@ class Car
     private ?bool $published = false;
 
     #[ORM\ManyToOne(inversedBy: 'cars')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?Garage $garage = null;
 
 

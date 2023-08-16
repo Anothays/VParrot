@@ -57,8 +57,7 @@ class ScheduleCrudController extends AbstractCrudController
             ->remove(Crud::PAGE_INDEX, Action::NEW)
             ->remove(Crud::PAGE_INDEX, Action::DELETE)
             ->disable(Action::NEW, Action::DELETE)
-//            ->remove(Crud::PAGE_EDIT, Action::SAVE_AND_CONTINUE)
-            ;
+        ;
     }
 
 

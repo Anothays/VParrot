@@ -56,7 +56,7 @@ class FilterInputs {
         const filtersInput = document.querySelectorAll("#filters-form input")
         const selectPagination = document.getElementById('pagination-select')
         filtersInput.forEach(input => {
-            const initialValue = input.value
+            const initialValue = parseInt(input.value)
             let valueBeforeChanged = input.value
             input.addEventListener('focusin', (e) => {
                 e.preventDefault()
@@ -72,9 +72,11 @@ class FilterInputs {
                         oppositeInput = document.getElementById(`${idField}-min`)
                         oppositeInputValue = parseInt(oppositeInput.value)
                         if (e.target.value < oppositeInputValue) {
+                            console.log('MAX e.target.value < oppositeInputValue')
                             e.target.value = oppositeInputValue
                         }
                         if (e.target.value > initialValue) {
+                            console.log('MAX e.target.value > initialValue')
                             e.target.value = initialValue
                         }
                         break
@@ -82,9 +84,11 @@ class FilterInputs {
                         oppositeInput = document.getElementById(`${idField}-max`)
                         oppositeInputValue = parseInt(oppositeInput.value)
                         if (e.target.value > oppositeInputValue) {
+                            console.log('MIN e.target.value > oppositeInputValue')
                             e.target.value = oppositeInputValue
                         }
                         if (e.target.value < initialValue) {
+                            console.log('MIN e.target.value < initialValue')
                             e.target.value = initialValue
                         }
                         break
