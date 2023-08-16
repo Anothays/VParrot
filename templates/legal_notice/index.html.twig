@@ -6,16 +6,19 @@
 <h1 class="text-center m-5">Mentions légales</h1>
 
 <div class="container">
-    <strong  class="fw-bold p-5">
-        <p>
+    <div class="p-5 bg-warning-subtle">
+        <strong  class="fw-bold">
             Le texte ci-dessous constitue les mentions légales d'un site vitrine représentant une entreprise factice.
             Ce site web s'inscrit dans le cadre d'une évaluation de fin de formation initiée par l'organisme <a href="https://www.studi.com/fr">STUDI</a>.
             En conséquence, toutes les données apparaissant dans le présent texte, et sur le site dans son entièreté,
             ne sont reliées d'aucune manière à une personne physique ou morale existante.
             Toutes les images utilisées pour l'illustration du présent site web sont fournies par le site <a href="https://pixabay.com/fr/service/license-summary/">Pixabay</a>.
             Ces images sont sous licence "Creative Commons Zero (CC0)".
-        </p>
-    </strong>
+        </strong>
+
+    </div>
+
+    <br><br>
 
 
     <p>
@@ -24,7 +27,7 @@
     </p>
 
     <h2><b>1. Edition du site</b></h2>
-    <p><span style="font-weight: 400;">Le présent site, accessible à l’URL www.oculusvparrot.com (le « Site »), est édité par :</span></p>
+    <p><span style="font-weight: 400;">Le présent site, accessible à l’URL <a href="{{ app.request.schemeAndHttpHost }}">{{ app.request.schemeAndHttpHost }}</a> (le « Site »), est édité par :</span></p>
     <p><span style="font-weight: 400;">
             <b>Oculus V Parrot</b>, société au capital de 50 000 euros, inscrite au R.C.S. de TOULOUSE sous le numéro RCS TOULOUSE X 000 000 000,
             dont le siège social est situé au 7 avenue du vase de Soissons 31000 Toulouse, représenté(e) par Vincent Parrot dûment habilité(e)
