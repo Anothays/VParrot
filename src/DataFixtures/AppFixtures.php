@@ -104,7 +104,7 @@ class AppFixtures extends Fixture
         $service1
             ->setName('Entretien et vidange')
             ->setDescription($this->faker->text(300))
-            ->setImageName('entretien et vidange.png')
+            ->setImageName('entretien_et_vidange.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage1.png'))
             ->setUser($admin)
             ->setPublished(true)
@@ -126,7 +126,7 @@ class AppFixtures extends Fixture
         $service3
             ->setName('Courroie de distribution')
             ->setDescription($this->faker->text(300))
-            ->setImageName('Courroie de distribution.png')
+            ->setImageName('Courroie_de_distribution.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage3.jpg'))
             ->setUser($admin)
             ->setPublished(true)

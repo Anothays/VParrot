@@ -1,9 +1,4 @@
-{#<ul class="d-flex overflow-x-scroll m-0 justify-content-center">#}
-{#    {% for testimonial in testimonials %}#}
-{#        {{  include('home/testimonial-card.html.twig') }}#}
-{#    {% endfor %}#}
-{#</ul>#}
-<ul id="servicesCarousel" class="carousel slide d-flex m-0 p-0 justify-content-center align-items-center">
+<div id="servicesCarousel" class="carousel slide d-flex m-0 p-0 justify-content-center align-items-center">
     <div class="carousel-inner">
         {% for testimonial in testimonials %}
             <div class="carousel-item {{ loop.first ? 'active' : '' }}">
@@ -19,4 +14,4 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
-</ul>
+</div>

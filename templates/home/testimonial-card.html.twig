@@ -1,4 +1,4 @@
-<li class="card rounded-3 bg-success-subtle mx-auto " style="min-width: 230px; max-width: 230px; max-height: 400px; min-height: 400px">
+<div class="card rounded-3 bg-success-subtle mx-auto " style="min-width: 230px; max-width: 230px; max-height: 400px; min-height: 400px">
     <div class="card-header">
         <p class="fw-bold p-0 m-0">{{ testimonial.author }}</p>
         {% for i in 1..5 %}
@@ -15,4 +15,4 @@
     <div class="card-footer fw-light">
         <span>Publié le {{ date(testimonial.createdAt).format('j/m/Y') }}</span>
     </div>
-</li>
+</div>
