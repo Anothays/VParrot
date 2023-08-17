@@ -2,8 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Controller\Admin\CustomFields\VichImageField;
-use App\Entity\CarConstructors;
 use App\Entity\Car;
 use App\Form\PhotoType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -12,22 +10,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\Request;
+
 
 class CarsCrudController extends AbstractCrudController
 {
-
-    public function __construct(public ParameterBagInterface $parameterBag)
-    {
-    }
 
     public static function getEntityFqcn(): string
     {
@@ -56,7 +47,8 @@ class CarsCrudController extends AbstractCrudController
                     'Diesel' => 'Diesel',
                     'Électrique' => 'Électrique',
                     'Hybrid' => 'Hybrid'
-                ]);
+                ])
+            ;
             yield IntegerField::new('mileage')->setLabel('Kilométrage');
             yield NumberField::new('price')->setLabel('Prix');
             yield IntegerField::new('registration_year')->setLabel('Année');
@@ -80,8 +72,9 @@ class CarsCrudController extends AbstractCrudController
                 ->setFormTypeOptions([
                     'label' => 'Dernière modification',
                     'disabled' => 'disabled'
-                ]);
-            yield TextField::new('user', "Auteur de l'annonce")
+                ])
+            ;
+            yield TextField::new('createdBy', "Auteur de l'annonce")
                 ->onlyWhenUpdating()
                 ->setDisabled()
             ;
@@ -97,7 +90,4 @@ class CarsCrudController extends AbstractCrudController
             ;
             yield BooleanField::new('published', 'Annonce visible');
     }
-
-
-
 }

@@ -13,33 +13,30 @@
 {% block main %}
 
     <h1 class="m-5 text-center px-1">Nos véhicules d'occasion</h1>
-{% if cars is not empty %}
-    {# Filtres #}
-    <div class="mx-auto">
-        {% include 'cars/filters.html.twig' %}
-    </div>
 
-    {# Pagination #}
-    {% include 'cars/pagination.html.twig' %}
+    {% if cars is not empty %}
 
-    {# Liste des voitures #}
-    <div id="cars-list-container">
-        {% include 'cars/cars_list_item.html.twig' %}
-    </div>
+        {# Filtres #}
+        <div class="mx-auto">
+            {% include 'cars/form_filters.html.twig' %}
+        </div>
 
-    {# Modale contenant le formulaire #}
-    {% include 'cars/form_modal.html.twig' %}
+        {# Pagination #}
+        {% include 'cars/pagination.html.twig' %}
 
-    {# Notification #}
-    {% include 'notifications/toast.html.twig' %}
+        {# Liste des voitures #}
+        <div id="cars-list-container">
+            {% include 'cars/cars_list_items.html.twig' %}
+        </div>
 
-{% else %}
+        {# Modale contenant le formulaire #}
+        {% include 'cars/modal.html.twig' %}
 
-    <div class='alert alert-info'><p class='text-info text-center'>Aucun véhicule en vente</p></div>
+        {# Notification #}
+        {% include 'notifications/toast.html.twig' %}
 
-{% endif %}
-
-
-
+    {% else %}
+        <div class='alert alert-info'><p class='text-info text-center'>Aucun véhicule en vente</p></div>
+    {% endif %}
 
 {% endblock %}

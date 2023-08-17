@@ -5,14 +5,16 @@
     <script defer src="{{ asset('js/contactPage.js') }}"></script>
 {% endblock %}
 
-{% block title %}
-    Contact
-{% endblock %}
+{% block title %}Contact{% endblock %}
 
 {% block main %}
+
 <h1 class="text-center mt-5">Contactez-nous</h1>
+
     {% include 'notifications/toast.html.twig' %}
+
     <div class="mx-auto contactForm">
         {% include 'contact/form.html.twig' %}
     </div>
+
 {% endblock %}

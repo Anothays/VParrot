@@ -106,7 +106,7 @@ class AppFixtures extends Fixture
             ->setDescription($this->faker->text(300))
             ->setImageName('entretien_et_vidange.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage1.png'))
-            ->setUser($admin)
+            ->setCreatedBy($admin)
             ->setPublished(true)
             ->addGarage($garage)
         ;
@@ -117,7 +117,7 @@ class AppFixtures extends Fixture
             ->setDescription($this->faker->text(300))
             ->setImageName('Révision.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage2.jpg'))
-            ->setUser($admin)
+            ->setCreatedBy($admin)
             ->setPublished(true)
             ->addGarage($garage)
         ;
@@ -128,7 +128,7 @@ class AppFixtures extends Fixture
             ->setDescription($this->faker->text(300))
             ->setImageName('Courroie_de_distribution.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage3.jpg'))
-            ->setUser($admin)
+            ->setCreatedBy($admin)
             ->setPublished(true)
             ->addGarage($garage)
         ;
@@ -139,7 +139,7 @@ class AppFixtures extends Fixture
             ->setDescription($this->faker->text(300))
             ->setImageName('Pneumatiques.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage4.jpg'))
-            ->setUser($admin)
+            ->setCreatedBy($admin)
             ->setPublished(true)
             ->addGarage($garage)
         ;
@@ -150,7 +150,7 @@ class AppFixtures extends Fixture
             ->setDescription($this->faker->text(300))
             ->setImageName('freinage.png')
             ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage5.jpg'))
-            ->setUser($admin)
+            ->setCreatedBy($admin)
             ->setPublished(true)
             ->addGarage($garage)
         ;
@@ -201,7 +201,7 @@ class AppFixtures extends Fixture
                         'Électrique' => 'Électrique',
                         'Hybrid' => 'Hybrid'
                     ]))
-                    ->setUser($admin)
+                    ->setCreatedBy($admin)
                     ->setGarage($garage)
                 ;
 

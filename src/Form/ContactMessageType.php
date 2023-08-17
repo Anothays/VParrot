@@ -6,7 +6,6 @@ use App\Entity\ContactMessage;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -61,7 +60,6 @@ class ContactMessageType extends AbstractType
             ->add('phone', TelType::class, [
                 'label' => 'Numéro de téléphone (facultatif)',
                 'required' => false,
-                'invalid_message' => 'LOL',
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'téléphone',

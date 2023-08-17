@@ -3,24 +3,17 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Garage;
-use App\Entity\Schedule;
-use Doctrine\ORM\QueryBuilder;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class GarageCrudController extends AbstractCrudController
 {
-    public function __construct()
-    {
-    }
 
     public static function getEntityFqcn(): string
     {
         return Garage::class;
     }
-
 
     public function configureFields(string $pageName): iterable
     {
@@ -34,5 +27,4 @@ class GarageCrudController extends AbstractCrudController
             AssociationField::new('cars', 'Voitures à vendre')->setFormTypeOption('by_reference', false),
         ];
     }
-
 }

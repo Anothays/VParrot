@@ -49,10 +49,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Service::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Service::class)]
     private Collection $createdServices;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Car::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Car::class)]
     private Collection $createdCars;
 
     #[ORM\ManyToOne(inversedBy: 'users')]

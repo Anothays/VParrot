@@ -44,7 +44,7 @@
             </tr>
             <tr>
                 <td>Immatriculation</td>
-                <td id="licensePlate-{{ car.id }}">{{ car.licensePlate }}</td>
+                <td id="licensePlate-{{ car.id }}">{{ car.licensePlate | upper }}</td>
             </tr>
             <tr>
                 <td>Moteur</td>
@@ -75,7 +75,7 @@
 
 
     {# Modale contenant le formulaire #}
-    {% include 'cars/form_modal.html.twig' %}
+    {% include 'cars/modal.html.twig' %}
 
     {# Notification #}
     {% include 'notifications/toast.html.twig' %}

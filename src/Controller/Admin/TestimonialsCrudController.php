@@ -2,21 +2,15 @@
 
 namespace App\Controller\Admin;
 
-use App\Controller\Admin\CustomFields\CustomBooleanField;
 use App\Entity\Testimonial;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
-use EasyCorp\Bundle\EasyAdminBundle\Event\AfterCrudActionEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class TestimonialsCrudController extends AbstractCrudController
@@ -35,7 +29,7 @@ class TestimonialsCrudController extends AbstractCrudController
             ->setPaginatorPageSize(20)
             ->showEntityActionsInlined()
             ->setPageTitle(Crud::PAGE_DETAIL, function($testimonial){ return 'Avis de ' . $testimonial->getAuthor();})
-            ;
+        ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -57,23 +51,18 @@ class TestimonialsCrudController extends AbstractCrudController
             ->setFormTypeOptions([
                 'label' => 'Crée le',
                 'disabled' => 'disabled'
-                ]);
+            ])
+        ;
         yield DateTimeField::new('modified_at', 'Modifié le')
             ->hideWhenCreating()
             ->setFormTypeOptions([
                 'label' => 'Dernière modification',
                 'disabled' => 'disabled'
-            ]);
-        yield BooleanField::new('isApproved', 'Visible sur le site')
-            ->hideOnDetail()
+            ])
         ;
-        yield AssociationField::new('approvedBy', 'Rendu visible par')
-            ->onlyOnDetail()
-        ;
-        yield AssociationField::new('createdBy', 'Crée par')
-//            ->formatValue(function($user, $lol){return $user ?? '<span class="badge badge-secondary">visiteur</span>';})
-            ->hideOnForm()
-        ;
+        yield BooleanField::new('isApproved', 'Visible sur le site')->hideOnDetail();
+        yield AssociationField::new('approvedBy', 'Rendu visible par')->onlyOnDetail();
+        yield AssociationField::new('createdBy', 'Crée par')->hideOnForm();
 
     }
 
@@ -83,7 +72,7 @@ class TestimonialsCrudController extends AbstractCrudController
             ->remove(Crud::PAGE_INDEX, Action::EDIT)
             ->remove(Crud::PAGE_DETAIL, Action::EDIT)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ;
+        ;
     }
 
 }

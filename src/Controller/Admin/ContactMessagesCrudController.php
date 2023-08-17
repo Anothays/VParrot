@@ -41,8 +41,7 @@ class ContactMessagesCrudController extends AbstractCrudController
             ->setPaginatorPageSize(10)
             ->showEntityActionsInlined()
             ->setPageTitle(Crud::PAGE_DETAIL, function($message){ return 'Demande de ' . $message->getName();})
-
-            ;
+        ;
     }
 
     public function configureActions(Actions $actions): Actions

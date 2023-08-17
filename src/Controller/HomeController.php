@@ -2,26 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Car;
-use App\Entity\Photo;
 use App\Entity\Testimonial;
 use App\Form\TestimonialType;
 use App\Repository\ScheduleRepository;
 use App\Repository\ServiceRepository;
 use App\Repository\TestimonialRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class HomeController extends AbstractController
 {
-
-    public function __construct(public ParameterBagInterface $parameterBag){}
 
     #[Route('/', name: 'app_home_index', methods: ['GET', 'POST'])]
     public function index(Request $request, TestimonialRepository $testimonialRepository, ServiceRepository $servicesRepository, ScheduleRepository $societyInfoRepository, SerializerInterface $serializer): Response

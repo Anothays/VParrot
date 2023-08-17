@@ -8,14 +8,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
-use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 
 class ServicesCrudController extends AbstractCrudController
@@ -29,17 +25,15 @@ class ServicesCrudController extends AbstractCrudController
     {
         yield TextField::new('name')->setLabel('Nom de la prestation');
         yield TextareaField::new('description')->setLabel('description de la prestation');
-
         yield TextField::new('imageFile', 'Image')
             ->setFormType(VichImageType::class)
             ->onlyOnForms()
         ;
-
         yield ImageField::new('imageName')
             ->setBasePath("media/photos/service")
             ->onlyOnIndex()
         ;
-        yield AssociationField::new('user', 'Ajouté par')
+        yield AssociationField::new('createdBy', 'Crée par')
             ->onlyOnIndex()
         ;
         yield BooleanField::new('published');
@@ -53,13 +47,12 @@ class ServicesCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Liste des prestations')
             ->setPaginatorPageSize(10)
             ->showEntityActionsInlined()
-            ;
+        ;
     }
 
     public function configureActions(Actions $actions): Actions
     {
-        return parent::configureActions($actions)
-        ;
+        return parent::configureActions($actions);
     }
 
 }

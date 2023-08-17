@@ -53,7 +53,7 @@ class Car
 
     #[ORM\ManyToOne(inversedBy: 'createdCars')]
     #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
-    private ?User $user = null;
+    private ?User $createdBy = null;
 
     #[ORM\Column]
     private ?bool $published = false;
@@ -223,14 +223,14 @@ class Car
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getCreatedBy(): ?User
     {
-        return $this->user;
+        return $this->createdBy;
     }
 
-    public function setUser(?User $user): self
+    public function setCreatedBy(?User $user): self
     {
-        $this->user = $user;
+        $this->createdBy = $user;
 
         return $this;
     }

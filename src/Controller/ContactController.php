@@ -30,11 +30,4 @@ class ContactController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    public function form() {
-        $form = $this->createForm(ContactMessageType::class);
-        return $this->render('contact/form.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
 }

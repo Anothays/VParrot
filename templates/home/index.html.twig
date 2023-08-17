@@ -32,22 +32,22 @@
         N'hésitez pas à nous contacter pour toute question ou prise de rendez-vous. Merci de nous accorder votre confiance,
         nous avons hâte de vous accueillir dans notre garage. Vincent Parrot et toute l'équipe du Garage V. Parrot.
     </p>
-    {% include 'home/services-list.html.twig' %}
+    {% include 'home/services_list.html.twig' %}
 </section>
 
 
 <section id="testimonials" class=" pb-5 px-lg-5 text-center">
     <h2 class="text-center p-5">Nos clients nous recommandent (ou pas...)</h2>
     <button id="toggleTestimonials" type="button" class="btn btn-outline-dark rounded-5 mb-5" data-bs-toggle="modal" data-bs-target="#testimonialsModal">Voir tous les avis</button>
-    {% include 'home/testimonials-list.html.twig' %}
+    {% include 'home/testimonials_list.html.twig' %}
     <button class="btn btn-outline-success rounded-5 mt-3" type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" >Ajouter un avis</button>
 </section>
 
 {# Modale contenant le formulaire #}
-{% include 'home/home_form_modal.html.twig' %}
+{% include 'home/modal.html.twig' %}
 
 {# Modale contenant le formulaire #}
-{% include 'home/home_testimonials_modal.html.twig' %}
+{% include 'home/show_testimonials_modal.html.twig' %}
 
 {# Notification #}
 {% include 'notifications/toast.html.twig' %}

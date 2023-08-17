@@ -3,11 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Testimonial;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\Type\BooleanFilterType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,7 +19,7 @@ class TestimonialType extends AbstractType
                 'label' => 'Pseudo',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Choississez un pseudo'
+                    'placeholder' => 'Choisissez un pseudo'
                 ],
                 'label_attr' => [
                     'class' => 'form-label  mt-4'
@@ -54,9 +51,6 @@ class TestimonialType extends AbstractType
                     'class' => 'form-label  mt-4'
                 ]
             ])
-//            ->add('validated', CheckboxType::class, [
-//
-//            ])
         ;
     }
 

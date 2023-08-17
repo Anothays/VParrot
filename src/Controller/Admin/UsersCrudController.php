@@ -3,42 +3,24 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use Doctrine\DBAL\Types\JsonType;
-use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
-use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
+
 
 class UsersCrudController extends AbstractCrudController
 {
-    private $userPasswordHasher;
-    private $request;
 
-    public function __construct(UserPasswordHasherInterface $userPasswordHasher, RequestStack $requestStack)
-    {
-        $this->userPasswordHasher = $userPasswordHasher;
-        $this->request = $requestStack->getCurrentRequest();
-    }
+    public function __construct(private RequestStack $requestStack){}
 
     public static function getEntityFqcn(): string
     {
@@ -52,7 +34,7 @@ class UsersCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Employés')
             ->setPageTitle('index','Liste des employés')
             ->showEntityActionsInlined()
-            ;
+        ;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -63,7 +45,7 @@ class UsersCrudController extends AbstractCrudController
                 Action::EDIT => 'ROLE_SUPER_ADMIN',
                 Action::NEW => 'ROLE_SUPER_ADMIN',
             ])
-            ;
+        ;
     }
 
 
@@ -93,7 +75,8 @@ class UsersCrudController extends AbstractCrudController
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmez le mot de passe'],
-            ]);
+            ])
+        ;
 
         if ($this->getUser() !== $this->getContext()->getEntity()->getInstance()) {
             $passwordField->hideWhenUpdating();
@@ -107,9 +90,11 @@ class UsersCrudController extends AbstractCrudController
             ->setChoices([
                 'Administrateur' => 'ROLE_ADMIN',
                 'Utilisateur' => 'ROLE_USER'
-            ]);
+            ])
+        ;
 
-        if (strval($this->getUser()->getId()) === $this->request->query->get("entityId")) {
+        // L'utilisateur actuellement connecté ne peut pas changer son propre rôle
+        if (strval($this->getUser()->getId()) === $this->requestStack->getCurrentRequest()->query->get("entityId")) {
             $roleField->hideOnForm();
         }
 
@@ -117,7 +102,5 @@ class UsersCrudController extends AbstractCrudController
 
         return $fields;
     }
-
-
 
 }

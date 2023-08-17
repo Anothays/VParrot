@@ -2,14 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Car;
 use App\Entity\Photo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
-use Symfony\Component\Validator\Constraints as Assert;
+
 
 class PhotoType extends AbstractType
 {

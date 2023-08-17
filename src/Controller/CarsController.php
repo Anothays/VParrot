@@ -63,9 +63,9 @@ class CarsController extends AbstractController
         $selectPagination = $request->get('selectPagination') ?? "5";
         $cars = $carsRepository->findByFilters($params, $page, $selectPagination);
         return $this->json([
-            'content' => $this->render('cars/cars_list_item.html.twig', ['cars' => $cars]),
+            'content' => $this->render('cars/cars_list_items.html.twig', ['cars' => $cars]),
             'contentCount' => $cars['count'],
-            'pagination' => $this->render('cars/pagination_list.html.twig', ['cars' => $cars]),
+            'pagination' => $this->render('cars/pagination_links.html.twig', ['cars' => $cars]),
         ]);
 
     }

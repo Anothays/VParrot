@@ -1,0 +1,33 @@
+<form id="filters-form" class="d-flex flex-column flex-lg-row mx-5 mb-5">
+    <div class="mileage mx-1">
+        <div class="mileage-label">
+            <label class="form-label">Kilométrage</label>
+        </div>
+        <div class="input-group">
+            <input name="mileage-min" class="bg-primary-subtle form-control" id="mileage-min" type="number" step="500" value="{{ MinMaxValues['minMileage'] }}" min="{{ MinMaxValues['minMileage'] }}">
+            <input name="mileage-max" class="bg-primary-subtle form-control" id="mileage-max" type="number" step="500" value="{{ MinMaxValues['maxMileage'] }}" max="{{ MinMaxValues['maxMileage'] }}">
+
+        </div>
+    </div>
+    <div class="price mx-1">
+        <div class="price-label">
+            <label class="form-label">Echelle de prix</label>
+        </div>
+        <div class="input-group">
+            <input name="price-min" class="bg-primary-subtle form-control" id="price-min" type="number" step="500" value="{{ MinMaxValues['minPrice'] }}" min="{{ MinMaxValues['minPrice'] }}">
+            <input name="price-max" class="bg-primary-subtle form-control" id="price-max" type="number" step="500" value="{{ MinMaxValues['maxPrice'] }}" max="{{ MinMaxValues['maxPrice'] }}">
+        </div>
+    </div>
+    <div class="year mx-1">
+        <div class="year-label">
+            <label class="form-label">Année</label>
+        </div>
+        <div class="input-group">
+            <input name="year-min" class="bg-primary-subtle form-control" id="year-min" type="number" value="{{ MinMaxValues['minYear'] }}" min="{{ MinMaxValues['minYear'] }}">
+            <input name="year-max" class="bg-primary-subtle form-control" id="year-max" type="number" value="{{ MinMaxValues['maxYear'] }}" max="{{ MinMaxValues['maxYear'] }}">
+        </div>
+    </div>
+    <div class="mx-1 m-3 m-lg-0 align-self-lg-end align-self-center">
+        <button id="filters-btn-reset" type="reset" class="btn btn-dark ">Réinitialiser</button>
+    </div>
+</form>
