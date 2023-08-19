@@ -23,7 +23,7 @@ class Testimonial
     #[Groups(['testimonial'])]
     private ?string $comment = null;
 
-    #[ORM\Column(length: 1)]
+    #[ORM\Column(type: 'smallint')]
     #[Groups(['testimonial'])]
     private ?int $note = null;
 

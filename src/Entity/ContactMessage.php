@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\ContactMessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ContactMessageRepository::class)]
@@ -29,11 +28,11 @@ class ContactMessage
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 15, nullable: true)]
+    #[ORM\Column(length: 20, nullable: true)]
     #[Assert\Regex(pattern: "/^[0-9]{10}$/", message: 'numéro de téléphone non valide')]
     private ?string $phone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $subject = null;
 
     #[ORM\Column(type: Types::TEXT)]

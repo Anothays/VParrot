@@ -1,8 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href={{ path('app_home_index') }}>
-            <img src="{{ asset('media/logo3.png') }}" alt="logo signature Vincent Parrot" class="" style="height: 40px; left: 130px; top: 10px;">
-{#            <img src="{{ asset('media/logo4.png') }}" class="" style="position: absolute;height: 100px; left: 130px; top: 10px;"/>#}
+            <img src="{{ asset('media/logo3.webp') }}" alt="logo signature Vincent Parrot" class="" style="height: 40px; left: 130px; top: 10px;">
             <span class="logoNavBar z-2">Garage Vincent Parrot</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,17 +9,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav w-100">
-                <li class="nav-item">
-                    <a class="nav-link {% if app.request.pathInfo == path('app_home_index') %} active {% endif %}" href={{ path('app_home_index') }}>Accueil
-                        <span class="visually-hidden">(current)</span>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if app.request.pathInfo == path('app_home_index') %} active {% endif %}" href={{ path('app_home_index') }} role="button"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >Accueil
+{#                        <span class="visually-hidden">(current)</span>#}
                     </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href={{ path('app_home_index') }}#prestations>Nos prestations</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href={{ path("app_home_index") }}#testimonials>Les avis client</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.pathInfo starts with '/cars' ? 'active' : '' }} " href={{ path('app_cars_index') }}>Vente</a>
                 </li>
-{#                <li class="nav-item">#}
-{#                    <a class="nav-link {% if app.request.pathInfo == path('app_vente') %} active {% endif %}" href={{ path('app_home_index') }}>À propos</a>#}
-{#                </li>#}
                 <li class="nav-item">
                     <a class="nav-link {{ app.request.pathInfo == path('app_contact') ? 'active' : '' }}" href={{ path('app_contact') }}>Contact</a>
                 </li>

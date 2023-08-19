@@ -32,20 +32,6 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function beforeUpdateEntity(BeforeEntityUpdatedEvent $event)
-    {
-        $instance = $event->getEntityInstance();
-        $currentUser = $this->security->getUser();
-
-        switch (get_class($instance)) {
-            case Testimonial::class :
-                $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null);
-                break;
-            default :
-                break;
-        }
-    }
-
     public function beforeCreateEntity(BeforeEntityPersistedEvent $event) {
         $instance = $event->getEntityInstance();
         $currentUser = $this->security->getUser();
@@ -63,8 +49,11 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                 $instance->setCreatedBy($currentUser);
                 break;
             case Garage::class :
-                $schedule = $this->entityManager->getRepository(Schedule::class)->find(1);
+                $schedule = $this->entityManager->getRepository(Schedule::class)->findAll()[0];
                 $instance->setSchedule($schedule); // Tous les nouveaux établissements crées ont les mêmes horaires
+                break;
+            case Car::class :
+                $instance->setCreatedBy($currentUser);
                 break;
             default :
                 break;
@@ -72,11 +61,24 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
     }
 
+    public function beforeUpdateEntity(BeforeEntityUpdatedEvent $event) {
+        $instance = $event->getEntityInstance();
+        $currentUser = $this->security->getUser();
+
+        switch (get_class($instance)) {
+            case Testimonial::class :
+                $instance->getIsApproved() ? $instance->setApprovedBy($currentUser) : $instance->setApprovedBy(null);
+                break;
+            default :
+                break;
+        }
+    }
+
+    // Suppression du dossier photos correspondant à l'occurence de l'entité en cours
     public function deleteEntityMediaFolder(AfterEntityDeletedEvent $event) {
         $instance = $event->getEntityInstance();
         switch (get_class($instance)) {
             case Car::class :
-
                 $mediaFolder = $this->parameterBag->get('public_media_photos');
                 $carPhotoFolder = $instance->getLicensePlate();
                 if (is_dir($mediaFolder.'/'.$carPhotoFolder)) {

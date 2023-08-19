@@ -48,12 +48,13 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+
+        // Suppression du dossier média s'il existe
         $this->rmdirRecursive($this->parameterBag->get("public_media_photos"));
 
         /**
          * Création d'un Schedule
          */
-
         $societyInfos = new Schedule();
         $societyInfos
             ->setId(1)
@@ -66,7 +67,6 @@ class AppFixtures extends Fixture
                 "6" => "Sam : 10h00 - 12h00, 13h00 - 16h00",
                 "7" => "Dim : fermé"
             ])
-
         ;
         $manager->persist($societyInfos);
 
@@ -76,8 +76,8 @@ class AppFixtures extends Fixture
         $garage = new Garage();
         $garage
             ->setAddress('7 avenue du vase de Soissons, 31000 Toulouse')
-            ->setMail('vincentParrot@VP.com')
-            ->setTelephone('0123456789')
+            ->setEmail('vincentParrot@VP.com')
+            ->setPhoneNumber('0123456789')
             ->setSchedule($societyInfos)
             ->setName('Siege Social')
         ;
@@ -90,7 +90,7 @@ class AppFixtures extends Fixture
         $admin
             ->setEmail("vincentParrot@VP.com")
             ->setRoles(["ROLE_SUPER_ADMIN"])
-            ->setPassword("$2y$13\$vTUgEfGhWNnwfSbpGLks1u95lSRJR3SI9xLwP0sAbjVoKezcc7fUm") // %7913%!ZorroEstArrive
+            ->setPassword("$2y$13\$CreVardVkrC8Xxr3fed.KeRLLYxZ3Eid0FX3q.4g6ymryTiuyiLiu") // %7913%!Ya!$cnS7s2
             ->setName('Vincent')
             ->setLastName('Parrot')
             ->setGarage($garage)
@@ -104,66 +104,75 @@ class AppFixtures extends Fixture
         $service1
             ->setName('Entretien et vidange')
             ->setDescription($this->faker->text(300))
-            ->setImageName('entretien_et_vidange.png')
-            ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage1.png'))
+            ->setImageName('entretien_et_vidange.webp')
+            ->setImageFile(new File($this->parameterBag->get('assets_images').'/services/'.'garage1.webp'))
             ->setCreatedBy($admin)
             ->setPublished(true)
             ->addGarage($garage)
+            ->setPrice(100)
         ;
 
         $service2 = new Service();
         $service2
             ->setName('Révision')
             ->setDescription($this->faker->text(300))
-            ->setImageName('Révision.png')
-            ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage2.jpg'))
+            ->setImageName('Révision.webp')
+            ->setImageFile(new File($this->parameterBag->get('assets_images').'/services/'.'garage2.webp'))
             ->setCreatedBy($admin)
             ->setPublished(true)
             ->addGarage($garage)
+            ->setPrice(350)
         ;
 
         $service3 = new Service();
         $service3
             ->setName('Courroie de distribution')
             ->setDescription($this->faker->text(300))
-            ->setImageName('Courroie_de_distribution.png')
-            ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage3.jpg'))
+            ->setImageName('Courroie_de_distribution.webp')
+            ->setImageFile(new File($this->parameterBag->get('assets_images').'/services/'.'garage3.webp'))
             ->setCreatedBy($admin)
             ->setPublished(true)
             ->addGarage($garage)
+            ->setPrice(575)
         ;
 
         $service4 = new Service();
         $service4
             ->setName('Pneumatiques')
             ->setDescription($this->faker->text(300))
-            ->setImageName('Pneumatiques.png')
-            ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage4.jpg'))
+            ->setImageName('Pneumatiques.webp')
+            ->setImageFile(new File($this->parameterBag->get('assets_images').'/services/'.'garage4.webp'))
             ->setCreatedBy($admin)
             ->setPublished(true)
             ->addGarage($garage)
+            ->setPrice(70)
         ;
 
         $service5 = new Service();
         $service5
             ->setName('Freinage - disque et/ou plaquettes')
             ->setDescription($this->faker->text(300))
-            ->setImageName('freinage.png')
-            ->setImageFile(new File($this->parameterBag->get('assets_images').'/'.'garage5.jpg'))
+            ->setImageName('freinage.webp')
+            ->setImageFile(new File($this->parameterBag->get('assets_images').'/services/'.'garage5.webp'))
             ->setCreatedBy($admin)
             ->setPublished(true)
             ->addGarage($garage)
+            ->setPrice(50)
         ;
 
-        // Création d'un dossier de photos pour les services
-        mkdir($this->parameterBag->get("public_media_photos") . '/service' , 0777,true);
-        copy($this->parameterBag->get("assets_images") . '/' . $service1->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/service/' . $service1->getImageName());
-        copy($this->parameterBag->get("assets_images") . '/' . $service2->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/service/' . $service2->getImageName());
-        copy($this->parameterBag->get("assets_images") . '/' . $service3->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/service/' . $service3->getImageName());
-        copy($this->parameterBag->get("assets_images") . '/' . $service4->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/service/' . $service4->getImageName());
-        copy($this->parameterBag->get("assets_images") . '/' . $service5->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/service/' . $service5->getImageName());
-        copy($this->parameterBag->get("assets_images") . '/' . 'logo3.png', $this->parameterBag->get("public_media") . '/logo3.png');
-        copy($this->parameterBag->get("assets_images") . '/' . 'logo4.png', $this->parameterBag->get("public_media") . '/logo4.png');
+        // Création du dossier media/photos/service pour stocker les images de chaque service
+        mkdir($this->parameterBag->get("public_media_photos") . '/services' , 0777,true);
+
+        // Copie des images des services du dossier assets vers média
+        copy($this->parameterBag->get("assets_images") . '/services/' . $service1->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/services/' . $service1->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/services/' . $service2->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/services/' . $service2->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/services/' . $service3->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/services/' . $service3->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/services/' . $service4->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/services/' . $service4->getImageName());
+        copy($this->parameterBag->get("assets_images") . '/services/' . $service5->getImageFile()->getFilename(), $this->parameterBag->get("public_media_photos") . '/services/' . $service5->getImageName());
+
+        // copie des logo vers le dossier média
+        copy($this->parameterBag->get("assets_images") . '/' . 'logo3.webp', $this->parameterBag->get("public_media") . '/logo3.webp');
+        copy($this->parameterBag->get("assets_images") . '/' . 'logo4.webp', $this->parameterBag->get("public_media") . '/logo4.webp');
 
 
         $manager->persist($service1);
@@ -205,7 +214,8 @@ class AppFixtures extends Fixture
                     ->setGarage($garage)
                 ;
 
-                $photos = scandir($this->parameterBag->get('assets_images') . "/$brand/$carModel");
+                // Copie des photos de voiture vers media/photos/{immatriculation}
+                $photos = array_diff(scandir($this->parameterBag->get('assets_images') . "/$brand/$carModel"), ['.DS_Store']);
                 foreach ($photos as $photo) {
                     if (!is_dir($photo)) {
                         $image = new Photo();
@@ -219,11 +229,13 @@ class AppFixtures extends Fixture
                             $this->parameterBag->get('assets_images') . "/". $brand . "/" . $carModel . "/" . $image->getFilename(),
                             $this->parameterBag->get("public_media_photos") . '/' . $car->getLicensePlate() . '/' . $image->getFilename()
                         );
-
                         $file = new File($this->parameterBag->get('public_media_photos') . '/' . $car->getLicensePlate() . '/' . $image->getFilename());
-                        $image->setFile($file);
-                        $image->setImageSize($file->getSize());
-                        $image->setMimeType($file->getMimeType());
+                        $image
+                            ->setFile($file)
+                            ->setImageSize($file->getSize())
+                            ->setMimeType($file->getMimeType())
+                            ->setAlt($car->getConstructor() . ' ' . $car->getModel())
+                        ;
                     }
                 }
                 $manager->persist($car);
@@ -259,7 +271,7 @@ class AppFixtures extends Fixture
             if ($testimonial->getIsApproved()) {
                 $testimonial->setApprovedBy($admin);
             }
-            if (random_int(0,1)) {
+            if (random_int(0,1)) { // le hasard détermine si le témoignage en cours est crée par un membre du garage ou non
                 $testimonial->setCreatedBy($admin);
             }
             $manager->persist($testimonial);
@@ -283,5 +295,7 @@ class AppFixtures extends Fixture
         }
         $manager->flush();
     }
+
+
 }
 

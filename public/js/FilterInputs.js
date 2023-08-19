@@ -11,6 +11,8 @@ class FilterInputs {
         const paginator = document.getElementById('pagination-list')
         const paginatorTitle = document.getElementById('pagination-title')
         const carsListItems = document.getElementById('cars-list-container')
+        const mainSection = document.getElementById('mainSection')
+        mainSection.style.opacity = '0.5'
         carsListItems.innerHTML = '<div class="text-center vh-100"><div class="spinner-border" role="status"><span class="visually-hidden">Chargement...</span></div></div>'
         fetch(url.href, {
             headers: {
@@ -27,14 +29,17 @@ class FilterInputs {
                 carsListItems.innerHTML = "<div class='alert alert-info'><p class='text-info text-xl-center'>Aucun véhicule ne correspond à vos critères de recherche !</p></div>"
             } else {
                 carsListItems.innerHTML = data.content.content
-
                 // On pré-remplie le formulaire avec la référence de l'annonce
                 new TriggerFormBtn(document.querySelectorAll('.trigerFormModal'))
                 this.#setPagination()
             }
         })
         .catch(error => {
+            carsListItems.innerHTML = "<div class='alert alert-danger'><p class='text-danger-emphasis text-xl-center'>Erreur de chargement</p></div>"
             console.log(error)
+        })
+        .finally(_ => {
+            mainSection.style.opacity = '1'
         })
     }
 

@@ -1,5 +1,9 @@
-<ul id="services-list" class="d-flex justify-content-center flex-wrap p-0">
-    {% for service in services %}
-        {{ include('home/service_card.html.twig') }}
-    {% endfor %}
-</ul>
+{%  if services is not empty %}
+    <ul id="services-list" class="d-flex justify-content-center flex-wrap p-0">
+        {% for service in services %}
+            {{ include('home/service_card.html.twig') }}
+        {% endfor %}
+    </ul>
+{% else %}
+    <div class='alert alert-warning'><p class='text-warning text-center'>Nous ne pouvons assurer aucune prestation pour le moment</p></div>
+{% endif %}

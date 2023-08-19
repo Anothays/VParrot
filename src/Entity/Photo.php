@@ -30,7 +30,7 @@ class Photo
     #[ORM\Column()]
     private ?int $imageSize = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 50)]
     private ?string $mimeType = null;
 
     #[ORM\ManyToOne(inversedBy: 'photos')]
@@ -72,9 +72,10 @@ class Photo
         return $this;
     }
 
-    public function setImageSize(?int $imageSize): void
+    public function setImageSize(?int $imageSize): self
     {
         $this->imageSize = $imageSize;
+        return $this;
     }
 
     public function getImageSize(): ?int

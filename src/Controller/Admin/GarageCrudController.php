@@ -19,8 +19,8 @@ class GarageCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name', "Nom de l'établissement"),
-            TextField::new('mail', "Email"),
-            TextField::new('telephone', "Téléphone"),
+            TextField::new('email', "Email"),
+            TextField::new('phoneNumber', "Téléphone"),
             TextField::new('address', "Adresse postale"),
             AssociationField::new('users', "Employés")->setFormTypeOption('by_reference', false),
             AssociationField::new('services', 'Prestations proposées')->setFormTypeOption('by_reference', false),

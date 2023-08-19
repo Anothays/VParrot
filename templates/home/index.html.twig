@@ -22,7 +22,7 @@
     </p>
 </section>
 
-<section class="w-100 text-center bg-primary-subtle">
+<section id="prestations" class="w-100 pb-5 px-lg-5 text-center bg-primary-subtle">
     <h2 class="text-center pt-5">Nos prestations</h2>
     <p class="p-5">
         Nous nous occupons de la réparation et l’entretien de votre voiture, peu importe la marque ou le modèle de celle-ci.
@@ -38,7 +38,6 @@
 
 <section id="testimonials" class=" pb-5 px-lg-5 text-center">
     <h2 class="text-center p-5">Nos clients nous recommandent (ou pas...)</h2>
-    <button id="toggleTestimonials" type="button" class="btn btn-outline-dark rounded-5 mb-5" data-bs-toggle="modal" data-bs-target="#testimonialsModal">Voir tous les avis</button>
     {% include 'home/testimonials_list.html.twig' %}
     <button class="btn btn-outline-success rounded-5 mt-3" type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" >Ajouter un avis</button>
 </section>

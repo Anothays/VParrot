@@ -13,8 +13,8 @@
         {% if garage is not null %}
             <address class="pt-5">
                 <p class="text-white text-uppercase">Contactez-nous</p>
-                <p>Par téléphone : <a class="text-white" href="tel:{{ garage.telephone }}">{{ garage.telephone }}</a></p>
-                <p>Par email : <a href="mailto:{{ garage.mail }}" class="text-light">{{ garage.mail }}</a></p>
+                <p>Par téléphone : <a class="text-white" href="tel:{{ garage.phoneNumber }}">{{ garage.phoneNumber }}</a></p>
+                <p>Par email : <a href="mailto:{{ garage.email }}" class="text-light">{{ garage.email }}</a></p>
                 <p>Adresse : {{ garage.address }}</p>
             </address>
         {% endif %}

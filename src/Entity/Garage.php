@@ -19,10 +19,10 @@ class Garage
     private ?string $name = null;
 
     #[ORM\Column(length: 150)]
-    private ?string $mail = null;
+    private ?string $email = null;
 
-    #[ORM\Column(length: 10, nullable: true)]
-    private ?string $telephone = null;
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 255)]
     private ?string $address = null;
@@ -70,26 +70,26 @@ class Garage
         return $this;
     }
 
-    public function getMail(): ?string
+    public function getEmail(): ?string
     {
-        return $this->mail;
+        return $this->email;
     }
 
-    public function setMail(string $mail): self
+    public function setEmail(string $email): self
     {
-        $this->mail = $mail;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function getTelephone(): ?string
+    public function getPhoneNumber(): ?string
     {
-        return $this->telephone;
+        return $this->phoneNumber;
     }
 
-    public function setTelephone(?string $telephone): self
+    public function setPhoneNumber(?string $phoneNumber): self
     {
-        $this->telephone = $telephone;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }

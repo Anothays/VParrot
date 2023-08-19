@@ -8,7 +8,7 @@
     <meta name="description" content="Garage automobile, proposant des services de réparation et d'entretien, et la vente de véhicules d'occasion.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <title>{% block title %}Garage Vincent Parrot{% endblock %}</title>
-    <link rel="icon" href="{{ asset('media/logo4.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('media/logo4.webp') }}" type="image/png">
 
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
@@ -24,7 +24,7 @@
     <header>
         {{ include('nav.html.twig') }}
     </header>
-    <main>
+    <main id="mainSection">
         {% block main %}{% endblock %}
     </main>
     {{ render(controller('App\\Controller\\FooterController::index')) }}

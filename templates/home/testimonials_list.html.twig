@@ -1,17 +1,22 @@
-<div id="servicesCarousel" class="carousel slide d-flex m-0 p-0 justify-content-center align-items-center">
-    <div class="carousel-inner">
-        {% for testimonial in testimonials %}
-            <div class="carousel-item {{ loop.first ? 'active' : '' }}">
-                {{ include('home/testimonial_card.html.twig') }}
-            </div>
-        {% endfor %}
+{% if testimonials is not empty %}
+    <button id="toggleTestimonials" type="button" class="btn btn-outline-dark rounded-5 mb-5" data-bs-toggle="modal" data-bs-target="#testimonialsModal">Voir tous les avis</button>
+    <div id="servicesCarousel" class="carousel slide d-flex m-0 p-0 justify-content-center align-items-center">
+        <div class="carousel-inner">
+            {% for testimonial in testimonials %}
+                <div class="carousel-item {{ loop.first ? 'active' : '' }}">
+                    {{ include('home/testimonial_card.html.twig') }}
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev bg-primary my-auto rounded-circle" type="button" data-bs-target="#servicesCarousel" data-bs-slide="prev" style="width: 50px; height: 50px">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next bg-primary my-auto rounded-circle" type="button" data-bs-target="#servicesCarousel" data-bs-slide="next" style="width: 50px; height: 50px">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
-    <button class="carousel-control-prev bg-primary my-auto rounded-circle" type="button" data-bs-target="#servicesCarousel" data-bs-slide="prev" style="width: 50px; height: 50px">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next bg-primary my-auto rounded-circle" type="button" data-bs-target="#servicesCarousel" data-bs-slide="next" style="width: 50px; height: 50px">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
+{% else %}
+    <div class='alert alert-info'><p class='text-info text-center'>Aucun avis publié pour l'instant</p></div>
+{% endif %}

@@ -30,7 +30,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 60)]
     #[Assert\Regex(
         pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/",
-        message: 'Le mot de passe doit contenir au m inimum 12 caractères dont une minuscule, une majuscule, un chiffre, un caractère spéciale'
+        message: 'Le mot de passe doit contenir au minimum 12 caractères dont une minuscule, une majuscule, un chiffre, un caractère spéciale',
+        groups: ['registration']
     )]
     private ?string $password = null;
 

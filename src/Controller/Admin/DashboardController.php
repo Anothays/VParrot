@@ -10,7 +10,6 @@ use App\Entity\Schedule;
 use App\Entity\Testimonial;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
@@ -20,20 +19,28 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+#[Route('/admin')]
 class DashboardController extends AbstractDashboardController
 {
-    #[Route('/admin', name: 'admin')]
+    #[Route('/', name: 'admin')]
         public function index(): Response
     {
          $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
          return $this->redirect($adminUrlGenerator->setController(CarsCrudController::class)->generateUrl());
     }
 
+    #[Route('/change-password', name: 'resetPassword')]
+    public function changePassword() : Response
+    {
+        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        return $this->redirect($adminUrlGenerator->setController(UsersCrudController::class)->setAction('changePassword')->generateUrl());
+    }
+
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
             ->setTitle('Espace Administrateur')
-            ->setFaviconPath("/media/logo4.png")
+            ->setFaviconPath("/media/logo4.webp")
             ->renderContentMaximized()
             ->disableDarkMode(true)
         ;
@@ -42,7 +49,7 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToRoute('Retour vers le site', 'fa-solid fa-house', 'app_home_index');
-        yield MenuItem::linkToCrud('Véhicules', 'fa-solid fa-car', Car::class);
+        yield MenuItem::linkToCrud('Véhicules à vendre', 'fa-solid fa-car', Car::class);
         yield MenuItem::linkToCrud('Demandes de contact', 'fa-solid fa-envelope', ContactMessage::class);
         yield MenuItem::linkToCrud('Avis', 'fa-regular fa-comment-dots', Testimonial::class);
         yield MenuItem::linkToCrud('Employés', 'fa-solid fa-users', User::class)->setPermission('ROLE_SUPER_ADMIN');
@@ -60,12 +67,10 @@ class DashboardController extends AbstractDashboardController
     {
         return parent::configureUserMenu($user)
             ->displayUserAvatar(false)
+            ->addMenuItems([MenuItem::linkToRoute('Changer de mot de passe', null, 'resetPassword')])
         ;
     }
 
-    public function configureActions(): Actions
-    {
-        return parent::configureActions();
-    }
+
 
 }

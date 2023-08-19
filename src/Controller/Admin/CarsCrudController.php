@@ -40,7 +40,7 @@ class CarsCrudController extends AbstractCrudController
     {
             yield TextField::new('constructor')->setLabel('Constructeur');
             yield TextField::new('model')->setLabel('Modèle');
-            yield TextField::new('licensePlate')->setLabel('Immatriculation');
+            yield TextField::new('licensePlate')->setLabel('Immatriculation')->formatValue(function ($value){return strtoupper($value);});
             yield ChoiceField::new('engine')->setLabel('Moteur')
                 ->setChoices([
                     'Essence' => 'Essence',
@@ -90,4 +90,5 @@ class CarsCrudController extends AbstractCrudController
             ;
             yield BooleanField::new('published', 'Annonce visible');
     }
+
 }

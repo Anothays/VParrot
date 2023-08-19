@@ -26,6 +26,9 @@ class Service
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\Column]
+    private ?float $price = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageName = null;
 
@@ -184,6 +187,17 @@ class Service
     {
         $this->garage->removeElement($garage);
 
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
         return $this;
     }
 

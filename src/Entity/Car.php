@@ -25,11 +25,11 @@ class Car
     #[ORM\Column(length: 50)]
     private ?string $engine = null;
 
-    #[ORM\Column(length: 9)]
+    #[ORM\Column(length: 9, unique: true)]
     #[Assert\Regex(pattern: "/^[a-zA-Z]{2}-\d{3}-[a-zA-Z]{2}$/", message: "Veuillez renseigner un numéro de plaque valide. exemple : XX-123-WW")]
     private ?string $licensePlate = null;
 
-    #[ORM\Column]
+    #[ORM\Column(length: 4)]
     private ?int $registrationYear = null;
 
     #[ORM\Column]
@@ -48,7 +48,7 @@ class Car
     #[Assert\Valid]
     private Collection $photos;
 
-    #[ORM\OneToMany(mappedBy: 'car_id', targetEntity: ContactMessage::class)]
+    #[ORM\OneToMany(mappedBy: 'car', targetEntity: ContactMessage::class)]
     private Collection $contactMessages;
 
     #[ORM\ManyToOne(inversedBy: 'createdCars')]
@@ -235,9 +235,7 @@ class Car
         return $this;
     }
 
-
-    // fonction de test pour le crudController associé
-
+    // permet de récupérer dans la page index du CarsCrudController les images
     public function getfilenames(): array
     {
         $tab = [];
