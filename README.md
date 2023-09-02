@@ -4,12 +4,12 @@
 https://garagevp-97323ab9b838.herokuapp.com/
 
 ## Pour se connecter en tant qu'admin
-| Email| Mot de passe|
-| vincentParrot@VP.com | %7913%!Ya!$cnS7s2 | 
+- Email => vincentParrot@VP.com
+- Mot de passe => %7913%!Ya!$cnS7s2
 
 ## Pour éxécuter le site en local
 - cloner le projet sur votre machine ==> `git clone https://github.com/Anothays/VParrot.git cd Garage_V_Parrot`
-- Dans le fichier .env, définir la variable d'environnement DATABASE_URL en fonction de votre système de gestion de base de donnée
+- Dans le fichier .env, définir la variable d'environnement DATABASE_URL en fonction de votre système de gestion de base de données
 - installer les dépendances ==> `composer install`
 - Création de la base de données ==> `symfony console doctrine:database:create`
 - initialisation de la base de données ==> `symfony console doctrine:migrations:migrate`
