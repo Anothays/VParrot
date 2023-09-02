@@ -32,7 +32,7 @@ class ServicesCrudController extends AbstractCrudController
             ->onlyOnForms()
         ;
         yield ImageField::new('imageName')
-            ->setBasePath("media/photos/service")
+            ->setBasePath("media/photos/services")
             ->onlyOnIndex()
         ;
         yield AssociationField::new('createdBy', 'Crée par')
