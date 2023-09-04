@@ -1,7 +1,7 @@
 # STUDI - ECF fin 2023 - Garage V.Parrot
 
 ## Lien vers le site déployé
-https://garagevp-97323ab9b838.herokuapp.com/
+http://garagevp-97323ab9b838.herokuapp.com/
 
 ## Pour se connecter en tant qu'admin
 - Email => vincentParrot@VP.com
