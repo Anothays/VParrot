@@ -185,10 +185,10 @@ class AppFixtures extends Fixture
          * Création des voitures
          */
         $brands = [
-            "Citroën" => ["Picasso", "C3", "C4"],
             "Peugeot" => ["208", "308", "3008"],
             "Renault" => ["Clio", "Megane", "Captur"],
             "Dacia" => ["Sandero Stepway", "Duster", "Logan"],
+            "Citroën" => ["Picasso", "C3", "C4"],
             "Volkswagen" => ["Golf", "Polo", "Passat"]
         ];
 
