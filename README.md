@@ -25,13 +25,13 @@ http://garagevp-97323ab9b838.herokuapp.com/
   ```
   symfony console doctrine:database:create
   ```
-- initialisation de la base de données
+- exécution du fichier de migration 
   ```
   symfony console doctrine:migrations:migrate
   ```
 - Insertion de données fictives (voitures, comptes utilisateurs, témoignages, messages de contact) et du compte admin
   ```
-  symfony console doctrine:fictures:load
+  symfony console doctrine:fixtures:load
   ``` 
 
 :information_source: :information_source: :information_source:
