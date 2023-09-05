@@ -13,6 +13,5 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-/public/assets
 
 /node_modules
