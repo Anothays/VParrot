@@ -7,8 +7,8 @@ http://garagevp-97323ab9b838.herokuapp.com/
 - Email => vincentParrot@VP.com
 - Mot de passe => **%7913%!Ya!$cnS7s2**
 
-## Pour se connecter en tant qu'employé (compte généré avec doctrine:fixtures:load)
-- Email => rlevy@brunet.fr
+## Pour se connecter en tant qu'employé (fonctionne uniquement sur la version en ligne)
+- Email => rlevy@brunet.fr  (compte généré avec doctrine:fixtures:load)
 - Mot de passe => **%7913%!ZorroEstArrive**
 
 ## Pour éxécuter le site en local
